@@ -3,7 +3,7 @@ import os
 import conf
 from conf import participant_dir
 import xml.etree.ElementTree as ET
-import testmail
+import mailer
 
 
 def listofParticipants():
@@ -38,24 +38,28 @@ def inputoutput(progname):
         output_str=test.find('output').text
         description=test.find('description').text
         yield input_str,output_str,description 
+        
 
-#for input_str, output_str, description in inputoutput('Echo'):
-#   print input_str, output_str, description
 
 if __name__ == '__main__':
+    mailer.load_address()
     for user,programname in listofParticipants():
         program_dir=conf.participant_dir+user+'/'+programname
         print 'checking if program is valid '+ programname
         program_name=conf.program_dir+programname+'.xml'
         if not os.path.isfile(program_name):
-            testmail.feedbackmail()
+            mailer.feedbackmail(user,
+                                'Invalid program name '+programname,
+                                'invalid_programname.txt')
             print 'program name is invalid'
             continue            
                    
         print 'compiling ' + program_dir
         ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir)
         if ret!=0:
-            testmail.feedbackmail()
+            mailer.feedbackmail(user,
+                                'compilation error '+programname,
+                                'compilation_error.txt')
             print 'Failed compilation error'
             continue        
         for input_i,output_o,description_d in inputoutput(programname):
@@ -65,11 +69,17 @@ if __name__ == '__main__':
                 cmd_op = subprocess.check_output(run_cmd,cwd=program_dir)
                 cmd_op=cmd_op.strip()
                 if cmd_op == output_o:
-                    testmail.feedbackmail()
+                    mailer.feedbackmail(user,
+                                'Successful '+programname,
+                                'successful.txt')
                     print 'SUCCESSFUL ' + description_d
                 else:
-                    testmail.feedbackmail()
+                    mailer.feedbackmail(user,
+                                'Failed '+programname,
+                                'failed.txt')
                     print 'FAILED ' + description_d
             except:
-                testmail.feedbackmail()
+                mailer.feedbackmail(user,
+                                'partially successful '+programname,
+                                'partially_successful.txt')
                 print 'ERROR ' + description_d

@@ -1,9 +1,21 @@
 import smtplib
 from email.mime.text import MIMEText
 import conf
+import time
 
-def feedbackmail(to_address,mail_subject,mail_content):
-    direct=conf.mail_dir + mail_content
+email_addresses={}
+
+def load_address():
+    fi=open(conf.mail_dir + 'to_address.csv')    
+    for user_email in fi:
+        user_email=user_email.strip()
+        username,email=user_email.split(',')
+        email_addresses[username]=email
+
+
+def feedbackmail(to_user,mail_subject,template_name):
+    to_address=email_addresses[to_user]
+    direct=conf.mail_dir + template_name
     fp=open(direct,'rb')
     msg=MIMEText(fp.read())
     fp.close()
@@ -18,3 +30,4 @@ def feedbackmail(to_address,mail_subject,mail_content):
     s.login('testvebsmail@gmail.com','Vebsnet2')
     s.sendmail('testvebsmail@gmail.com', [to_address], msg.as_string())
     s.quit()
+    time.sleep(5)
