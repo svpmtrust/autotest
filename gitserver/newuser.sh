@@ -8,13 +8,6 @@ if [ $EUID -ne 0 ] ; then
   exit 1
 fi
 
-# Add the user and set password
-useradd $1
-passwd $1 <<EOF
-$1
-$1
-EOF
-
 # Setup apache
 cat > /etc/apache2/sites-enabled/$1 <<EOF
 <Location /git/$1.git>
