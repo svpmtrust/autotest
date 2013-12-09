@@ -13,12 +13,9 @@ def load_address():
         email_addresses[username]=email
 
 
-def feedbackmail(to_user,mail_subject,template_name):
+def feedbackmail(to_user,mail_subject,content):
     to_address=email_addresses[to_user]
-    direct=conf.mail_dir + template_name
-    fp=open(direct,'rb')
-    msg=MIMEText(fp.read())
-    fp.close()
+    msg=MIMEText(content)
     
     msg['Subject']=mail_subject
     msg['From']= 'testvebsmail@gmail.com'

@@ -40,46 +40,65 @@ def inputoutput(progname):
         yield input_str,output_str,description 
         
 
-
 if __name__ == '__main__':
+    result={}
     mailer.load_address()
+    
     for user,programname in listofParticipants():
+        if user not in result:
+             result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
-        print 'checking if program is valid '+ programname
         program_name=conf.program_dir+programname+'.xml'
-        if not os.path.isfile(program_name):
-            mailer.feedbackmail(user,
-                                'Invalid program name '+programname,
-                                'invalid_programname.txt')
-            print 'program name is invalid'
+        if not os.path.isfile(program_name): 
+            result[user].append('The program *%s* is INVALID' % programname)
+            result[user].append('-----------------------------------------------')    
             continue            
                    
-        print 'compiling ' + program_dir
-        ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir)
+        with file('compilation error.txt','w') as fp:
+            ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,
+                            stderr=fp,
+                            stdout=fp)
         if ret!=0:
-            mailer.feedbackmail(user,
-                                'compilation error '+programname,
-                                'compilation_error.txt')
-            print 'Failed compilation error'
-            continue        
+            with file('compilation error.txt','r') as fp:
+                error=fp.read()
+                print error
+                result[user].append('program *%s* [COMPILATION FAILED]' % programname)
+                result.append(error)
+            continue
+        
+        p_pass=[]
+        p_fail=[]
+        p_error=[]
+                        
         for input_i,output_o,description_d in inputoutput(programname):
             run_cmd = ['/bin/bash','run.sh']
             run_cmd.extend(input_i.split(' '))
             try:
-                cmd_op = subprocess.check_output(run_cmd,cwd=program_dir)
+                with file('run_exception.txt','w') as fp:
+                    cmd_op = subprocess.check_output(run_cmd,cwd=program_dir,stderr=fp)
                 cmd_op=cmd_op.strip()
+                
                 if cmd_op == output_o:
-                    mailer.feedbackmail(user,
-                                'Successful '+programname,
-                                'successful.txt')
-                    print 'SUCCESSFUL ' + description_d
+                    p_pass.append('%s %s [successful]' %(description_d, programname))
                 else:
-                    mailer.feedbackmail(user,
-                                'Failed '+programname,
-                                'failed.txt')
-                    print 'FAILED ' + description_d
+                    p_fail.append('%s %s [failed]' %(description_d, programname))
             except:
-                mailer.feedbackmail(user,
-                                'partially successful '+programname,
-                                'partially_successful.txt')
-                print 'ERROR ' + description_d
+                with file('run_exception.txt','r') as fp:
+                    err=fp.read()
+                    p_error.append('%s %s [error]' %(description_d, programname))
+                    p_error.append(err)
+        if len(p_pass) == 0:
+            result[user].append('program *%s* [FAIL]' % programname)
+        elif len(p_fail)+len(p_error)==0:
+            result[user].append('program *%s* [SUCCESSFUL]' % programname)
+        else:
+            result[user].append('program *%s* [PARTIALLY SUCCESSFUL]' % programname)
+        result[user].extend(p_pass)
+        result[user].extend(p_fail)
+        result[user].extend(p_error)
+        
+    for user in result:
+        subject = "Result of latest submission for %s. " % user
+        content = "\n".join(result[user])
+        mailer.feedbackmail(user,subject, content)
+            
