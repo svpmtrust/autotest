@@ -46,7 +46,7 @@ if __name__ == '__main__':
     
     for user,programname in listofParticipants():
         if user not in result:
-             result[user]=[]
+            result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
         if not os.path.isfile(program_name): 
