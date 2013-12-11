@@ -4,6 +4,7 @@ import conf
 from conf import participant_dir
 import xml.etree.ElementTree as ET
 import mailer
+import time
 
 
 def listofParticipants():
@@ -39,8 +40,7 @@ def inputoutput(progname):
         description=test.find('description').text
         yield input_str,output_str,description 
         
-
-if __name__ == '__main__':
+def mainloop():
     result={}
     mailer.load_address()
     
@@ -101,4 +101,20 @@ if __name__ == '__main__':
         subject = "Result of latest submission for %s. " % user
         content = "\n".join(result[user])
         mailer.feedbackmail(user,subject, content)
-            
+
+
+if __name__ == '__main__':
+    while True:
+        start_time=time.time()
+        mainloop()
+        exec_time = time.time()-start_time
+        print exec_time
+        
+        if exec_time > 10:
+            pass
+        else:
+            time.sleep(10-exec_time)
+
+    
+    
+    
