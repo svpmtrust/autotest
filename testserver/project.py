@@ -27,7 +27,7 @@ def listofParticipants():
                                                  'log','-1',
                                                  '--oneline',y],
                                                 cwd=direct)
-                if y not in previous or previous[y] != after:
+                if True or y not in previous or previous[y] != after:
                     yield user,y
         
   
@@ -36,6 +36,8 @@ def inputoutput(progname):
     tree = ET.parse(conf.program_dir+progname+".xml")
     root=tree.getroot()
     for test in root:
+        if test.tag != 'test':
+            continue
         input_str=test.find('input').text
         output_str=test.find('output').text
         description=test.find('description').text
@@ -54,6 +56,7 @@ def mainloop():
             result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
+        
         if not os.path.isfile(program_name): 
             result[user].append('The program *%s* is INVALID' % programname)
             result[user].append('-----------------------------------------------')
@@ -69,7 +72,7 @@ def mainloop():
                 print error
                 result[user].append('program *%s* [COMPILATION FAILED]' % programname)
                 result[user].append(error)
-                print "compilatioin failed"
+                print "compilation failed"
             continue
         
         p_pass=[]
@@ -93,26 +96,52 @@ def mainloop():
                     err=fp.read()
                     p_error.append('%s %s [error]' %(description_d, programname))
                     p_error.append(err)
+        tree = ET.parse(program_name)
+        root=tree.getroot()
+        program_score=int(root.find("score").text)
+
         if len(p_pass) == 0:
             result[user].append('program *%s* [FAIL]' % programname)
             progstatus = 'FAIL'
+            your_score = 0
         elif len(p_fail)+len(p_error)==0:
             result[user].append('program *%s* [SUCCESSFUL]' % programname)
             progstatus = 'SUCCESSFUL'
+            your_score = program_score
         else:
             result[user].append('program *%s* [PARTIALLY SUCCESSFUL]' % programname)
             progstatus = 'PARTIALLY SUCCESSFUL'
+            partial = root.find('partial')
+            if partial and partial.text == 'true':
+                your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
+            else:
+                your_score = 0
+    
         result[user].extend(p_pass)
         result[user].extend(p_fail)
         result[user].extend(p_error)
+       
         submission = {"user_name":user,
                    "program":programname,
                    "program_result":progstatus,
                    "test_case_result":[p_pass,p_fail,p_error],
                    "time":time.time()
                    }
-        print "----------------> Saving record in the DB"
+        print "==> Saving submission record in the DB <=="
         col_submissions.save(submission)
+        
+        if your_score:
+            current_score = col_scores.find_one({'user_name':user})
+            if not current_score:
+                current_score = {
+                    'user_name': user,
+                    'programs': {}
+                }
+            current_score['programs'][programname] = {
+                    'status': progstatus,
+                    'score': your_score
+            }
+            col_scores.save(current_score)
         
     for user in result:
         subject = "Result of latest submission for %s. " % user
