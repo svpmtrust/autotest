@@ -5,6 +5,7 @@ from conf import participant_dir
 import xml.etree.ElementTree as ET
 import mailer
 import time
+from pymongo import MongoClient
 
 
 def listofParticipants():
@@ -26,7 +27,7 @@ def listofParticipants():
                                                  'log','-1',
                                                  '--oneline',y],
                                                 cwd=direct)
-                if True or y not in previous or previous[y] != after:
+                if y not in previous or previous[y] != after:
                     yield user,y
         
   
@@ -41,6 +42,10 @@ def inputoutput(progname):
         yield input_str,output_str,description 
         
 def mainloop():
+    client = MongoClient()
+    db = client.test
+    col_submissions=db.submissions
+    col_scores=db.scores
     result={}
     mailer.load_address()
     
@@ -51,7 +56,7 @@ def mainloop():
         program_name=conf.program_dir+programname+'.xml'
         if not os.path.isfile(program_name): 
             result[user].append('The program *%s* is INVALID' % programname)
-            result[user].append('-----------------------------------------------')    
+            result[user].append('-----------------------------------------------')
             continue            
                    
         with file('compilation error.txt','w') as fp:
@@ -63,7 +68,8 @@ def mainloop():
                 error=fp.read()
                 print error
                 result[user].append('program *%s* [COMPILATION FAILED]' % programname)
-                result.append(error)
+                result[user].append(error)
+                print "compilatioin failed"
             continue
         
         p_pass=[]
@@ -89,13 +95,24 @@ def mainloop():
                     p_error.append(err)
         if len(p_pass) == 0:
             result[user].append('program *%s* [FAIL]' % programname)
+            progstatus = 'FAIL'
         elif len(p_fail)+len(p_error)==0:
             result[user].append('program *%s* [SUCCESSFUL]' % programname)
+            progstatus = 'SUCCESSFUL'
         else:
             result[user].append('program *%s* [PARTIALLY SUCCESSFUL]' % programname)
+            progstatus = 'PARTIALLY SUCCESSFUL'
         result[user].extend(p_pass)
         result[user].extend(p_fail)
         result[user].extend(p_error)
+        submission = {"user_name":user,
+                   "program":programname,
+                   "program_result":progstatus,
+                   "test_case_result":[p_pass,p_fail,p_error],
+                   "time":time.time()
+                   }
+        print "----------------> Saving record in the DB"
+        col_submissions.save(submission)
         
     for user in result:
         subject = "Result of latest submission for %s. " % user

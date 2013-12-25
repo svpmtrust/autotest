@@ -32,8 +32,9 @@ INSTRUCTIONS TO INSTALL VIRTUAL BOX AND VAGRANT
 
 9.Type "cd /vagrant" in that command prompt. After typing this command you will get "vagrant@precise32:/vagrant$:"
 
-10.Go to the folder in which you have cloned all the files and unzip the file according to the language in which you write your program.
-   Ex: if you write a program in C language unzip Echo-c.zip
+10.Go to the folder in which you have cloned all the files and unzip the file according to the language 
+   in which you write your program. After extracting rename the folder with the name "Echo".
+   Ex: if you write a program in C language unzip Echo-c.zip and rename the extracted folder "Echo-c" to "Echo".
 
 11.Now in command prompt type "ls" and find out if the folder has been extracted.
   Ex: if you extract the folder Echo-c.zip you will get the file Echo-c
@@ -42,5 +43,16 @@ INSTRUCTIONS TO INSTALL VIRTUAL BOX AND VAGRANT
 
 13.Now compile and run the program.
 
-14.You will receive a mail if your program is sucessfully executed.
+14.Now go to the folder which has been unzipped before and then right click on the folder and select the option
+    "Git Bash" and you will be seeing a new command prompt where the below instuctions have to be followed.
+
+15.In the command prompt type "cd 'folder name'".
+
+16.Then type "git add 'program name'".
+
+17.Then type "git commit -m "comments""
+
+18.Then type "git push origin master"
+
+19.You will receive a mail with your program status.
 
