@@ -28,5 +28,8 @@ INSTRUCTIONS FOR USING VAGRANT AND GIT TO RUN THE PROGRAMS .
 
 10.Then type "git push origin master"
 
-11.You will receive a mail with your program status.
+11.Now it will ask you a user name and password. For user name and password
+   give your alloted user name. 
+
+12.You will receive a mail with your program status.
 
