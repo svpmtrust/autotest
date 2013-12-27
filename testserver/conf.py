@@ -1,6 +1,6 @@
-participant_dir = '/home/karthik/participants/'
-program_dir='/home/karthik/Programs/'
-mail_dir='/home/karthik/mails/'
+participant_dir = '/home/svpmtrust/participants/'
+program_dir='/home/svpmtrust/Programs/'
+mail_dir='/home/svpmtrust/mails/'
 git_host= 'localhost:8080'
 
 
