@@ -6,10 +6,10 @@ direct=conf.participant_dir
 fi=open(conf.mail_dir + 'user_list.csv')
 
 for user in fi:
-    fp=open("/home/karthik/username.txt","w")
+    fp=open("/home/svpmtrust/username.txt","w")
     fp.writelines([user,user])
     fp.close()
-    fp=open("/home/karthik/username.txt","r")
+    fp=open("/home/svpmtrust/username.txt","r")
     user = user.strip()
     user,email = user.split(',')
     #fp.seek(0,0)
