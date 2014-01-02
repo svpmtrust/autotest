@@ -11,6 +11,8 @@ for user in fi:
     fp.close()
     fp=open("/home/svpmtrust/username.txt","r")
     user = user.strip()
+    if not user:
+        continue
     user,email = user.split(',')
     #fp.seek(0,0)
     subprocess.call('/bin/rm -rf %s' % user, cwd=direct, shell=True)
