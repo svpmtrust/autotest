@@ -27,7 +27,7 @@ def listofParticipants():
                                                  'log','-1',
                                                  '--oneline',y],
                                                 cwd=direct)
-                if True or y not in previous or previous[y] != after:
+                if y not in previous or previous[y] != after:
                     yield user,y
         
   
