@@ -122,8 +122,9 @@
               "cd /opt\n",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
               "sudo pip install pymongo\n",
-              "sudo apt-get install mongodb\n",
-              "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ autotest/testserver/test-server.upstart.templ"
+              "sudo apt-get install -y mongodb\n",
+              "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ autotest/testserver/test-server.upstart.templ > /etc/init/testserver.conf\n",
+              "sudo service testserver start\n"
      		]]}},
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
       }
