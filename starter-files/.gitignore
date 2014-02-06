@@ -56,3 +56,4 @@ nosetests.xml
 *.jar
 *.war
 *.ear
+*.txt~
