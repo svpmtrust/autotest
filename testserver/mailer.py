@@ -26,11 +26,10 @@ def feedbackmail(to_user,mail_subject,content):
     msg['From']= from_addr
     msg['to']= user_list
     
-    s=smtplib.SMTP(os.environ('EMAIL_HOST'))
+    s=smtplib.SMTP(os.environ['EMAIL_HOST'])
     s.ehlo()
     s.starttls()
-    s.login(os.environ('EMAIL_USER'),os.environ('EMAIL_PWD'))
+    s.login(os.environ['EMAIL_USER'],os.environ['EMAIL_PWD'])
     s.sendmail(from_addr, [user_list], msg.as_string())
     s.quit()
     time.sleep(5)
-
