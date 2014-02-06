@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 import conf
 import time
+import os
 
 email_addresses={}
 
@@ -14,19 +15,22 @@ def load_address():
         username,email=user_email.split(',')
         email_addresses[username]=email
 
+from_addr = 'do.not.reply@vebsnet2.com'
 
 def feedbackmail(to_user,mail_subject,content):
     user_list=email_addresses[to_user]
     msg=MIMEText(content)
     
+    
     msg['Subject']=mail_subject
-    msg['From']= 'testvebsmail@gmail.com'
+    msg['From']= from_addr
     msg['to']= user_list
     
-    s=smtplib.SMTP('smtp.gmail.com:587')
+    s=smtplib.SMTP(os.environ('EMAIL_HOST'))
     s.ehlo()
     s.starttls()
-    s.login('testvebsmail@gmail.com','Vebsnet2')
-    s.sendmail('testvebsmail@gmail.com', [user_list], msg.as_string())
+    s.login(os.environ('EMAIL_USER'),os.environ('EMAIL_PWD'))
+    s.sendmail(from_addr, [user_list], msg.as_string())
     s.quit()
     time.sleep(5)
+

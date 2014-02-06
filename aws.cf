@@ -30,6 +30,16 @@
       "Type": "String",
       "ConstraintDescription": "Must be a valid zone.",
       "AllowedValues" : ["us-east-1d", "us-east-1a", "us-east-1c"]
+   },
+   "MailUser" : {
+      "Description" : "What is the username in your AWS IAM for mails",
+      "Type": "String",
+      "ConstraintDescription": "Must be a valid zone."
+   },
+   "MailPassword" : {
+      "Description" : "What is the password for email user",
+      "Type": "String",
+      "ConstraintDescription": "Must be a valid zone."
    }
   },
 
@@ -118,11 +128,19 @@
 			  "#!/bin/bash -ex\n",
               "sudo apt-get update\n",
               "sudo apt-get install -y git puppet mongodb python-pip\n",
+              "sudo pip install pymongo\n",
+              
               "cd /opt\n",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
-              "cd autotest\n",
-              "sudo pip install pymongo\n",
+     
+              "cd autotest\n",         
               "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
+              "echo export MAIL_USER=",  { "Ref" : "MailUser" }, " >> testserver/env.sh\n",
+              "echo export MAIL_PWD=",  { "Ref" : "MailPassword" }, " >> testserver/env.sh\n",
+              "mkdir mails\n",
+              "mkdir programs\n",
+              "mkdir participants\n",
+              
               "cp testserver/test-server.upstart.templ /etc/init/testserver.conf\n",
               "sudo service testserver start\n"
      		]]}},
