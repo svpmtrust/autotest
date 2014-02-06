@@ -4,11 +4,7 @@ start on runlevel [235]
 stop on runlevel [016]
 respawn
 
-env PROGRAM_DIR=/opt/autotest/programs
-env PARTICIPANT_DIR=/opt/autotest/participants
-env GIT_HOST=__GIT_HOST__:8080
-env MAIL_DIR=/opt/autotest/mails
-
 script
-    python project.py
+    . ./env
+    python project.py >> /var/log/testserver.log 2>&1
 end script
