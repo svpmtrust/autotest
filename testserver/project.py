@@ -88,8 +88,10 @@ def mainloop():
                 cmd_op=cmd_op.strip()
                 
                 if cmd_op == output_o:
+                    print cmd_op, output_o
                     p_pass.append('%s %s [successful]' %(description_d, programname))
                 else:
+                    print cmd_op,output_o
                     p_fail.append('%s %s [failed]' %(description_d, programname))
             except:
                 with file('run_exception.txt','r') as fp:

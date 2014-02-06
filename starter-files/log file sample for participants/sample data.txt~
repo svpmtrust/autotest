@@ -1,0 +1,72 @@
+ Abraham:
+- age: 26
+- city: sydney
+- citizenship: austrian                                                                                                             
+- qualification: m.pharmacy
+
+ albert:
+- age: 24
+- city: sunny valley
+- citizenship: american
+- qualification: B.Tech
+
+ christopher:
+- age: 21    
+- city: hyderabad
+- citizenship: indian
+- qualification: B.Tech
+
+ peter:
+- age: 34
+- city: butere 
+- citizenship: kenya  
+- qualification: B.Tech
+
+ charles:
+- age: 34
+- city: abuja
+- citizenship: nigerian
+- qualification: D.pharmacy
+
+ albert:
+- age: 30
+- city: visakhapatnam
+- citizenship: indian
+- qualification: M.Tech
+
+ phlip:
+- age: 34
+- city: cario
+- citizenship: Egyptian                                                       
+- qualification: B.Tech
+
+ charles:
+- age: 19
+- city: hyderabad
+- citizenship: indian
+- qualification: b.pharmacy
+
+ melvin:
+- age: 54
+- city: vijayawada
+- citizenship: indian
+- qualification: M.tech
+
+ neal:
+- age: 34
+- city: bhimavaram 
+- citizenship: indian                                                                                                             
+- qualification: B.Tech
+
+ norris:
+- age: 15
+- city: sydney
+- citizenship: australian
+- qualification: B.Tech
+
+ melvin:
+- age: 16
+- city: hongkong
+- citizenship: American
+- qualification: B.pharmacy
+
