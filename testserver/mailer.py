@@ -9,6 +9,8 @@ def load_address():
     fi=open(conf.mail_dir + 'user_list.csv')    
     for user_email in fi:
         user_email=user_email.strip()
+        if not user_email:
+            continue
         username,email=user_email.split(',')
         email_addresses[username]=email
 

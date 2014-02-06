@@ -6,5 +6,5 @@ respawn
 
 script
     . ./env
-    python project.py
+    python project.py >> /var/log/testserver.log 2>&1
 end script
