@@ -1,0 +1,37 @@
+
+Maze
+----
+
+Object of this program is to find the way out of a maze (sample diagram
+is shown below) starting from start point to end point. 
+The maze is given in the below format
+
+
+
+
+
+     +=====+=====+=====+=====+
+     |     |     |     |     |
+     |     |                   => E
+     |     |     |     |     |
+     +=   =+=====+=   =+=====+
+     |     |     |     |     |
+     |                       |
+     |     |     |     |     |
+     +=   =+=====+=====+=====+
+     |     |     |     |     |
+     |                 |     |
+     |     |     |     |     |
+     +=   =+=====+=====+=   =+
+     |     |     |     |     |
+ S=>                         |
+     |     |     |     |     |
+     +=====+=====+=====+=====+
+
+
+The input 
+
+1276
+B664
+B641
+E66C

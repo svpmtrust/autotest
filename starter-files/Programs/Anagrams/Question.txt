@@ -1,0 +1,11 @@
+
+Anagrams
+--------
+
+Object of this program is to find anagrams of 4 letters
+or above words in a paragraph. That paragraph may contain
+many anagram words. All the word should be listed as shown
+below.
+
+Anagram words should be displayed in the output in the below format
+Ex: Post, spot, stop

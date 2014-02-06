@@ -1,0 +1,12 @@
+
+Expression
+-----------
+
+Aim of this program is to evalute an expression of numbers
+according to this priority: brackets, division, multiplication,
+addition and subtraction.
+
+The format of the input and output is shown below.
+
+Ex: Sample Input: (60/30)*25+100-60
+           Output: 90
