@@ -117,13 +117,13 @@
           "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
 			  "#!/bin/bash -ex\n",
               "sudo apt-get update\n",
-              "sudo apt-get install -y git\n",
-              "sudo apt-get install -y puppet\n",
+              "sudo apt-get install -y git puppet mongodb python-pip\n",
               "cd /opt\n",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
+              "cd autotest\n",
               "sudo pip install pymongo\n",
-              "sudo apt-get install -y mongodb\n",
-              "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ autotest/testserver/test-server.upstart.templ > /etc/init/testserver.conf\n",
+              "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
+              "cp testserver/test-server.upstart.templ /etc/init/testserver.conf\n",
               "sudo service testserver start\n"
      		]]}},
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
