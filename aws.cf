@@ -39,6 +39,7 @@
    "MailPassword" : {
       "Description" : "What is the password for email user",
       "Type": "String",
+      "NoEcho" : "True",
       "ConstraintDescription": "Must be a valid zone."
    }
   },

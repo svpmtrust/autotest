@@ -5,6 +5,6 @@ stop on runlevel [016]
 respawn
 
 script
-    . ./env
+    . ./env.sh
     python project.py >> /var/log/testserver.log 2>&1
 end script
