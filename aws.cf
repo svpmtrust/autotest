@@ -81,6 +81,9 @@
         "AvailabilityZone": { "Ref": "Zone" },
         "InstanceType": { "Ref": "InstanceType" },
         "KeyName": { "Ref": "KeyName" },
+        "Tags" : [
+                {"Key" : "Name", "Value" : "Git Server - Tech Challenge"}
+        ],
         "Monitoring": true,
         "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
                                           { "Fn::FindInMap" : [ "InstArchMap", { "Ref" : "InstanceType" },
@@ -91,10 +94,38 @@
               "sudo apt-get install -y git",
               "sudo apt-get install -y puppet",
               "cd /tmp",
-			  "git clone http://github.com/svpmtrust/autotest.git .",
+			  "git clone http://github.com/svpmtrust/autotest.git autotest",
               "cp -r autotest/gitserver/* /etc/puppet",
 			  "cd /etc/puppet",
 	  		  "puppet apply -v -l /var/log/puppet.log gitserver.pp" ]]}},
+          "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
+      }
+    },
+    "TestServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": { "Ref": "Zone" },
+        "InstanceType": { "Ref": "InstanceType" },
+        "KeyName": { "Ref": "KeyName" },
+        "Tags" : [
+                {"Key" : "Name", "Value" : "Test Server - Tech Challenge"}
+        ],
+        "Monitoring": true,
+        "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
+                                          { "Fn::FindInMap" : [ "InstArchMap", { "Ref" : "InstanceType" },
+                                          "Arch" ] } ] },
+          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+			  "#!/bin/bash -ex\n",
+              "sudo apt-get update\n",
+              "sudo apt-get install -y git\n",
+              "sudo apt-get install -y puppet\n",
+              "cd /opt\n",
+			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
+              "sudo pip install pymongo\n",
+              "sudo apt-get install -y mongodb\n",
+              "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ autotest/testserver/test-server.upstart.templ > /etc/init/testserver.conf\n",
+              "sudo service testserver start\n"
+     		]]}},
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
       }
     }
