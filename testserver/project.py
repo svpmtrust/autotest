@@ -150,7 +150,7 @@ def mainloop():
                 additional_args = [x.format(pdir=conf.program_dir[0:-1]) for x in additional_args]
             run_cmd.extend(additional_args)
             try:
-                cmd_op = timed_execution.check_output_with_timeout(run_cmd,cwd=program_dir)
+                cmd_op = timed_execution.check_output_with_timeout(run_cmd, cwd=program_dir, timeout=program_timeout)
                 cmd_op=cmd_op.strip()
                 if not case_sensitive:
                     cmd_op = cmd_op.lower()
