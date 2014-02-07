@@ -82,16 +82,20 @@
             "FromPort" : "80",
             "ToPort" : "80",
             "CidrIp" : "0.0.0.0/0"
-          },
-          {
-            "IpProtocol" : "tcp",
-            "FromPort" : "27017",
-            "ToPort" : "27017",
-            "SourceSecurityGroupId":  { "Ref" : "SecurityGroup" }
           } 
         ]
       }
     },
+    "DBAccessRule": {
+      "Type" : "AWS::EC2::SecurityGroupIngress",  
+      "Properties" : {
+        "IpProtocol" : "tcp",  
+        "ToPort" : "27017",  
+        "FromPort" : "27017",
+        "GroupName": { "Ref": "SecurityGroup" },
+        "CidrIp" : "127.0.0.1/32"
+      }
+    }, 
     "GitServer": {
       "Type": "AWS::EC2::Instance",
       "Properties": {

@@ -93,12 +93,12 @@ def mainloop():
         program_timeout = root.find('time-limit')
         input_type = root.find('input-type')
         case_sensitive = root.find('input-type')
-        if program_timeout:
+        if program_timeout is not None:
             program_timeout = int(program_timeout.text)
         else:
             program_timeout = 5
-        input_type = input_type.text if input_type else 'text'
-        case_sensitive = True if case_sensitive and case_sensitive.text == 'true' else False          
+        input_type = input_type.text if input_type is not None else 'text'
+        case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False          
         
         # Compile the program
         with file('compilation error.txt','w') as fp:
@@ -192,10 +192,10 @@ def mainloop():
                 
         if (inputs_found*100)/total_inputs > 25:
             your_score = 0
-            result['user'].append('=================== WARNING for program %s =====================' % program_name)
-            result['user'].append("Too may inputs found in the directory")
-            result['user'].append("If this is not intentional clean up your directory and remove hard coded inputs")
-            result['user'].append("================================================================================")
+            result[user].append('=================== WARNING for program %s =====================' % program_name)
+            result[user].append("Too may inputs found in the directory")
+            result[user].append("If this is not intentional clean up your directory and remove hard coded inputs")
+            result[user].append("================================================================================")
     
         result[user].extend(p_pass)
         result[user].extend(p_fail)
@@ -226,8 +226,8 @@ def mainloop():
             col_scores.save(current_score)
             progs = current_score['programs']
             total_score = sum(progs[x]['score'] for x in progs)
-            result['user'].insert(0, "=======================================")
-            result['user'].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
+            result[user].insert(0, "=======================================")
+            result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
     
     # Send the results to all users who submissions are found in this round
     for user in result:
