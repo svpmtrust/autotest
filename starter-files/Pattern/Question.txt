@@ -1,7 +1,9 @@
 
 
-Pattern                    Marks: 8 
+Pattern                    Marks: 15
 -------                   ----------
+
+Maximum execution time for this program : 4 sec
 
 Objective of this program is to compress a given string containing pattern of letters. 
 The common set of letters in the string have to be compressed and the compressed string must be displayed, 

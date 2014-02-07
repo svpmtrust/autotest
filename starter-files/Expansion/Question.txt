@@ -1,6 +1,8 @@
 
 Expansion         Marks: 5
----------         ---------     
+---------         ---------
+
+Maximum execution time for this program : 3 sec     
 
 Objective of this program is to expand the given string if it
 contains a range, for example a-f, 0-5. 

@@ -2,6 +2,8 @@
 Maze            Marks:15 
 ----            --------
 
+Maximum execution time for this program : 6 sec
+
 Objective of this program is to find the way out of a maze 20/20 (sample maze diagram
 is shown below) starting from start point to end point.
 

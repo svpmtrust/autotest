@@ -3,6 +3,8 @@
 Sudoku                   Marks: 10
 ------                  -----------
 
+Maximum execution time for this program : 4 sec
+
 Object of this program is to find out if a solved
 Sudoku is valid or invalid.
 

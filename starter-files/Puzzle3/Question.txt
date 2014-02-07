@@ -1,6 +1,8 @@
 
-puzzle3
--------
+puzzle3                        Marks:30
+-------                       ----------
+
+Maximum execution time for this program : 60 sec
 
 Objective of this program is to output a series a moves
 that would solve a given puzzle. A puzzle will consist

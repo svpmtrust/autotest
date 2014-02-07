@@ -3,6 +3,8 @@
 Palindrome                  Marks: 3
 ----------                 ----------
 
+Maximum execution time for this program : 3 sec
+
 Objective of this program is to find out if a sentence or a word is a valid Palindrome
 or not.
 

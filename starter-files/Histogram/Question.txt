@@ -1,7 +1,10 @@
 
 
-Histogram
----------
+Histogram                   Marks:8
+---------                  --------
+
+
+Maximum execution time for this program :4 sec
 
 Histograms are used to determine the density of data.
 
