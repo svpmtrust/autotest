@@ -167,7 +167,7 @@ def mainloop():
                                    'info': validation_program_info}, fp)
                     
                     with file('validation_program_output.txt', 'w') as fp:
-                        prog_path = '{pdir}/{pcode}'.format(pdir=program_dir, pcode=validation_program)
+                        prog_path = '{pdir}{pcode}'.format(pdir=conf.program_dir, pcode=validation_program)
                         validation_result = subprocess.check_call(['python', prog_path, i_file])
                         if validation_result == 0:
                             program_passed = True
