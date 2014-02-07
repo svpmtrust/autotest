@@ -165,12 +165,16 @@ def mainloop():
                     else:
                         expected_lines = sorted(x.strip() for x in output_o.split('\n'))
                         actual_lines = sorted(x.strip() for x in cmd_op.split('\n'))
+                        expected_lines = filter(lambda x:x, expected_lines)
+                        actual_lines = filter(lambda x:x, actual_lines)
                         if len(expected_lines) != len(actual_lines):
+                            print "line count mismatch"
                             program_passed = False
                         else:
                             for el, al in zip(expected_lines, actual_lines):
                                 if el!=al:
                                     program_passed = False
+                                    print "line mismatch %s and %s" % (el, al)
                                     break
                             else:
                                 program_passed = True
