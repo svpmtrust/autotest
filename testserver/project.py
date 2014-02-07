@@ -8,6 +8,7 @@ import time
 from pymongo import MongoClient
 import shlex
 import timed_execution
+import json
 
 
 def listofParticipants():
@@ -93,12 +94,14 @@ def mainloop():
         program_timeout = root.find('time-limit')
         input_type = root.find('input-type')
         case_sensitive = root.find('case-sensitive')
-        if program_timeout is not None:
-            program_timeout = int(program_timeout.text)
-        else:
-            program_timeout = 5
+        validation_program = root.find('validation-program')
+        validation_program_info = root.find('validation-program-info')
+
+        program_timeout = int(program_timeout.text) if program_timeout is not None else 5
         input_type = input_type.text if input_type is not None else 'text'
-        case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False          
+        case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
+        validation_program = validation_program.text if validation_program is not None else None 
+        validation_program_info = validation_program_info.text if validation_program_info is not None else ''
         
         # Compile the program
         with file('compilation error.txt','w') as fp:
@@ -152,7 +155,26 @@ def mainloop():
                 if not case_sensitive:
                     cmd_op = cmd_op.lower()
                 
-                if cmd_op == output_o:
+                program_passed = False
+                
+                if validation_program is None:
+                    program_passed = (cmd_op == output_o)
+                else:
+                    i_file = 'validation_program_inputs.json'
+                    with file(i_file, 'w') as fp:
+                        json.dump({'inputs': additional_args,
+                                   'output':cmd_op,
+                                   'info': validation_program_info}, fp)
+                    
+                    with file('validation_program_output.txt', 'w') as fp:
+                        prog_path = '{pdir}/{pcode}'.format(pdir=program_dir, pcode=validation_program)
+                        validation_result = subprocess.check_call(['python', prog_path, i_file])
+                        if validation_result == 0:
+                            program_passed = True
+                        else:
+                            program_passed = False
+                
+                if program_passed:
                     p_pass.append('%s %s [successful]' %(description_d, programname))
                 else:
                     p_fail.append('%s %s [failed]' %(description_d, programname))
