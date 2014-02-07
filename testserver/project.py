@@ -96,7 +96,7 @@ def mainloop():
         case_sensitive = root.find('case-sensitive')
         validation_program = root.find('validation-program')
         validation_program_info = root.find('validation-program-info')
-        multi_line = root.find('multi_line')
+        multi_line = root.find('multi-line')
 
         program_timeout = int(program_timeout.text) if program_timeout is not None else 5
         input_type = input_type.text if input_type is not None else 'text'
