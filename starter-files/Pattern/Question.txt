@@ -1,0 +1,15 @@
+
+
+Pattern                    Marks: 8 
+-------                   ----------
+
+Objective of this program is to compress a given string containing pattern of letters. 
+The common set of letters in the string have to be compressed and the compressed string must be displayed, 
+so that when the compressed string is expanded the given pattern should reappear. 
+The sets may contain single or multiple letters.
+
+-------------------------------------------------------
+    Sample input                    Sample output 
+-------------------------------------------------------
+  abcabcaaaaababab            k*3l*4m*3,k=abc,l=a,m=ab
+  bcbccbacbazzzz              h*2j*2i*4,h=bc,j=cba,i=z

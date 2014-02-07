@@ -1,0 +1,27 @@
+
+
+Histogram
+---------
+
+Histograms are used to determine the density of data.
+
+Objective of this program is to read data from a file and find out the count of different attributes.
+In the file the data might be repeated with changes in some of the attributes, then the updated data must be
+considered in counting the number of attributes.
+The format of the data is in the sample file attached in this folder, where you would find the different attributes.
+
+The input will be the file and the output should be displayed with attribute name and the
+count of that attribute.
+
+For the histogram.txt in this directory here is the expected output: 
+
+Command to Run
+--------------
+sh run.sh histogram.txt 
+
+
+Expected output
+---------------
+city:5
+citizenship:7
+age:4   

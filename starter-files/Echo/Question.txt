@@ -1,0 +1,7 @@
+Echo
+----
+
+Write a program that will print it's input exactly
+the same way.  Generally we write these programs to
+make sure rest of the environment is working well. 
+
