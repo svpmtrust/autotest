@@ -19,7 +19,7 @@ for user in fi:
     
     user,email = user.split(',')
     
-    if os.path.isdir(user):
+    if os.path.isdir(os.path.join(direct, user)):
         continue
     
     subprocess.call(['/usr/bin/git','clone',
