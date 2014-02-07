@@ -6,9 +6,18 @@ import xml.etree.ElementTree as ET
 import mailer
 import time
 from pymongo import MongoClient
+import shlex
+import timed_execution
 
 
 def listofParticipants():
+    """ This method will go through each user in the participant
+    directory and looks for changes for the repository
+    corresponding to each user.  
+    
+    Yields the username, and the subdirectory that changed as a
+    tuple.
+    """
     dirs1 = os.listdir(conf.participant_dir)
     for user in dirs1:
         direct=participant_dir + user + '/'
@@ -33,6 +42,9 @@ def listofParticipants():
   
     
 def inputoutput(progname):
+    """ Yields the combinations of input_string, output_string
+    and description expected to pass for the given program.
+    """
     tree = ET.parse(conf.program_dir+progname+".xml")
     root=tree.getroot()
     for test in root:
@@ -44,6 +56,9 @@ def inputoutput(progname):
         yield input_str,output_str,description 
         
 def mainloop():
+    """ This is the main driver program to look for changes and
+    run tests, save the results and send mails for iteration.
+    """
     client = MongoClient()
     db = client.test
     col_submissions=db.submissions
@@ -56,12 +71,32 @@ def mainloop():
             result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
-        
+
+        # Check if this programis something we support
         if not os.path.isfile(program_name): 
             result[user].append('The program *%s* is INVALID' % programname)
             result[user].append('-----------------------------------------------')
-            continue            
-                   
+            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')
+            col_submissions.save({
+                    "user_name":user,
+                    "program":programname,
+                    "program_result":'INVALID PROGRAM',
+                    "test_case_result":[None,None,None],
+                    "time":time.time(),
+                })
+            continue
+        
+        # Get more info about the program
+        tree = ET.parse(program_name)
+        root=tree.getroot()
+        program_score=int(root.find("score").text)
+        program_timeout = root.find('timelimit')
+        if program_timeout:
+            program_timeout = int(program_timeout.text)
+        else:
+            program_timeout = 5            
+        
+        # Compile the program
         with file('compilation error.txt','w') as fp:
             ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,
                             stderr=fp,
@@ -72,19 +107,27 @@ def mainloop():
                 print error
                 result[user].append('program *%s* [COMPILATION FAILED]' % programname)
                 result[user].append(error)
-                print "compilation failed"
+                print "==> Saving submission record in the DB, after compilation failure <=="
+                col_submissions.save({
+                    "user_name":user,
+                    "program":programname,
+                    "program_result":'COMPILATION FAILED',
+                    "test_case_result":[None,None,None],
+                    "time":time.time(),
+                    "error": error
+                })
             continue
         
+        # Execute the test cases
         p_pass=[]
         p_fail=[]
         p_error=[]
-                        
+
         for input_i,output_o,description_d in inputoutput(programname):
             run_cmd = ['/bin/bash','run.sh']
-            run_cmd.extend(input_i.split(' '))
+            run_cmd.extend(shlex.split(input_i))
             try:
-                with file('run_exception.txt','w') as fp:
-                    cmd_op = subprocess.check_output(run_cmd,cwd=program_dir,stderr=fp)
+                cmd_op = timed_execution.check_output_with_timeout(run_cmd,cwd=program_dir)
                 cmd_op=cmd_op.strip()
                 
                 if cmd_op == output_o:
@@ -93,14 +136,9 @@ def mainloop():
                 else:
                     print cmd_op,output_o
                     p_fail.append('%s %s [failed]' %(description_d, programname))
-            except:
-                with file('run_exception.txt','r') as fp:
-                    err=fp.read()
-                    p_error.append('%s %s [error]' %(description_d, programname))
-                    p_error.append(err)
-        tree = ET.parse(program_name)
-        root=tree.getroot()
-        program_score=int(root.find("score").text)
+            except Exception as ex:
+                p_error.append('%s %s [error]' %(description_d, programname))
+                p_error.append(str(ex))
 
         if len(p_pass) == 0:
             result[user].append('program *%s* [FAIL]' % programname)
@@ -123,15 +161,17 @@ def mainloop():
         result[user].extend(p_fail)
         result[user].extend(p_error)
        
-        submission = {"user_name":user,
-                   "program":programname,
-                   "program_result":progstatus,
-                   "test_case_result":[p_pass,p_fail,p_error],
-                   "time":time.time()
-                   }
-        print "==> Saving submission record in the DB <=="
-        col_submissions.save(submission)
+        print "==> Saving submission record in the DB, after execution <=="
+        col_submissions.save({
+            "user_name":user,
+            "program":programname,
+            "program_result":progstatus,
+            "test_case_result":[p_pass,p_fail,p_error],
+            "time":time.time()
+        })
         
+        # If the user gets some score, update the score collection with latest
+        # information
         if your_score:
             current_score = col_scores.find_one({'user_name':user})
             if not current_score:
@@ -144,13 +184,20 @@ def mainloop():
                     'score': your_score
             }
             col_scores.save(current_score)
-        
+            progs = current_score['programs']
+            total_score = sum(progs[x]['score'] for x in progs)
+            result['user'].insert(0, "=======================================")
+            result['user'].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
+    
+    # Send the results to all users who submissions are found in this round
     for user in result:
         subject = "Result of latest submission for %s. " % user
         content = "\n".join(result[user])
         mailer.feedbackmail(user,subject, content)
 
 
+# Python main routine to run the mainloop in a loop :-) 
+# We have a minimum delay of 10 seconds between checks
 if __name__ == '__main__':
     while True:
         start_time=time.time()
