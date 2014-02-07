@@ -92,7 +92,7 @@ def mainloop():
         program_score=int(root.find("score").text)
         program_timeout = root.find('time-limit')
         input_type = root.find('input-type')
-        case_sensitive = root.find('input-type')
+        case_sensitive = root.find('case-sensitive')
         if program_timeout is not None:
             program_timeout = int(program_timeout.text)
         else:
