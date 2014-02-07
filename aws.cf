@@ -87,7 +87,7 @@
             "IpProtocol" : "tcp",
             "FromPort" : "27017",
             "ToPort" : "27017",
-            "SourceSecurityGroupName": 
+            "SourceSecurityGroupId":  { "Ref" : "SecurityGroup" }
           } 
         ]
       }
