@@ -1,0 +1,57 @@
+
+Maze            Marks:15 
+----            --------
+
+Objective of this program is to find the way out of a maze 20/20 (sample maze diagram
+is shown below) starting from start point to end point.
+
+
+In this diagram there are four kinds of directions for a cell: TOP, LEFT, RIGHT, DOWN This order should be considered
+writing binary code. 
+                                    
+                                    TOP                             TOP
+                                  +-------+                      +--- ---+               Binary code for this cell
+                                  |       |                      |       |               
+                            LEFT  |       | RIGHT    ===>  LEFT  |         RIGHT           1011=> 11
+                                  |       |                      |       |                
+                                  +-------+                      +--- ---+               The hexadecimal representation of
+                                    DOWN                           DOWN                    the above is B.
+                                    
+In the above, the right side diagram has three openings on the top, right and down in the cell.
+Wherever there are openings 1 should be added instead of 0 in a binary code.
+For example in the above left diagram binary code is 0000 as there are no openings,
+but in the right diagram the binary code is 1011 which means that there are openings on Top,
+right, down. 
+The above hexadecimal representation will be used as input to the maze.
+The above process should be used to find the way in the maze.
+                                    
+
+The maze is given in the below format
+
+     +=====+=====+=====+=====+
+     |     |     |     |     |                                         
+     |     |                   => E
+     |     |     |     |     |
+     +=   =+=====+=   =+=====+
+     |     |     |     |     |
+     |                       |
+     |     |     |     |     |
+     +=   =+=====+=====+=====+
+     |     |     |     |     |
+     |                 |     |
+     |     |     |     |     |
+     +=   =+=====+=====+=   =+
+     |     |     |     |     |
+ S=>                         |
+     |     |     |     |     |
+     +=====+=====+=====+=====+
+
+
+The input format is the file sample2.txt in this folder.
+
+Command to run:
+---------------
+sh run.sh sample2.txt
+
+Expected output:
+

@@ -1,0 +1,14 @@
+
+Expression
+-----------
+
+Aim of this program is to evaluate any given expression of numbers
+according to BODMAS rule (this is priority order in BODMAS: brackets, 
+division, multiplication, addition and subtraction).
+
+The format of the input and output is shown below.
+
+ Sample Input:                 Sample Output: 
+ ----------------------------------------------
+ (60/30)*25+100-60                  90
+           
