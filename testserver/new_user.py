@@ -1,5 +1,6 @@
 import subprocess
 import conf
+import os
 
 files = '../starter-files/*'
 direct=conf.participant_dir
@@ -17,8 +18,10 @@ for user in fi:
     fp=open("/tmp/username.txt","r")
     
     user,email = user.split(',')
-    #fp.seek(0,0)
-    subprocess.call('/bin/rm -rf %s' % user, cwd=direct, shell=True)
+    
+    if os.path.isdir(user):
+        continue
+    
     subprocess.call(['/usr/bin/git','clone',
                      "http://{u}:{u}@{h}/git/{u}.git".format(u=user, h=conf.git_host)],
                     cwd=direct)
