@@ -1,6 +1,6 @@
 
 
-Palindrome                  Marks: 3
+Palindrome                  Score: 3
 ----------                 ----------
 
 Maximum execution time for this program : 3 sec

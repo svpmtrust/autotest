@@ -1,5 +1,5 @@
 
-puzzle3                        Marks:30
+Puzzle3                        Score:30
 -------                       ----------
 
 Maximum execution time for this program : 150 sec
@@ -81,3 +81,4 @@ b1-c1
 c3-b3
 b2-b1
 
+ 

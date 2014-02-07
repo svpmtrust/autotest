@@ -1,6 +1,6 @@
 
 
-Pattern                    Marks: 15
+Pattern                    Score: 15
 -------                   ----------
 
 Maximum execution time for this program : 4 sec

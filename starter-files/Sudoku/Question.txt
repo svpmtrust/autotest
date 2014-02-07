@@ -1,6 +1,6 @@
 
 
-Sudoku                   Marks: 10
+Sudoku                   Score: 10
 ------                  -----------
 
 Maximum execution time for this program : 4 sec

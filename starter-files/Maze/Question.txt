@@ -1,5 +1,5 @@
 
-Maze            Marks:15 
+Maze            Score:15 
 ----            --------
 
 Maximum execution time for this program : 6 sec
@@ -8,25 +8,24 @@ Objective of this program is to find the way out of a maze 20/20 (sample maze di
 is shown below) starting from start point to end point.
 
 
-In this diagram there are four kinds of directions for a cell: TOP, LEFT, RIGHT, DOWN This order should be considered
-writing binary code. 
+In this diagram there are four possible directions to move from a cell: UP, LEFT, RIGHT, DOWN. 
+This information can be used to write a binary code using 4 bits for UP, LEFT, RIGHT AND DOWN respectively. 
                                     
-                                    TOP                             TOP
-                                  +-------+                      +--- ---+               Binary code for this cell
+                                     UP                             UP
+                                  +-------+                      +--   --+               Binary code for this cell
                                   |       |                      |       |               
-                            LEFT  |       | RIGHT    ===>  LEFT  |         RIGHT           1011=> 11
+                            LEFT  |       | RIGHT          LEFT  |         RIGHT           1011 => or B in Hexadecimal. 
                                   |       |                      |       |                
-                                  +-------+                      +--- ---+               The hexadecimal representation of
-                                    DOWN                           DOWN                    the above is B.
+                                  +-------+                      +--   --+               
+                                    DOWN                           DOWN                    
                                     
-In the above, the right side diagram has three openings on the top, right and down in the cell.
-Wherever there are openings 1 should be added instead of 0 in a binary code.
-For example in the above left diagram binary code is 0000 as there are no openings,
-but in the right diagram the binary code is 1011 which means that there are openings on Top,
-right, down. 
-The above hexadecimal representation will be used as input to the maze.
-The above process should be used to find the way in the maze.
-                                    
+This notation can be further used to create a maze of any configuration by specifying the possible moves for each cell. 
+See the sample file in this directory to understand how this maze is represented in hexadecimal numbers. 
+
+You can make the following two assumptions to simplify the program: 
+=> You will always enter the maze from the left hand side by moving Right.  Hence your starting move is always Right. 
+=> You will exit the maze towards the right side.  Hence your last move is always Right as well. 
+=> You can assume that there are no other exit points from the maze either on the top, or at the bottom. 
 
 The maze is given in the below format
 
@@ -49,11 +48,16 @@ The maze is given in the below format
      +=====+=====+=====+=====+
 
 
-The input format is the file sample2.txt in this folder.
+The input format is the file sample2.txt in this folder. 
 
 Command to run:
 ---------------
 sh run.sh sample2.txt
 
 Expected output:
+---------------
+RUURRURR
+
+If an input breaks any of the assumptions, or if there is no way out,
+you should print "Invalid Maze configuration"
 

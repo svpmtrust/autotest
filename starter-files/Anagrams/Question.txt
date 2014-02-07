@@ -1,5 +1,5 @@
 
-Anagrams          Marks: 15
+Anagrams          Score: 15
 --------          ---------
 
 Maximum execution time for this program : 6 sec

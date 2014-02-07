@@ -1,6 +1,6 @@
 
-Puzzle4                   Marks:100
--------                  ----------
+Puzzle4                   Score: 100
+-------                  ------------
 
 Maximum execution time for this program : 300 sec 
 

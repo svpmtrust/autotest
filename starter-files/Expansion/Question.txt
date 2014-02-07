@@ -1,5 +1,5 @@
 
-Expansion         Marks: 5
+Expansion         Score: 5
 ---------         ---------
 
 Maximum execution time for this program : 3 sec     

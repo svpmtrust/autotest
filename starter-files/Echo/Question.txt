@@ -1,6 +1,6 @@
 
 
-Echo                                 Marks:1
+Echo                                 Score: 1
 ----                                 -------
 
 Maximum execution time for this program : 1 sec

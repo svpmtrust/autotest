@@ -96,12 +96,14 @@ def mainloop():
         case_sensitive = root.find('case-sensitive')
         validation_program = root.find('validation-program')
         validation_program_info = root.find('validation-program-info')
+        multi_line = root.find('multi_line')
 
         program_timeout = int(program_timeout.text) if program_timeout is not None else 5
         input_type = input_type.text if input_type is not None else 'text'
         case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
         validation_program = validation_program.text if validation_program is not None else None 
         validation_program_info = validation_program_info.text if validation_program_info is not None else ''
+        multi_line = True if multi_line is not None and multi_line.text == 'true' else False
         
         # Compile the program
         with file('compilation error.txt','w') as fp:
@@ -159,6 +161,18 @@ def mainloop():
                 
                 if validation_program is None:
                     program_passed = (cmd_op == output_o)
+                elif multi_line:
+                    expected_lines = sorted(x.strip() for x in output_o.split('\n'))
+                    actual_lines = sorted(x.strip() for x in cmd_op.split('\n'))
+                    if len(expected_lines) != len(actual_lines):
+                        program_passed = False
+                    else:
+                        for el, al in zip(expected_lines, actual_lines):
+                            if el!=al:
+                                program_passed = False
+                                break
+                        else:
+                            program_passed = True
                 else:
                     i_file = 'validation_program_inputs.json'
                     with file(i_file, 'w') as fp:

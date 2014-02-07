@@ -1,5 +1,5 @@
 
-Expression                Marks: 20
+Expression                Score: 20
 -----------               ---------
 
 Maximum execution time for this program : 3 sec

@@ -33,3 +33,28 @@ INSTRUCTIONS FOR USING VAGRANT AND GIT TO RUN THE PROGRAMS .
 
 12.You will receive a mail with your program status.
 
+
+LIST OF PROGRAMS IN THE CONTEST
+===============================
+
+-------             ------   --------------
+Program             Score    Subject Matter   
+-------             ------   --------------
+1.Echo  .  .  .  .  .  1     Environment Setup
+2.Palindrome  .  .  .  3     Basic Programming Skills
+3.Expansion   .  .  .  5     Basic Programming Skills
+4.Histogram   .  .  .  8     Data Structures
+5.Sudoku   .  .  .  . 10     Data Structures and Algorithm Design
+6.Maze .   .  .  .  . 15     Basic Artificial Intelligence using Recursion
+7.Anagrams .  .  .  . 15     Data Structures and Advanced Programming Skills
+8.Pattern  .  .  .  . 20     Advanced Programming Skills
+9.Expression  .  .  . 20     Compiler Design
+10.Puzzle3 .  .  .  . 30     Artificial Intelligence (Brute Force)                   
+11.Puzzle4 .  .  .   100     Artificial Intelligence, requires use of Huesterics
+                   ------
+GRAND TOTAL          227
+                   ------
+
+=========
+GOOD LUCK
+=========
