@@ -160,19 +160,20 @@ def mainloop():
                 program_passed = False
                 
                 if validation_program is None:
-                    program_passed = (cmd_op == output_o)
-                elif multi_line:
-                    expected_lines = sorted(x.strip() for x in output_o.split('\n'))
-                    actual_lines = sorted(x.strip() for x in cmd_op.split('\n'))
-                    if len(expected_lines) != len(actual_lines):
-                        program_passed = False
+                    if not multi_line:
+                        program_passed = (cmd_op == output_o)
                     else:
-                        for el, al in zip(expected_lines, actual_lines):
-                            if el!=al:
-                                program_passed = False
-                                break
+                        expected_lines = sorted(x.strip() for x in output_o.split('\n'))
+                        actual_lines = sorted(x.strip() for x in cmd_op.split('\n'))
+                        if len(expected_lines) != len(actual_lines):
+                            program_passed = False
                         else:
-                            program_passed = True
+                            for el, al in zip(expected_lines, actual_lines):
+                                if el!=al:
+                                    program_passed = False
+                                    break
+                            else:
+                                program_passed = True
                 else:
                     i_file = 'validation_program_inputs.json'
                     with file(i_file, 'w') as fp:
@@ -204,6 +205,7 @@ def mainloop():
                     else:
                         p_fail.append('=========== Input Provided (args) =============')
                     p_fail.append(input_i)
+                    p_fail.append('================================================')
                     
             except Exception as ex:
                 p_error.append('%s %s [error]' %(description_d, programname))
