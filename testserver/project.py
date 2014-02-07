@@ -90,11 +90,15 @@ def mainloop():
         tree = ET.parse(program_name)
         root=tree.getroot()
         program_score=int(root.find("score").text)
-        program_timeout = root.find('timelimit')
+        program_timeout = root.find('time-limit')
+        input_type = root.find('input-type')
+        case_sensitive = root.find('input-type')
         if program_timeout:
             program_timeout = int(program_timeout.text)
         else:
-            program_timeout = 5            
+            program_timeout = 5
+        input_type = input_type.text if input_type else 'text'
+        case_sensitive = True if case_sensitive and case_sensitive.text == 'true' else False          
         
         # Compile the program
         with file('compilation error.txt','w') as fp:
@@ -122,20 +126,49 @@ def mainloop():
         p_pass=[]
         p_fail=[]
         p_error=[]
+        
+        # Hard_code_warning
+        inputs_found = 0
+        total_inputs = 0
 
         for input_i,output_o,description_d in inputoutput(programname):
+            # Create the command to run.  In case of file inputs, make
+            # sure filenames are formatted for {pdir}
             run_cmd = ['/bin/bash','run.sh']
-            run_cmd.extend(shlex.split(input_i))
+            additional_args = shlex.split(input_i)
+            for each_arg in additional_args:
+                null_file = file('/dev/null','w')
+                is_found = subprocess.call('grep %s *' % each_arg, shell=True, cwd=program_dir, stdout=null_file, stderr=null_file)
+                if is_found == 0:
+                    inputs_found += 1
+                total_inputs += 1
+
+            if input_type == 'filename':
+                additional_args = [x.format(pdir=conf.program_dir[0:-1]) for x in additional_args]
+            run_cmd.extend(additional_args)
             try:
                 cmd_op = timed_execution.check_output_with_timeout(run_cmd,cwd=program_dir)
                 cmd_op=cmd_op.strip()
+                if not case_sensitive:
+                    cmd_op = cmd_op.lower()
                 
                 if cmd_op == output_o:
-                    print cmd_op, output_o
                     p_pass.append('%s %s [successful]' %(description_d, programname))
                 else:
-                    print cmd_op,output_o
                     p_fail.append('%s %s [failed]' %(description_d, programname))
+                    if case_sensitive:
+                        p_fail.append('=============== Actual output =================')
+                    else:
+                        p_fail.append('======= Actual output (in lower case) =========')
+                    p_fail.append(cmd_op)
+                    p_fail.append('============== Expected output ================')
+                    p_fail.append(output_o)
+                    if input_type == 'filename':
+                        p_fail.append('======= Input Provided (file content) =========')
+                    else:
+                        p_fail.append('=========== Input Provided (args) =============')
+                    p_fail.append(input_i)
+                    
             except Exception as ex:
                 p_error.append('%s %s [error]' %(description_d, programname))
                 p_error.append(str(ex))
@@ -156,6 +189,13 @@ def mainloop():
                 your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
             else:
                 your_score = 0
+                
+        if (inputs_found*100)/total_inputs > 25:
+            your_score = 0
+            result['user'].append('=================== WARNING for program %s =====================' % program_name)
+            result['user'].append("Too may inputs found in the directory")
+            result['user'].append("If this is not intentional clean up your directory and remove hard coded inputs")
+            result['user'].append("================================================================================")
     
         result[user].extend(p_pass)
         result[user].extend(p_fail)
