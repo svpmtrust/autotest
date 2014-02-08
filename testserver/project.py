@@ -23,6 +23,7 @@ def listofParticipants():
     for user in dirs1:
         direct=participant_dir + user + '/'
         previous={}
+        print "Checking for user %s" % user
         for y in os.listdir(direct):
             if os.path.isdir(direct+'/'+y) and y[0] !='.':
                 previous[y] = subprocess.check_output(['/usr/bin/git',
