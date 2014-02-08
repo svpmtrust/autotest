@@ -29,7 +29,7 @@ def listofParticipants():
                                                  'log','-1',
                                                  '--oneline',y],
                                                 cwd=direct)
-        subprocess.call(['/usr/bin/git', 'pull'], cwd=direct)
+        subprocess.call(['/usr/bin/git', 'pull', '-s', 'recursive', '-X', 'theirs'], cwd=direct)
 
         for y in os.listdir(direct):
             if os.path.isdir(direct+'/'+y) and y[0] !='.':
