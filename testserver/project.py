@@ -30,6 +30,7 @@ def listofParticipants():
                                                  'log','-1',
                                                  '--oneline',y],
                                                 cwd=direct)
+        subprocess.call(['/usr/bin/git', 'reset', '--hard', 'HEAD'], cwd=direct)
         subprocess.call(['/usr/bin/git', 'pull', '-s', 'recursive', '-X', 'theirs'], cwd=direct)
 
         for y in os.listdir(direct):
