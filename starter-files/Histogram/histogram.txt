@@ -1,72 +1,69 @@
- Abraham:
+Abraham:
 - age: 26
-- city: sydney
-- citizenship: austrian                                                                                                             
-- qualification: m.pharmacy
+- town: sydney
+- country: austrian                                                                                                             
+- education: m.pharmacy
 
- albert:
+albert:
 - age: 24
-- city: sunny valley
-- citizenship: american
-- qualification: B.Tech
+- town: sunny valley
+- country: american
+- education: B.Tech
 
- christopher:
+christopher:
 - age: 21    
-- city: hyderabad
-- citizenship: indian
-- qualification: B.Tech
+- town: hyderabad
+- country: indian
+- education: B.Tech
 
- peter:
+peter:
 - age: 34
-- city: butere 
-- citizenship: kenya  
-- qualification: B.Tech
+- town: butere 
+- country: kenya  
 
- charles:
+charles:
 - age: 34
-- city: abuja
-- citizenship: nigerian
-- qualification: D.pharmacy
+- town: abuja
+- country: nigerian
 
- albert:
+albert:
 - age: 30
-- city: visakhapatnam
-- citizenship: indian
-- qualification: M.Tech
+- town: visakhapatnam
+- country: indian
+- education: M.Tech
 
- phlip:
+phlip:
 - age: 34
-- city: cario
-- citizenship: Egyptian                                                       
-- qualification: B.Tech
+- town: cario
+- country: Egyptian                                                       
+- education: B.Tech
 
- charles:
+charles:
 - age: 19
-- city: hyderabad
-- citizenship: indian
-- qualification: b.pharmacy
+- town: hyderabad
+- country: indian
+- education: b.pharmacy
 
- melvin:
+melvin:
 - age: 54
-- city: vijayawada
-- citizenship: indian
-- qualification: M.tech
+- town: vijayawada
+- country: indian
+- education: M.tech
 
- neal:
+neal:
 - age: 34
-- city: bhimavaram 
-- citizenship: indian                                                                                                             
-- qualification: B.Tech
+- town: bhimavaram 
+- country: indian                                                                                                             
+- education: B.Tech
 
- norris:
+norris:
 - age: 15
-- city: sydney
-- citizenship: australian
-- qualification: B.Tech
+- town: sydney
+- country: australian
+- education: B.Tech
 
- melvin:
+melvin:
 - age: 16
-- city: hongkong
-- citizenship: American
-- qualification: B.pharmacy
-
+- town: hongkong
+- country: American
+- education: B.pharmacy
