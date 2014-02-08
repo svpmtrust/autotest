@@ -47,12 +47,12 @@ Program             Score    Subject Matter
 5.Sudoku   .  .  .  . 10     Data Structures and Algorithm Design
 6.Maze .   .  .  .  . 15     Basic Artificial Intelligence using Recursion
 7.Anagrams .  .  .  . 15     Data Structures and Advanced Programming Skills
-8.Pattern  .  .  .  . 20     Advanced Programming Skills
-9.Expression  .  .  . 20     Compiler Design
+8.Expression  .  .  . 20     Compiler Design
+9.Pattern  .  .  .  . 25     Advanced Programming Skills
 10.Puzzle3 .  .  .  . 30     Artificial Intelligence (Brute Force)                   
-11.Puzzle4 .  .  .   100     Artificial Intelligence, requires use of Huesterics
+11.Puzzle4 .  .  .   100     Artificial Intelligence, requires use of Heuristics
                    ------
-GRAND TOTAL          227
+GRAND TOTAL          232
                    ------
 
 =========
