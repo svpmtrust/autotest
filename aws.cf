@@ -62,9 +62,9 @@
 
     "RegionAMIMap" : {
       "us-east-1"      : {
-        "32" : "ami-3bec7952",
-        "64" : "ami-3fec7956",
-        "HVM":"ami-b93264d0" }
+        "32" : "ami-3d50120d",
+        "64" : "ami-3d50120d",
+        "HVM":"ami-3d50120d" }
     }
   },
 
