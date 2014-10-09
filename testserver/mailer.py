@@ -15,7 +15,7 @@ def load_address():
         username,email=user_email.split(',')
         email_addresses[username]=email
 
-from_addr = 'VEBSNET2-NO-REPLY <do.not.reply@vebsnet2.com>'
+from_addr = 'VEBSNET2-NO-REPLY <do.not.reply@aviso.com>'
 
 def feedbackmail(to_user,mail_subject,content):
     user_list=email_addresses[to_user]
