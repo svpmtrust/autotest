@@ -61,7 +61,7 @@
     },
 
     "RegionAMIMap" : {
-      "us-east-1"      : {
+      "us-west-2"      : {
         "32" : "ami-3d50120d",
         "64" : "ami-3d50120d",
         "HVM":"ami-3d50120d" }
