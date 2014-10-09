@@ -9,7 +9,7 @@ if [ $EUID -ne 0 ] ; then
 fi
 
 # Setup apache
-cat > /etc/apache2/sites-enabled/$1 <<EOF
+cat > /etc/apache2/sites-enabled/$1.conf <<EOF
 <Location /git/$1.git>
   AuthType Basic
   AuthName "Git for $1"
