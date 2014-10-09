@@ -20,10 +20,8 @@ cat > /etc/apache2/sites-enabled/$1 <<EOF
 </Location>
 EOF
 
-# Pick a random password from the file
-pwd=$(head -1 random_passwords)
-sed '1d' random_passwords > random_password1
-mv random_passwords1 random_passwords
+# Generate a random password
+pwd=$(apg -n 1)
 
 htpasswd -bc /etc/apache2/passwd.$1.git $1 $pwd
 htpasswd -b /etc/apache2/passwd.$1.git tester tester

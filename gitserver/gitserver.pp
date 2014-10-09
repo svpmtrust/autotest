@@ -15,19 +15,13 @@ file { "/opt/git":
   require => Package["apache2"]
 }
 
-exec { "a2edav":
-  command => 'a2enmod dav',
-  path => ['/bin','/usr/bin','/usr/sbin'],
-  require => Package["apache2"]
-}
-
-exec { "a2edav_fs":
-  command => 'a2enmod dav_fs',
+exec { "a2ecgi":
+  command => 'a2enmod cgi',
   path => ['/bin','/usr/bin','/usr/sbin'],
   require => Package["apache2"]
 }
 
 service { "apache2":
   ensure => running,
-  subscribe => [Exec["a2edav"], Exec["a2edav_fs"]]
+  subscribe => Exec["a2ecgi"]
 }
