@@ -1,10 +1,6 @@
 
-package { [ "git", "wget" ]:
+package { [ "git", "wget", "apache2", "apache2-utils" ]:
   ensure => present
-}
-
-package { "apache2":
-  ensure => "2.2.29"
 }
 
 file { "/etc/apache2/conf.d/git":
@@ -31,15 +27,7 @@ exec { "a2edav_fs":
   require => Package["apache2"]
 }
 
-exec { "random_passwords":
-  command => "wget 'https://www.random.org/passwords/?num=100&len=8&format=plain&rnd=new' -O random_passwords",
-  creates => "random_passwords"
-}
-
 service { "apache2":
   ensure => running,
   subscribe => [Exec["a2edav"], Exec["a2edav_fs"]]
 }
-
-
-]

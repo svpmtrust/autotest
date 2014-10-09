@@ -11,16 +11,24 @@ fi
 # Setup apache
 cat > /etc/apache2/sites-enabled/$1 <<EOF
 <Location /git/$1.git>
-  DAV on
   AuthType Basic
   AuthName "Git for $1"
   AuthUserFile /etc/apache2/passwd.$1.git
   Require user $1
+  AuthBasicProvider file
+  Options +ExecCGI +FollowSymLinks
 </Location>
 EOF
 
-htpasswd -bc /etc/apache2/passwd.$1.git $1 $1
+# Pick a random password from the file
+pwd=$(head -1 random_passwords)
+sed '1d' random_passwords > random_password1
+mv random_passwords1 random_passwords
+
+htpasswd -bc /etc/apache2/passwd.$1.git $1 $pwd
 htpasswd -b /etc/apache2/passwd.$1.git tester tester
+
+echo $1,$pwd >> pwdlist
 
 # Setup git repository
 cd /opt/git
