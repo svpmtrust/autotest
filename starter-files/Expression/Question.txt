@@ -10,7 +10,13 @@ division, multiplication, addition and subtraction).
 
 The format of the input and output is shown below.
 
- Sample Input:                 Sample Output: 
- ----------------------------------------------
- (60/30)*25+100-60                  90
-           
+ Sample Input:
+ -------------
+ (60/30)*25+100-60
+ 
+ Sample Output:	
+ --------------
+ 2
+ 50
+ 150
+ 90
