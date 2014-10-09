@@ -31,7 +31,7 @@
       "Description" : "Which AWS zone to use",
       "Type": "String",
       "ConstraintDescription": "Must be a valid zone.",
-      "AllowedValues" : ["us-east-1d", "us-east-1a", "us-east-1c"]
+      "AllowedValues" : ["us-east-1d", "us-east-1a", "us-east-1c", "us-west-2a", "us-west-2b", "us-west-2c"]
    },
    "MailUser" : {
       "Description" : "What is the username in your AWS IAM for mails",
