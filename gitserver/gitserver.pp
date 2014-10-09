@@ -32,7 +32,7 @@ exec { "a2edav_fs":
 }
 
 exec { "random_passwords":
-  command => "wget 'https://www.random.org/passwords/?num=5&len=8&format=plain&rnd=new' -O random_passwords",
+  command => "wget 'https://www.random.org/passwords/?num=100&len=8&format=plain&rnd=new' -O random_passwords",
   creates => "random_passwords"
 }
 
