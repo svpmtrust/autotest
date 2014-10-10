@@ -26,7 +26,7 @@ pwd=$(apg -n 1)
 htpasswd -bc /etc/apache2/passwd.$1.git $1 $pwd
 htpasswd -b /etc/apache2/passwd.$1.git tester tester
 
-echo $1,$pwd >> pwdlist
+echo $1,$pwd,$2 >> pwdlist
 
 # Setup git repository
 cd /opt/git

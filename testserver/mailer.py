@@ -12,7 +12,7 @@ def load_address():
         user_email=user_email.strip()
         if not user_email:
             continue
-        username,email=user_email.split(',')
+        username,dummy,email=user_email.split(',')
         email_addresses[username]=email
 
 from_addr = 'VEBSNET2-NO-REPLY <do.not.reply@aviso.com>'

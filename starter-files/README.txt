@@ -1,41 +1,52 @@
-INSTRUCTIONS FOR USING VAGRANT AND GIT TO RUN THE PROGRAMS .
 
-1.In command prompt go to the contest folder and in contest folder you will find a folder your user name
-  and type "vagrant up".
+RULES OF ENGAGEMENT
+-------------------
+1. We expect students to be honest and all the programs
+   must be their own.  
+2. Use of Internet, reference texts, cheat sheets (a.k.a. slips)
+   is ALLOWED. 
+3. Phone-a-Friend, Ask some one else to write the programs is
+   NOT ALLOWED.  The person you are calling, or helping you
+   can appear for the test instead :-). Once an offer is given
+   he is not going to do the work for you.
+4. We expect each of you to write the code for 5-6 hours. You
+   can take breaks as needed. 
+7. Be ready to explain how your program works.  If you didn't
+   write it, we will know very easily. 
 
-2.Now type "vagrant ssh" in the same command prompt.
+INSTRUCTIONS
+------------
 
-3.Type "cd /vagrant" in that command prompt. After typing this command you will get "vagrant@precise32:/vagrant$:"
-
-4.Go to the folder in which you have cloned all the files and unzip the file according to the language 
-   in which you write your program. 
-   Ex:If you write a program in C language unzip Echo-c.zip.
-   
-5.After extracting rename the folder with the name "Echo".
-   Ex: If you extract Echo-c then rename the extracted folder "Echo-c" to "Echo".  
-
-6.Now in command prompt go to the folder by typing "cd "folder name""
-  Ex: cd users/contest/username/Echo
+1. Go to the folder in which you have cloned.  A simple implementation
+   for Echo is given to you already.  Go to the Echo directory and unzip
+   the file for your favorite language. 
+   Ex: If you write a program in C language unzip Echo-c.zip into the Echo directory. 
   
-7.Now compile and run the program as per instructions below in command prompt.
-
+2. Now compile and run the program as per instructions below in command prompt.
   --> For compiling a program type "sh compile.sh".
   --> For running a program type "sh run.sh 'hi welcome to'"
 
-8.After compiling and running the program type "git add 'program name'".
+3. Commit the changes and push them for testing. 
 
-9.Then type "git commit -m "comments""
+	1. Type "git add run.sh compile.sh Echo.[c/java/py]" to let git know what files to merge.
+	2. Type "git commit -m "comments""
+	3. Type "git push origin" to send the code for testing. 
 
-10.Then type "git push origin master"
+4.You will receive a mail in a few minutes with the status of your program after automated test
+  is complete.
 
-11.Now it will ask you a user name and password. For user name and password
-   give your alloted user name. 
+5. Each program is allocated a maximum execution time.  If the program didn't finish 
+   in the given time, it will be terminated, and the submission is considered a failure. 
+   
+6. Read each question carefully and make sure your output matches exactly what is requested. 
+   Additional debugging output will invalidate your program. 
+   
+7. You should not read from stdin.  I.e. getch(), scanf(), System.in.read(), etc are now allowed. 
+   All the input comes either from a file whose name is given as argument, or as arguments itself.
+   
 
-12.You will receive a mail with your program status.
-
-
-LIST OF PROGRAMS IN THE CONTEST
-===============================
+LIST OF PROGRAMS
+================
 
 -------             ------   --------------
 Program             Score    Subject Matter   

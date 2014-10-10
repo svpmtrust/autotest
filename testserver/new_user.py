@@ -17,13 +17,13 @@ for user in fi:
     fp.close()
     fp=open("/tmp/username.txt","r")
     
-    user,email = user.split(',')
+    user,pwd,email = user.split(',')
     
     if os.path.isdir(os.path.join(direct, user)):
         continue
     
     subprocess.call(['/usr/bin/git','clone',
-                     "http://{u}:{u}@{h}/git/{u}.git".format(u=user, h=conf.git_host)],
+                     "http://{u}:{p}@{h}/git/{u}.git".format(u=user, h=conf.git_host, p=pwd)],
                     cwd=direct)
     subprocess.call('/bin/cp -r %s %s' % (files, direct+user), shell=True)
     

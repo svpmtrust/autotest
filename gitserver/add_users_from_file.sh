@@ -1,10 +1,13 @@
 #!/bin/bash
 
-for x in `cut -f1 -d',' user_list.csv`
+for l in `cat user_list.csv`
 do
-  echo Creating user $x
-  echo ----------------
-  bash newuser $x
+  u=`echo $l|cut -f1 -d,'
+  m=`echo $l|cut -f2 -d,'
+  echo Creating user $u with mail $m
+  bash newuser $u $m
   echo 
   echo
 done
+
+service apache2 restart
