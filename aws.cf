@@ -142,8 +142,6 @@
      
               "cd autotest\n",         
               "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
-              "echo export MAIL_USER=",  { "Ref" : "MailUser" }, " >> testserver/env.sh\n",
-              "echo export MAIL_PWD=",  { "Ref" : "MailPassword" }, " >> testserver/env.sh\n",
               "echo export DB_HOST=", { "Ref" : "MongoDBHost" } ,">>testserver/env.sh\n",
               "mkdir mails\n",
               "mkdir programs\n",
