@@ -33,20 +33,10 @@
       "ConstraintDescription": "Must be a valid zone.",
       "AllowedValues" : ["us-east-1d", "us-east-1a", "us-east-1c", "us-west-2a", "us-west-2b", "us-west-2c"]
    },
-   "MailUser" : {
-      "Description" : "What is the username in your AWS IAM for mails",
+   "DBPassword" : {
+      "Description" : "Mongodb password",
       "Type": "String",
-      "ConstraintDescription": "Must be a valid zone."
-   },
-   "MailPassword" : {
-      "Description" : "What is the password for email user",
-      "Type": "String",
-      "NoEcho" : "True",
-      "ConstraintDescription": "Must be a valid zone."
-   },
-   "MongoDBHost": {
-      "Description" : "Mongodb URL",
-      "Type" : "String"
+      "NoEcho" : "True"
    }
   },
 
@@ -66,9 +56,9 @@
 
     "RegionAMIMap" : {
       "us-east-1"      : {
-        "32" : "ami-9eaa1cf6",
-        "64" : "ami-9eaa1cf6",
-        "HVM":"ami-9eaa1cf6" }
+        "32" : "ami-0745d26e",
+        "64" : "ami-0745d26e",
+        "HVM":"ami-0745d26e" }
     }
   },
 
@@ -100,7 +90,7 @@
         "ToPort" : "27017",  
         "FromPort" : "27017",
         "GroupName": { "Ref": "SecurityGroup" },
-        "CidrIp" : "127.0.0.1/32"
+        "CidrIp" : "10.0.0.0/24"
       }
     }, 
     "GitServer": {
@@ -129,6 +119,29 @@
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
       }
     },
+    "DBServer": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": { "Ref": "Zone" },
+        "InstanceType": { "Ref": "InstanceType" },
+        "KeyName": { "Ref": "KeyName" },
+        "Tags" : [
+                {"Key" : "Name", "Value" : "DB Server - Tech Challenge"}
+        ],
+        "Monitoring": true,
+        "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
+                                          { "Fn::FindInMap" : [ "InstArchMap", { "Ref" : "InstanceType" },
+                                          "Arch" ] } ] },
+          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["\n",[
+	      "#!/bin/bash -ex",
+              "sudo apt-get update",
+              "sudo apt-get -y install mongodb",
+              "mongo  --quiet --eval 'db.addUser(\"autotest\",\"",{"Ref":"DBPassword"},"\")' autotest",
+              ""
+	      ]]}},
+          "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
+      }
+    },
     "TestServer": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
@@ -153,9 +166,7 @@
      
               "cd autotest\n",         
               "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
-              "echo export MAIL_USER=",  { "Ref" : "MailUser" }, " >> testserver/env.sh\n",
-              "echo export MAIL_PWD=",  { "Ref" : "MailPassword" }, " >> testserver/env.sh\n",
-              "echo export DB_HOST=", { "Ref" : "MongoDBHost" } ,">>testserver/env.sh\n",
+              "echo export DB_HOST=mongodb://autotest:", { "Ref" : "DBPassword" } ,"@", {  "Fn::GetAtt" : [ "DBServer", "PublicDnsName" ] } ,"/autotest>>testserver/env.sh\n",
               "mkdir mails\n",
               "mkdir programs\n",
               "mkdir participants\n",

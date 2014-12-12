@@ -63,7 +63,7 @@ def mainloop():
     run tests, save the results and send mails for iteration.
     """
     client = MongoClient(conf.db_host)
-    db = client.test
+    db = client.autotest
     col_submissions=db.submissions
     col_scores=db.scores
     result={}
