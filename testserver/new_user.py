@@ -32,3 +32,4 @@ for user in fi:
     fp.seek(0)
     subprocess.call(['/usr/bin/git','push','origin','master'], cwd=direct+user)
     fp.close()
+
