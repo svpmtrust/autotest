@@ -43,6 +43,10 @@
       "Type": "String",
       "NoEcho" : "True",
       "ConstraintDescription": "Must be a valid zone."
+   },
+   "MongoDBHost": {
+      "Description" : "Mongodb URL",
+      "Type" : "String"
    }
   },
 
@@ -61,10 +65,10 @@
     },
 
     "RegionAMIMap" : {
-      "us-west-2"      : {
-        "32" : "ami-3d50120d",
-        "64" : "ami-3d50120d",
-        "HVM":"ami-3d50120d" }
+      "us-east-1"      : {
+        "32" : "ami-f8a03a91",
+        "64" : "ami-f8a03a91",
+        "HVM":"ami-f8a03a91" }
     }
   },
 
@@ -151,6 +155,7 @@
               "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
               "echo export MAIL_USER=",  { "Ref" : "MailUser" }, " >> testserver/env.sh\n",
               "echo export MAIL_PWD=",  { "Ref" : "MailPassword" }, " >> testserver/env.sh\n",
+              "echo export DB_HOST=", { "Ref" : "MongoDBHost" } ,">>testserver/env.sh\n",
               "mkdir mails\n",
               "mkdir programs\n",
               "mkdir participants\n",
