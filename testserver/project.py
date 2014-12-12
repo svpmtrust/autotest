@@ -3,7 +3,6 @@ import os
 import conf
 from conf import participant_dir
 import xml.etree.ElementTree as ET
-import mailer
 import time
 from pymongo import MongoClient
 import shlex
