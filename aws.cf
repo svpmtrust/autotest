@@ -90,7 +90,7 @@
         "ToPort" : "27017",  
         "FromPort" : "27017",
         "GroupName": { "Ref": "SecurityGroup" },
-        "CidrIp" : "10.0.0.0/24"
+        "CidrIp" : "0.0.0.0/0"
       }
     }, 
     "GitServer": {
@@ -135,7 +135,12 @@
           "UserData" : { "Fn::Base64" : { "Fn::Join" : ["\n",[
 	      "#!/bin/bash -ex",
               "sudo apt-get update",
-              "sudo apt-get -y install mongodb",
+              "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10",
+              "echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list",
+              "sudo apt-get update",
+              "sudo apt-get install -y mongodb-org",
+              "sudo sed 's/bind_ip *= *[0-9.]*/bind_ip=0.0.0.0/w /tmp/mongod.conf' /etc/mongod.conf",
+              "sudo cp /tmp/mongod.conf /etc/mongod.conf",
               "mongo  --quiet --eval 'db.addUser(\"autotest\",\"",{"Ref":"DBPassword"},"\")' autotest",
               ""
 	      ]]}},
@@ -166,7 +171,7 @@
      
               "cd autotest\n",         
               "sed s/__GIT_HOST__/",{ "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}, "/ testserver/env.sh.templ > testserver/env.sh\n",
-              "echo export DB_HOST=mongodb://autotest:", { "Ref" : "DBPassword" } ,"@", {  "Fn::GetAtt" : [ "DBServer", "PublicDnsName" ] } ,"/autotest>>testserver/env.sh\n",
+              "echo export DB_HOST=mongodb://autotest:", { "Ref" : "DBPassword" } ,"@", {  "Fn::GetAtt" : [ "DBServer", "PublicDnsName" ] } ,":27017/autotest>>testserver/env.sh\n",
               "mkdir mails\n",
               "mkdir programs\n",
               "mkdir participants\n",
