@@ -115,7 +115,14 @@
 			  "git clone http://github.com/svpmtrust/autotest.git autotest",
               "cp -r autotest/gitserver/* /etc/puppet",
 			  "cd /etc/puppet",
-	  		  "puppet apply -v -l /var/log/puppet.log gitserver.pp" ]]}},
+	  		  "puppet apply -v -l /var/log/puppet.log gitserver.pp",
+	  		  "cd /opt",
+	  		  "git clone http://github.com/ratanraj/tetris.git",
+	  		  "cd tetris",
+	  		  "sudo cp tetris.conf /etc/init",
+	  		  "echo export DB_HOST=mongodb://autotest:", { "Ref" : "DBPassword" } ,"@", {  "Fn::GetAtt" : [ "DBServer", "PublicDnsName" ] } ,":27017/autotest>>env.sh\n",
+	  		  "service tetris start"
+	  		   ]]}},
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
       }
     },
