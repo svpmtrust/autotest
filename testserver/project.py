@@ -3,7 +3,6 @@ import os
 import conf
 from conf import participant_dir
 import xml.etree.ElementTree as ET
-import mailer
 import time
 from pymongo import MongoClient
 import shlex
@@ -63,12 +62,11 @@ def mainloop():
     """ This is the main driver program to look for changes and
     run tests, save the results and send mails for iteration.
     """
-    client = MongoClient()
-    db = client.test
+    client = MongoClient(conf.db_host)
+    db = client.autotest
     col_submissions=db.submissions
     col_scores=db.scores
     result={}
-    mailer.load_address()
     
     for user,programname in listofParticipants():
         if user not in result:
@@ -273,12 +271,7 @@ def mainloop():
             total_score = sum(progs[x]['score'] for x in progs)
             result[user].insert(0, "=======================================")
             result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
-    
-    # Send the results to all users who submissions are found in this round
-    for user in result:
-        subject = "Result of latest submission for %s. " % user
-        content = "\n".join(result[user])
-        mailer.feedbackmail(user,subject, content)
+  
 
 
 # Python main routine to run the mainloop in a loop :-) 
@@ -294,3 +287,4 @@ if __name__ == '__main__':
             pass
         else:
             time.sleep(10-exec_time)
+
