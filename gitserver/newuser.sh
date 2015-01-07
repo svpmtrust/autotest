@@ -21,7 +21,7 @@ cat > /etc/apache2/sites-enabled/$1.conf <<EOF
 EOF
 
 # Generate a random password
-pwd=$(apg -n 1)
+pwd=$(apg -n 1 -M L)
 
 htpasswd -bc /etc/apache2/passwd.$1.git $1 $pwd
 htpasswd -b /etc/apache2/passwd.$1.git tester tester
