@@ -32,9 +32,9 @@ echo $1,$pwd,$3 >> pwdlist
 
 
 # Setup git repository
-cd /opt/git
-mkdir $1.git
-cd $1.git
-git init --bare
-chown -R www-data.www-data .
+#cd /opt/git
+#mkdir $1.git
+#cd $1.git
+#git init --bare
+#chown -R www-data.www-data .
 

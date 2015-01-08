@@ -1,32 +1,30 @@
 import os
-from pymongo import Connection
 import conf
 from conf import db_host
+from pymongo import MongoClient
+import subprocess
 
-def mainloop():
-    cn = Connection()
-    db1 = cn.autotest
-	while(True):
-		coll=db1.contestant.find()
-		for c in coll:
-		    user1=c["username"]+".git"
-		    print user1
-		    directory = '/opt/git'
-		    ls = os.listdir(directory)
-		    print ls
-		    for u in ls :
-		        if( u == user1):
-		            print "ok"
-		        else: 
-		            print "notok"
-		            os.chdir("/opt/git")
-		            cmnd="mkdir "+user1
-		            print cmnd
-		            os.system(cmnd)
-		            os.system("ls")
-		            os.chdir(user1)
-		            os.system("git init")
-		            os.system("chown -R www-data.www-data .")
+def mainloop(): 
+    db_host = os.environ.get('DB_HOST', None)
+    client=MongoClient(db_host)
+    db=client.autotest
+    user_coll=db.contestant.find({},{'username':1,'_id':0,'password':1,'email':1})
+    for user in user_coll: 
+        un=user['username']
+        p=user['password']
+        e=user['email'] 
+        user1=c["un"]+".git"
+        print user1
+        directory = '/opt/git'
+        ls = os.listdir(directory)
+        print ls
+        for u in ls :
+            if( u == user1):
+	      continue
+	    else: 
+	      print "notok"
+	      cmnd='sh newuser.sh '+un+' '+p+' '+e
+       	      subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
 
 
 # Python main routine to run the mainloop in a loop :-) 
@@ -36,8 +34,7 @@ if __name__ == '__main__':
         start_time=time.time()
         mainloop()
         exec_time = time.time()-start_time
-        print exec_time
-        
+        print exec_time        
         if exec_time > 10:
             pass
         else:
