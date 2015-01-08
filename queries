@@ -1,0 +1,22 @@
+db.contest.insert({"contestname":"vr","organisation":"tcs",
+"testadmin":{"tadmin1":{"password":"tadmin1","emaill":"tadmin1@gmail.com"},"tadmin2":{"password":"tadmin2","email":"tadmin2@gmail.com"}},
+"contestants":{"contestant1":{"password":"contestant1","email":"con1@gmail.com"},"contestant2":{"password":"contestant2"}},
+"testcreators":{"tcreator1":{"password":"tcreator1"},"tcreator2":{"password":"tcreator2"}},"tnc":"conditions"})
+
+db.contest.insert({"contestname":"pvp","organisation":"tcs",
+"testadmin":{"tdmin1":{"password":"tadmin1","emaill":"tadmin1@gmail.com"},"tadmin2":{"password":"tadmin2","email":"tadmin2@gmail.com"}},
+"contestants":{"contestant1":{"password":"contestant1","email":"con1@gmail.com"},"contestant2":{"password":"contestant2"}},
+"testcreators":{"tcreator1":{"password":"tcreator1"},"tcreator2":{"password":"tcreator2"}},"tnc":"conditions"})
+
+
+
+db.contest.update({"contestname":"vr"},{$set:{"testadmin":[{"username":"tadmin3","password":"tadmin3"}]}},multi=true)
+
+
+
+db.emp.insert({"employees":{"manager":{"name":"aaa"},
+                            "clerk":{"name":"bbb"}
+                           }
+              })
+
+db.em.insert({"name":"vr","employees":{"manager":{"name":"aaa"},"clerk":{"name":"bbb"}}})
