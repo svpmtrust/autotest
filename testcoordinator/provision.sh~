@@ -20,6 +20,4 @@ sudo service testcoordinator start
 
 echo Running the QuestionPaper Deamon
 echo --------------------------------
-cp /vagrant/testcoordinator/question-paper.Upstart.templ /etc/init/questionpaper.conf
-sudo service questionpaper start
-
+python question_paperd.py
