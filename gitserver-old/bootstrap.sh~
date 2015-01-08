@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 echo Installing puppet
 echo -----------------
@@ -12,11 +12,10 @@ sudo cp -r /vagrant/* /etc/puppet
 echo Running puppet
 echo --------------
 cd /etc/puppet
-sudo puppet apply -v gitserver/gitserver.pp
+sudo puppet apply -v gitserver.pp
 
-echo Running the New Repository Creation Deamon
-echo ------------------------------------------
-cp /vagrant/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
-sudo service newrepo start
-
+#echo Running the New Repository Creation Deamon
+#echo ------------------------------------------
+#cp /vagrant/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
+#sudo service newrepo start
 

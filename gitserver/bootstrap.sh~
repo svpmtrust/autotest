@@ -12,7 +12,7 @@ sudo cp -r /vagrant/* /etc/puppet
 echo Running puppet
 echo --------------
 cd /etc/puppet
-sudo puppet apply -v gitserver/gitserver.pp
+sudo puppet apply -v gitserver.pp
 
 echo Running the New Repository Creation Deamon
 echo ------------------------------------------
