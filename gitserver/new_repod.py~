@@ -2,7 +2,7 @@ import os
 from pymongo import Connection
 
 cn = Connection()
-db1 = cn.autotest
+db1 = cn.vrdbautotest
 
 while(True):
     coll=db1.contestant.find()
