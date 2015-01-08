@@ -1,0 +1,4 @@
+{
+  "mongodb": "mongodb://autotest:autotest@localhost:27017/autotest",
+  "rabbitmq": "amqp://guest@localhost/"
+}

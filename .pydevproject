@@ -6,5 +6,6 @@
 <path>/${PROJECT_DIR_NAME}/webui</path>
 <path>/${PROJECT_DIR_NAME}/testcoordinator</path>
 <path>/${PROJECT_DIR_NAME}/testserver</path>
+<path>/${PROJECT_DIR_NAME}/gitserver</path>
 </pydev_pathproperty>
 </pydev_project>
