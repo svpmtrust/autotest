@@ -1,4 +1,5 @@
-from conf.py import db_host
+import conf
+from conf import db_host
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from pymongo import Connection
