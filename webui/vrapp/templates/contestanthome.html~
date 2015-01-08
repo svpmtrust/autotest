@@ -11,13 +11,12 @@
 			
                     </a>
 			<div class="navbar-inner" align="right">
-     			<a href="loginform.html"><button>Logout</button></a>	
+     			<a href="loginform.html"><button>Logout</button></a>
             	</div>
  		</div>
         </nav>
 
-
-Welcome participant approver Home</br>
+Welcome Contestant Home
 {{un}}
 </body>
 </html>

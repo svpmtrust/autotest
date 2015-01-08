@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^testadminhome', 'vrapp.views.testadminhome', name='testadminhome'),
     url(r'^testcreatorhome', 'vrapp.views.testcreatorhome', name='testcreatorhome'),
     url(r'^participantapproverhome', 'vrapp.views.participantapproverhome', name='participantapproverhome'),
-    url(r'^pup', 'vrapp.views.pup', name='pup'),
+    url(r'^pup', 'vrapp.views.pup', name='home'),
     url(r'^admin/', include(admin.site.urls)),
 )

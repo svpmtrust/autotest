@@ -1,0 +1,11 @@
+import os
+import subprocess
+
+#subprocess.call(["cd","autotest"])
+os.system("cd ..")
+os.system("ls")
+os.system("vagrant up")
+print "vagrant startedddddd"
+
+
+

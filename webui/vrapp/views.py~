@@ -57,4 +57,11 @@ def regisuccess(request):
     #cid=db1.contest.find_one({'contestname':cn},{'_id':1})
     user={"contestname":cn,"name":name,"username":un,"email":email,"password":pswd}
     db1.contestant.insert(user)
-    return render(request,'regisuccess.html',{'cn':cn,'name':name,'un':un,'email':email,'pswd':pswd})
+    return render(request,'loginform.html',{})
+
+def pup(request):
+    os.system("cd ..")
+    os.system("ls")
+    os.system("vagrant up")
+    #print "vagrant startedddddd"
+    return HttpResponse("Heloooo pup started")
