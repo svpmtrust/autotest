@@ -51,7 +51,7 @@ def regisuccess(request):
     email = request.GET.get('email')
     pswd = request.GET.get('pass')
     c = Connection()
-    db1 = c.vrdbautotest
+    db1 = c.autotest
     #cid=db1.contest.find_one({'contestname':cn},{'_id':1})
     user={"contestname":cn,"name":name,"username":un,"email":email,"password":pswd}
     db1.contestant.insert(user)
