@@ -1,9 +1,10 @@
 import os
 from pymongo import Connection
+import conf
+from conf import db_host
 
 cn = Connection()
 db1 = cn.autotest
-
 while(True):
     coll=db1.contestant.find()
     for c in coll:

@@ -2,6 +2,7 @@ import subprocess
 import os
 import conf
 from conf import participant_dir
+from conf import db_host
 import xml.etree.ElementTree as ET
 import time
 from pymongo import MongoClient

@@ -1,5 +1,7 @@
 import os
 from pymongo import Connection
+import conf
+from conf import db_host
 
 cn = Connection()
 db1 = cn.autotest
