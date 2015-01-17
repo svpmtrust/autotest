@@ -14,17 +14,12 @@ def mainloop():
         p=user['password']
         e=user['email'] 
         user1=c["un"]+".git"
-        print user1
         directory = '/opt/git'
         ls = os.listdir(directory)
-        print ls
-        for u in ls :
-            if( u == user1):
-	      continue
-	    else: 
-	      print "notok"
-	      cmnd='sh newuser.sh '+un+' '+p+' '+e
-       	      subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
+        if user1 in ls :
+           continue
+	cmnd='sh newuser.sh '+un+' '+p+' '+e
+       	subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
 
 
 # Python main routine to run the mainloop in a loop :-) 
