@@ -32,7 +32,7 @@ def loginvalidate(request):
     if(usertype == "contestant"):
 	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
 	if(coll != 'None'):
-  	    return render(request, 'contestanthome.html', {'ut':"Contestanthome", 'un':username, 'ps':password})       
+  	    return render(request, 'contestanthome.html', {'ut':"Contestanthome", 'username':username, 'ps':password})       
         else:
 	    return HttpResponse("error")
     else: 
