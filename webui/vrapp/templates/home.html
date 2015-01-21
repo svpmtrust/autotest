@@ -1,42 +1,55 @@
+<!DOCTYPE HTML>
 <html>
-<head></head>
-<style type="text/css">
-#content{
-padding-left:30%;
-width:50%;
-}
-</style>
+<head>
+<title>Contest Home</title>
+		<script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/main.js?r=34"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+     <script>
+	 function closeWin()
+	  {
+   		 window.close(); 
+      }
+	 </script>
+</head>
 <body>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-
-<nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid" style="padding-left:0px;">
+	<nav class="navbar navbar-default" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
                 <div class="navbar-header">
-                       <img style="color:red;" id="logo" class="navbar-brand" alt="AVISO" src="/static/logo-aviso.svg" /> 
-            </div>
-</nav>
-
-<div id="content">
-  <div class="form-group">
-<fieldset>
-<legend align="right">Welcome To Tech Contest</legend>
-<form method="get" action="registration"> 
-<img style="color:red;" id="logo" alt="AVISO" src="/static/logo-aviso.svg">
-<br/>
-<br/>
-
-<input class="btn btn-success" type="submit" value="Register" />
-</form> 
-<br/>
-<form method="get" action="loginform">
-Already Registerd &nbsp;&nbsp;&nbsp;&nbsp;
-<input type="submit" value="Login" />
-</form>
-</fieldset>
-</div>
-</div>
-</div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                       <a class="navbar-brand" href="#">{{Tech Contest}}</a>
+                </div>
+                <form class="navbar-form navbar-right">	
+      					 <button style="background-color:#009afd;color:#FFFFFF" class="btn active" onClick="closeWin()">
+                              <a href="" style="text-decoration:none;color:#FFFFFF">Close
+      						  <span class="glyphicon glyphicon-off" aria-hidden="true"> </span></a>
+                         </button>
+      			</form>
+	</nav>
+    <div class="container" id="main-container">
+        <div class="page" id="homePage">
+                <div class="form-group" align="center" style="width:90%;padding-left:10%">
+                	<fieldset>
+                		<legend align="left"><h2>Welcome To Tech Contest</h2></legend>
+                		<form method="get" action="registration.html">   
+                			<button class="btn btn-success active btn-lg" type="submit" value="Register"> Register 
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"> </span>
+                            </button>
+                		</form> 
+                		<br/>
+                        <form method="get" action="loginform.html">
+                        Already Registerd 
+                        <button type="submit" value="Login" class="active btn btn-info"> Login 
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>
+                        </button>
+                        </form>
+                 	</fieldset>
+                </div>
+		</div>
+	</div>
 </body>
 </html>
