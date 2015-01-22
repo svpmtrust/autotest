@@ -12,7 +12,14 @@ def superuser(request):
     cn=Connection()
     db1=cn.autotest
     contests=db1.contest.find()
-    return render(request, 'superuser.html', {'contests':contests})  
+    return render(request, 'superuser.html', {'contests':contests})
+
+def deleteContest(request):
+    cn=Connection()
+    db1=cn.autotest
+    cname=request.GET.get('cname')
+    db.contest.remove({ "contestname" : cname })
+    return render(request, 'superuser.html', {})
 
 def home(request):
     return render(request, 'home.html', {})  

@@ -58,7 +58,8 @@ fieldset{
                             <td>{{c.date}}</td>
                             <td>{{c.status}}</td>
                             <td>
-                              <form method="post" action="#deletingfunction">
+                              <form method="get" action="deleteContest">
+                                <input id="cname" value={{c.contestname}} style="visibility:hidden" />
                                 <button class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                                 Delete
