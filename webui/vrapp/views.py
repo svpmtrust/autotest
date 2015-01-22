@@ -9,7 +9,10 @@ import os
 
 # Create your views here.
 def superuser(request):
-    return render(request, 'superuser.html', {})  
+    cn=Connection()
+    db1=cn.autotest
+    contests=db1.contest.find()
+    return render(request, 'superuser.html', {'contests':contests})  
 
 def home(request):
     return render(request, 'home.html', {})  
@@ -19,7 +22,10 @@ def registration(request):
     return render(request, 'registration.html', {'name':name})  
 
 def loginform(request):
-    return render(request, 'loginform.html', {})  
+    cn=Connection()
+    db1=cn.autotest
+    cname=db1.contest.find()
+    return render(request, 'loginform.html', {'cname',cname})  
 
 def loginvalidate(request):
     usertype = request.GET.get('usertype')

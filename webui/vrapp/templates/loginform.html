@@ -39,8 +39,9 @@
                       <div class="form-group">
                         <select name="contestname" id="contestname" class="form-control" >
                             <option value="select" selected>Select ContestName</option>
-                            <option value="vr">vr</option>
-                            <option value="pvp">pvp</option>
+                            {% for c in cname %} :
+                            <option value={{c.contestname}}>{{c.contestname}}</option>
+                            {% endfor %}
                         </select>
                        <br/>
                         <select name="usertype" id="usertype" class="form-control" >

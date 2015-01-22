@@ -51,12 +51,12 @@ fieldset{
                                 <th>Current Status</th>
                                 <th>Delete Contest</th>
                        </tr>
-						{% for data in database %}
+						{% for c in contests %} :
 						<tr>
-							<td>{{data.contestname}}</td>
-							<td>{{data.customer}}</td>
-                            <td>{{data.date}}</td>
-                            <td>{{data.status}}</td>
+							<td>{{c.contestname}}</td>
+							<td>{{c.customer}}</td>
+                            <td>{{c.date}}</td>
+                            <td>{{c.status}}</td>
                             <td>
                               <form method="post" action="#deletingfunction">
                                 <button class="btn btn-danger btn-sm">
