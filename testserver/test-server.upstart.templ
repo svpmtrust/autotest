@@ -1,10 +1,10 @@
-description "Test server upstart script"
-chdir /opt/autotest/testserver
+description "Test Server Upstart Script"
+chdir /vagrant/testserver
 start on runlevel [235]
 stop on runlevel [016]
 respawn
 
 script
-    . ./env.sh
-    python project.py >> /var/log/testserver.log 2>&1
+    . .env.sh
+    celery -A tasks worker --queue='testing' >> /var/log/testserver.log 2>&1
 end script

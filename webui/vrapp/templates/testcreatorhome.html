@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Test Creator</title>
+		<script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/main.js?r=34"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
+                <div class="navbar-header">
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                        <a class="navbar-brand" href="#">{{Tech Contest}}</a>
+                </div>
+      					 <form class="navbar-form navbar-right">	
+       							 <button class="btn btn-info">
+                                    <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> {{ Date & Time }}
+                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span></a> 
+                                 </button>&nbsp;&nbsp;&nbsp;&nbsp;
+      						     <button style="background-color:#009afd;color:#FFFFFF" class="btn active" >
+                                    <a href="loginform.html" style="text-decoration:none;color:#FFFFFF">Logout 
+      							    <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>  </a>
+                                 </button>
+      					</form>
+                        <div class="navbar-header navbar-right">
+                      		 <a class="navbar-brand navbar-right" href="#">He!!o&nbsp;&nbsp;
+                     		 {{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      		 </a>
+                       </div>
+	</nav>
+
+<div class="container" id="main-container">
+        <div class="page" id="homePage">
+			<h2>Questions Available</h2>
+               <div id="leaderboard">
+                     <div class="nav navbar navbar-default">
+                        <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group col-md-8">
+                                <input type="text" class="form-control" placeholder="Question Name"  v-model="searchText" />
+                            </div>
+                        </form>
+                     </div>
+                        <form method="post" action="createquestionpaper.html">
+                        <table class="table table-hover table-bordered">
+                            <tr>
+                            	<th>Question Name</th>
+                                <th>Description</th>
+                                <th>Question Type</th>
+                                <th>Defficulty Level</th>
+                                <th>Marks</th>
+                                <th>Parcial Scoring</th>
+                                <th>Select</th>
+                            </tr>
+                            <tr v-repeat="users | filterBy searchText in user_name | orderBy 'total' -1">
+                                <td v-text="username"></td>
+                                <td v-text="username.score"></td>  
+                                <td v-text="$index+1"></td>
+                                <td v-text="$index+1"></td>
+                                <td v-text="$index+1"></td>
+                                <td>
+                                <select id="pscore">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                                </td>
+                                <td align="center" class="input-group input-group-addon">
+                                <input type="checkbox" />
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="submit"  class="btn btn-primary" value="Create" />&nbsp;&nbsp;
+                    	<input type="reset"  class="btn btn-primary" value="Reset" />
+                   	    </form>
+                    </div>
+                </div>
+		</div>
+</div>
+</body>
+</html>

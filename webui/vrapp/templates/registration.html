@@ -1,0 +1,104 @@
+ <!DOCTYPE HTML>
+<html>
+<head>
+<title>Contestant Registration</title>
+        <meta name="robots" content="noindex, nofollow" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+        <script src="../static/regjs.js"></script>
+
+		<script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/main.js?r=34"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+     <style>
+		#content1{
+			padding-top:0;
+			padding-left:10%;
+			width:60%;
+			}
+	 </style>
+     <script>
+	 function closeWin()
+	  {
+   		 window.close(); 
+      }
+	 </script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
+                <div class="navbar-header">
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                       <a class="navbar-brand" href="#">{{Tech Contest}}</a>
+                </div>
+                <form class="navbar-form navbar-right">	
+      					 <button class="btn active" style="background-color:#009afd;color:#FFFFFF;" onClick="closeWin()">
+                              <a href="" style="text-decoration:none;color:#FFFFFF">Close
+      						  <span class="glyphicon glyphicon-off" aria-hidden="true"> </span></a>
+                         </button>
+      			</form>
+	</nav>	
+    <div class="container" id="main-container">
+        <div class="page" id="homePage">
+                <h3>Welcome To Register The Tech Contest . . . .</h3><br/>
+                <div class="content">
+                    <form class="regform" action="regisuccess" method ="get">
+                        <!-- progressbar -->
+                        <ul id="progressbar">
+                            <li class="active">1-->Basic Details</li>
+                            <li>2-->Additional Questions</li>
+                            <li>3-->Finish</li>
+                        </ul>
+                        
+                        <!-- fieldsets -->
+                        <fieldset id="first">
+                            <h2 class="title">Basic Details</h2>
+                            <p class="subtitle" style="color:red">Step 1</p>
+                            <select name="contestname" id="contestname" class="form-control" >
+                            <option value="select">Select ContestName</option>
+                            <option value="vr">vr</option>
+                            <option value="pvp">pvp</option>
+                            </select>	
+                            <input type="text" class="text_field" name="name" placeholder="Enter Name" /><br/>
+                            <input type="text" class="text_field" name="email" placeholder="Email" /><br/>
+                            <input type="text" class="text_field" name="username" placeholder="Username" /><br/>
+                            <input type="password" class="text_field" name="pass" placeholder="Password" /><br/>
+                            <input type="password" class="text_field" name="cpass" placeholder="Confirm Password" /><br/>
+                            <input type="button" name="next" class="next_btn" value="Next" />
+                        </fieldset>
+                        <fieldset  id="second">
+                            <h2 class="title">Additional Questions</h2>
+                            <p class="subtitle" style="color:red">Step 2</p><br/><br/>
+                            <b><p align="center">No Additional Questions For Now<br/>Please Proceed To Next Step</p></b><br/><br/>
+                            <input type="button" name="previous" class="pre_btn" value="Previous" />
+                            <input type="button" name="next" class="next_btn" value="Next" />
+                        </fieldset>
+                        <fieldset id="third">
+                            <h2 class="title">Terms and conditions</h2>
+                            <p class="subtitle" style="color:red">Step 3</p>
+                            <p><strong align="left">Instructions to students:</strong><br>
+                    
+                    <ul style="type:number">
+                    <li>clone the questions repository to your system by using the git clone command<br/><br/></li>
+                    <li>after successfull execution of the program push the results to git repository using git push and commit commands<br/><br/></li>
+                    <li>see your results in tne scoreboard dropdown menu<br/><br/></li>
+                    <li>see your number of submission details in the submission tab from results dropdown menu<br/><br/></li>
+                    <li>see the leader board for the top scorers</p></li>
+                    </ul>
+                            
+                            <br/>
+                            <input name="tnc" class = "rad" type="checkbox" checked="checked"/>I agree the Terms & Conditions<br/>
+                            <input type="button" class="pre_btn" value="Previous" />
+                            <input type="submit" class="submit_btn" value="Finish" />
+                        </fieldset>
+                    </form>
+                  </div>
+          </div>
+	</div>
+</body>
+</html>    
+

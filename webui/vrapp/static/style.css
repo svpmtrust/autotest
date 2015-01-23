@@ -1,0 +1,107 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif); /* to import google font style */ 
+.content{
+	margin:20px 22%;
+	}
+	
+.main{
+	float:left;
+	width: 650px;
+	margin-top:20px;
+	
+	}
+#progressbar{
+	margin:0;
+	padding:0;
+	font-size:18px;
+	}	
+.active{
+	color:green;
+	}
+	
+fieldset{
+	display:none;
+	width: 350px;
+	padding:20px;
+	margin-top:50px;
+	margin-left: 85px;
+	border-radius:5px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+
+#first{
+    display:block;
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
+	border-radius:5px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+	
+#second{
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
+	border-radius:5px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+	
+#third{
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
+	border-radius:5px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+	
+input[type=text],
+input[type=password],
+select{
+	width:100%;
+	margin:10px 0;
+	height:40px;
+	padding:5px;
+	border: 3px solid rgb(236, 176, 220);
+	border-radius: 4px;
+	}
+	
+textarea{
+	width:100%;
+	margin:10px 0;
+	height:70px;
+	padding:5px;
+	border: 3px solid rgb(236, 176, 220);
+	border-radius: 4px;
+	}
+	
+input[type=submit],
+input[type=button]{
+	width: 120px;
+	margin:15px 25px;
+	padding: 5px;
+	height: 40px;
+	background-color: purple;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	font-family: 'Droid Serif', serif;
+	}
+	
+h2,p{
+	text-align:center;
+	font-family: 'Droid Serif', serif;
+	}
+	
+li{
+	margin-right:52px;
+	display:inline;
+	color:#c1c5cc;
+	font-family: 'Droid Serif', serif;
+	
+	}
+/*---------------------------------------------
+	CSS For right side advertisement
+-----------------------------------------------*/	
+.formget{
+	float:right;
+	margin-top:30px;
+	}	

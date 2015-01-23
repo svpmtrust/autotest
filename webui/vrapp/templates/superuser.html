@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<head>
+<title>Super User</title>
+        <script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/main.js?r=34"></script>
+<style>
+fieldset{
+	width:70%;
+}
+#formset{
+	width:70%;
+	padding-left:20%;
+}
+</style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
+                <div class="navbar-header">
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg"> 	
+                </div>		 
+                        <form class="navbar-form navbar-right">
+      						     <button style="background-color:#009afd;color:#FFFFFF" class="btn active" >
+                                    <a href="loginform.html" style="text-decoration:none;color:#FFFFFF">Logout 
+      							    <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>  </a>
+                                 </button>
+      					</form>
+                         <button type="button" class="btn btn-success navbar-btn active navbar-right" >
+                               <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest 
+                               <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span></a>
+                         </button>
+                         <div class="navbar-header navbar-right">
+                      		 <a class="navbar-brand navbar-right" href="#">He!!o&nbsp;&nbsp;
+                     		 {{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      		 </a>
+                       </div>
+	</nav>
+    
+	<div class="container" id="main-container">
+            <div class="page" id="homePage">
+				<div class="row">
+                 	<table class="table table-hover table-bordered">
+                       <tr>
+                                <th>Contest Name</th>
+                                <th>Customer</th>
+                                <th>Date Of The Contest</th>
+                                <th>Current Status</th>
+                                <th>Delete Contest</th>
+                       </tr>
+						{% for c in contests %} :
+						<tr>
+							<td>{{c.contestname}}</td>
+							<td>{{c.customer}}</td>
+                            <td>{{c.date}}</td>
+                            <td>{{c.status}}</td>
+                            <td>
+                              <form method="get" action="deleteContest">
+                                <input id="cname" value={{c.contestname}} style="visibility:hidden" />
+                                <button class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
+                                Delete
+                                </button>
+                              </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+				</div>
+            </div>
+     		
+            <div class="page" id="addingpage"><a name="addingpage"></a>
+                 <fieldset><legend align="right">Contest Details</legend>
+                   <form method="post" action="adding contest">
+                   <div id="formset">
+                        <label for="inputName">Name:</label>
+                        <input type="name" class="form-control" id="inputName" placeholder="Enter Name">
+                        <br/>
+                        <label for="inputCustomer">Customer:</label>
+                        <input type="name" class="form-control" id="inputCustomer" placeholder="Enter Company Name">
+                        <br/>
+                        <label for="inputDate">Date:</label>
+                        <input type="name" class="form-control" id="inputDate" placeholder="Enter Date of Contest">
+                        <br/>
+                        <label for="Policies">Policies/Terms and Conditions:</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                        <br/>
+                        <label for="ApprovalRule">ApprovalRule:</label>
+                            <select class="form-control" id="ApproverRule">
+                                <option value="Auto_Approve">Auto Approve</option>
+                                <option value="Only_One">Any One</option>
+                                <option value="All_Approve">All Approve</option>
+                            </select>
+                       <br/>
+                       <hr/>
+                       <b>Test Admin-1</b>
+                       		<input type="name" class="form-control" id="ta1un" placeholder="User Name">
+                            <input type="password" class="form-control" id="ta1pswd" placeholder="Password">
+                            <input type="email" class="form-control" id="ta1email" placeholder="Email">
+                       <br/>
+                       <b>Test Admin-2</b>
+                       		<input type="name" class="form-control" id="ta2un" placeholder="User Name">
+                            <input type="password" class="form-control" id="ta2pswd" placeholder="Password">
+                            <input type="email" class="form-control" id="ta2email" placeholder="Email">
+                        <br/>
+                        <hr/>
+                       <b>Test Creator</b>
+                       		<input type="name" class="form-control" id="tc1un" placeholder="User Name">
+                            <input type="password" class="form-control" id="tc1pswd" placeholder="Password">
+                            <input type="email" class="form-control" id="tc1email" placeholder="Email">
+                       <br/>
+                       <hr/>
+                       <b>Participant Approver-1</b>
+                       		<input type="name" class="form-control" id="pa1un" placeholder="User Name">
+                            <input type="password" class="form-control" id="pa1pswd" placeholder="Password">
+                            <input type="email" class="form-control" id="pa1email" placeholder="Email">
+                       <br/>                      
+                       <b>Person Approver-2</b>
+                       		<input type="name" class="form-control" id="pa2un" placeholder="User Name">
+                            <input type="password" class="form-control" id="pa2pswd" placeholder="Password">
+                            <input type="email" class="form-control" id="pa2email" placeholder="Email">
+                       <br/>
+                       <hr/>
+                       <input type="submit" class="btn btn-primary" value="Save" />&nbsp&nbsp&nbsp&nbsp
+                       <input type="reset" class="btn btn-primary" value="Reset" />
+                </form>
+                </fieldset>
+            </div>
+		</div>
+	</div>
+</body>
+</html>
+
+

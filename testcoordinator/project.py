@@ -2,6 +2,7 @@ import subprocess
 import os
 import conf
 from conf import participant_dir
+from conf import db_host
 import xml.etree.ElementTree as ET
 import time
 from pymongo import MongoClient
@@ -51,7 +52,7 @@ def mainloop():
     col_submissions=db.submissions
     col_scores=db.scores
     for user,programname in listofParticipants():
-        result = tasks.results.apply_async(args=(user, programname), queue='testsever')
+        result = tasks.results.apply_async(args=(user, programname), queue='testing')
       if(result[2] == 1):  
         col_submissions.save({
                     "user_name":user,
