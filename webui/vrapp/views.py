@@ -88,8 +88,7 @@ def home(request):
     return render(request, 'home.html', {})  
 
 def registration(request):
-    name = "hiiiiiiiiiii registration"
-    return render(request, 'registration.html', {'name':name})  
+    return render(request, 'registration.html', {})  
 
 def loginform(request):
     cn=Connection()

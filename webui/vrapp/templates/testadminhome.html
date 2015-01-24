@@ -7,11 +7,11 @@
         <script src="/static/main.js?r=34"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script>
-    function funStart() {
+    function testStart() {
         document.getElementById("start").disabled = true;
         document.getElementById("stop").disabled = false;
     }
-    function funStop() {
+    function testStop() {
         document.getElementById("stop").disabled = true;
         document.getElementById("start").disabled = false;
     }
@@ -27,11 +27,11 @@
                         <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
                         <a class="navbar-brand" href="#">{{Tech Contest}}</a>
                 </div>
-      					 <form class="navbar-form navbar-right">
-                                 <button onclick="funStart()" id="start" class="btn btn-success btn-active">
+      					 <form class="navbar-form navbar-right" method="post" action="pup">
+                                 <button onclick="testStart()" id="start" class="btn btn-success btn-active">
                                  	<a href="#addingpage" style="text-decoration:none;color:#FFFFFF">Start
                                     <span class="glyphicon glyphicon-play-circle" aria-hidden="true"> </span></a></button>&nbsp;&nbsp;
-								 <button onclick="funStop()" id="stop" class="btn btn-danger btn-active" disabled>
+								 <button onclick="testStop()" id="stop" class="btn btn-danger btn-active" disabled>
                                  	<a href="#addingpage" style="text-decoration:none;color:#FFFFFF">Stop
                                     <span class="glyphicon glyphicon-stop" aria-hidden="true"> </span></a></button>&nbsp;&nbsp;
       						     <button style="background-color:#009afd;color:#FFFFFF" class="btn active" >
