@@ -45,9 +45,9 @@ def addContest(request):
     pa2un=request.POST.get('pa2un')
     pa2pswd=request.POST.get('pa2pswd')
     pa2email=request.POST.get('pa2email')
-    con = db.contest.findOne({'contestname': cname })
+    con = db1.contest.findOne({'contestname': cname })
     if(!con) {
-        db.contest.insert({
+        db1.contest.insert({
             "contestname" : cname ,
             "organisation" : organisation ,
             "date" : date ,
