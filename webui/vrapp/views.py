@@ -17,9 +17,72 @@ def superuser(request):
 def deleteContest(request):
     cn=Connection()
     db1=cn.autotest
-    cname=request.GET.get('cname')
+    cname=request.POST.get('cname')
     db.contest.remove({ "contestname" : cname })
-    return render(request, 'superuser.html', {})
+    return HttpResponseRedirect('superuser.html')
+
+def addContest(request):
+    cn=Connection()
+    db1=cn.autotest
+    cname=request.POST.get('cname')
+    organisation=request.POST.get('organisation')
+    date=request.POST.get('date')
+    status=request.POST.get('status')
+    tnc=request.POST.get('tnc')
+    approverrule=request.POST.get('approverrule')
+    ta1un=request.POST.get('ta1un')
+    ta1pswd=request.POST.get('ta1pswd')
+    ta1email=request.POST.get('ta1email')
+    ta2un=request.POST.get('ta2un')
+    ta2pswd=request.POST.get('ta2pswd')
+    ta2email=request.POST.get('ta2email')
+    tc1un=request.POST.get('tc1un')
+    tc1pswd=request.POST.get('tc1pswd')
+    tc1email=request.POST.get('tc1email')
+    pa1un=request.POST.get('pa1un')
+    pa1pswd=request.POST.get('pa1pswd')
+    pa1email=request.POST.get('pa1email')
+    pa2un=request.POST.get('pa2un')
+    pa2pswd=request.POST.get('pa2pswd')
+    pa2email=request.POST.get('pa2email')
+    con = db.contest.findOne({'contestname': cname })
+    if(!con) {
+        db.contest.insert({
+            "contestname" : cname ,
+            "organisation" : organisation ,
+            "date" : date ,
+            "status" : status ,
+            "tnc" : tnc ,
+            "approverrule" : approverrule ,
+            "testadmin" : {
+                            ta1un : {
+                                    "password" : ta1pswd,
+                                    "emaill" : ta1email
+                            },
+                            ta2un : {
+                                    "password" : ta2pswd,
+                                    "emaill" : ta2email
+                            }
+                    },
+             "testcreator" : {
+                            tc1un : {
+                                    "password" : tc1pswd,
+                                    "emaill" : tc1email
+                            }
+                    },
+              "participantapprover" : {
+                            pa1un : {
+                                    "password" : pa1pswd,
+                                    "emaill" : pa1email
+                            },
+                            pa2un : {
+                                    "password" : pa2pswd,
+                                    "emaill" : pa2email
+                            }
+                    }
+            })
+    }
+    return HttpResponseRedirect('superuser.html')
 
 def home(request):
     return render(request, 'home.html', {})  
