@@ -83,10 +83,10 @@ function add()
                     </table>
 				</div>
             </div>
-     		
             <div class="page" id="addingpage" style="visibility:hidden"><a name="addingpage"></a>
                                 <div id="formset">
-                   <form method="get" action="addContest">
+                   <form method="post" action="addContest">
+                   {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>
                         <label for="inputName">Name:</label>
                         <input type="name" class="form-control" name="cname" placeholder="Enter Name" />

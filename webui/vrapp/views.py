@@ -6,6 +6,8 @@ from pymongo import Connection
 import base64
 import json
 import os
+import hashlib
+from bson.son import SON
 
 # Create your views here.
 def superuser(request):
@@ -18,7 +20,7 @@ def deleteContest(request):
     cn=Connection()
     db1=cn.autotest
     cname=request.POST.get('cname')
-    db.contest.remove({ "contestname" : cname })
+    db1.contest.remove({ "contestname" : cname })
     return HttpResponseRedirect('superuser.html')
 
 def addContest(request):
@@ -46,7 +48,7 @@ def addContest(request):
     pa2pswd=request.POST.get('pa2pswd')
     pa2email=request.POST.get('pa2email')
     con = db1.contest.findOne({'contestname': cname })
-    if(!con) {
+    if (con != cname):
         db1.contest.insert({
             "contestname" : cname ,
             "organisation" : organisation ,
@@ -81,7 +83,6 @@ def addContest(request):
                             }
                     }
             })
-    }
     return HttpResponseRedirect('superuser.html')
 
 def home(request):
@@ -93,21 +94,23 @@ def registration(request):
 def loginform(request):
     cn=Connection()
     db1=cn.autotest
-    cname=db1.contest.find()
-    return render(request, 'loginform.html', {'cname',cname})  
+    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+    return render(request, 'loginform.html', {'cname':cname})  
 
 def loginvalidate(request):
     usertype = request.GET.get('usertype')
     username = request.GET.get('username')
     password = request.GET.get('password')
+    a=hashlib.sha1(password)
+    hpassword=a.hexdigest()
     cn = Connection()
     db1 = cn.autotest
     flag=0
     contestname = request.GET.get('contestname')
     if(usertype == "contestant"):
-	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
+	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':hpassword})
 	if(coll != 'None'):
-  	    return render(request, 'contestanthome.html', {'ut':"Contestanthome", 'username':username, 'ps':password})       
+  	    return render(request, 'contestanthome.html', {'ut':"Contestanthome", 'username':username, 'ps':hpassword})       
         else:
 	    return HttpResponse("error")
     else: 
@@ -115,9 +118,9 @@ def loginvalidate(request):
         for c in coll:
             if(c["contestname"] == contestname):
                 if username in c[usertype].keys():
-                    if c[usertype][username]["password"] == password :
+                    if c[usertype][username]["password"] == hpassword :
 		         homepage=usertype+"home.html"
-                         return render(request, homepage , {'ut':homepage, 'un':username, 'ps':password})       
+                         return render(request, homepage , {'ut':homepage, 'un':username, 'ps':hpassword})       
                 else:
                     return HttpResponse("error")
 
@@ -127,12 +130,14 @@ def regisuccess(request):
     name = request.GET.get('name')
     email = request.GET.get('email')
     pswd = request.GET.get('pass')
+    a=hashlib.sha1(pswd)
+    hpswd=a.hexdigest()
     c = Connection()
     db1 = c.autotest
     #cid=db1.contest.find_one({'contestname':cn},{'_id':1})
-    user={"contestname":cn,"name":name,"username":un,"email":email,"password":pswd}
+    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd}
     db1.contestant.insert(user)
-    return render(request,'loginform.html',{})
+    return render(request,'regisuccess.html',{})
 
 def pup(request):
     os.system("cd ..")
