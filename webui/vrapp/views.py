@@ -26,7 +26,7 @@ def deleteContest(request):
 def addContest(request):
     cn=Connection()
     db1=cn.autotest
-    cname=request.POST.get('cname')
+    cname=request.POST.get('contestname')
     organisation=request.POST.get('organisation')
     date=request.POST.get('date')
     status=request.POST.get('status')
@@ -47,9 +47,9 @@ def addContest(request):
     pa2un=request.POST.get('pa2un')
     pa2pswd=request.POST.get('pa2pswd')
     pa2email=request.POST.get('pa2email')
-    con = db1.contest.findOne({'contestname': cname })
-    if (con != cname):
-        db1.contest.insert({
+    # con = db1.contest.findOne({'contestname': cname })
+    # if (con != cname):
+    db1.contest.insert({
             "contestname" : cname ,
             "organisation" : organisation ,
             "date" : date ,
