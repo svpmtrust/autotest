@@ -72,6 +72,7 @@ function add()
                              </td>
                              <td>
                               <form method="post" action="deleteContest">
+                               {% csrf_token %}
                                 <button class="btn btn-danger btn-sm" name="cname" value={{c.contestname}}>
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                                  Delete 
@@ -89,14 +90,14 @@ function add()
                    {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>
                         <label for="inputName">Name:</label>
-                        <input type="name" class="form-control" name="cname" placeholder="Enter Name" />
+                        <input type="name" class="form-control" name="contestname" placeholder="Enter Name" />
                         <br/>
                         <label for="inputCustomer">Organisation:</label>
                         <input type="name" class="form-control" name="organisation" placeholder="Enter Company Name" />
                         <br/>
                         <label for="inputDate">Date:</label>
                         <input type="name" class="form-control" name="date" placeholder="Enter Date of Contest" />
-                        <input type="name" id="state" value="Not Started" style="visibility:hidden" />
+                        <input type="name" id="state" name="status" value="Not Started" style="visibility:hidden" />
                         <br/>
                         <label for="Policies">Policies/Terms and Conditions:</label>
                         <textarea class="form-control" rows="3" name="tnc" ></textarea>
