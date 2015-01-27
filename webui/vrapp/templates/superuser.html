@@ -40,7 +40,7 @@ function add()
                                <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span></a>
                          </button>
                          <div class="navbar-header navbar-right">
-                      		 <a class="navbar-brand navbar-right" href="#">He!!o&nbsp;&nbsp;
+                      		 <a class="navbar-brand navbar-right" href="#">Hello Super User !!&nbsp;&nbsp;
                      		 {{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       		 </a>
                        </div>
@@ -48,7 +48,7 @@ function add()
     
 	<div class="container" id="main-container">
             <div class="page" id="homePage">
-				<div class="row">
+				<div class="row"><h3>Available Contests ::</h3>
                  	<table class="table table-hover table-bordered">
                        <tr>
                                 <th>Contest Name</th>
@@ -58,7 +58,7 @@ function add()
                                 <th>Edit Details</th>
                                 <th>Delete Contest</th>
                        </tr>
-						{% for c in contests %} :
+						{% for c in contests %}
 						<tr> 
 							<td>{{c.contestname}}</td>
 							<td>{{c.organisation}}</td>

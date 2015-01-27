@@ -34,18 +34,28 @@ def addContest(request):
     approverrule=request.POST.get('approverrule')
     ta1un=request.POST.get('ta1un')
     ta1pswd=request.POST.get('ta1pswd')
+    ta1pswd=hashlib.sha1(ta1pswd)
+    ta1pswd=ta1pswd.hexdigest()
     ta1email=request.POST.get('ta1email')
     ta2un=request.POST.get('ta2un')
     ta2pswd=request.POST.get('ta2pswd')
+    ta2pswd=hashlib.sha1(ta2pswd)
+    ta2pswd=ta2pswd.hexdigest()
     ta2email=request.POST.get('ta2email')
     tc1un=request.POST.get('tc1un')
     tc1pswd=request.POST.get('tc1pswd')
+    tc1pswd=hashlib.sha1(tc1pswd)
+    tc1pswd=tc1pswd.hexdigest()
     tc1email=request.POST.get('tc1email')
     pa1un=request.POST.get('pa1un')
     pa1pswd=request.POST.get('pa1pswd')
+    pa1pswd=hashlib.sha1(pa1pswd)
+    pa1pswd=pa1pswd.hexdigest()
     pa1email=request.POST.get('pa1email')
     pa2un=request.POST.get('pa2un')
     pa2pswd=request.POST.get('pa2pswd')
+    pa2pswd=hashlib.sha1(pa2pswd)
+    pa2pswd=pa2pswd.hexdigest()
     pa2email=request.POST.get('pa2email')
     # con = db1.contest.findOne({'contestname': cname })
     # if (con != cname):
@@ -89,7 +99,10 @@ def home(request):
     return render(request, 'home.html', {})  
 
 def registration(request):
-    return render(request, 'registration.html', {})  
+    cn=Connection()
+    db1=cn.autotest
+    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+    return render(request, 'registration.html', {'cname':cname})
 
 def loginform(request):
     cn=Connection()
@@ -98,38 +111,50 @@ def loginform(request):
     return render(request, 'loginform.html', {'cname':cname})  
 
 def loginvalidate(request):
-    usertype = request.GET.get('usertype')
-    username = request.GET.get('username')
-    password = request.GET.get('password')
+    contestname = request.POST.get('contestname')
+    usertype = request.POST.get('usertype')
+    username = request.POST.get('username')
+    password = request.POST.get('password')
     a=hashlib.sha1(password)
-    hpassword=a.hexdigest()
+    password=a.hexdigest()
     cn = Connection()
     db1 = cn.autotest
-    flag=0
-    contestname = request.GET.get('contestname')
     if(usertype == "contestant"):
-	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':hpassword})
+	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
 	if(coll != 'None'):
-  	    return render(request, 'contestanthome.html', {'ut':"Contestanthome", 'username':username, 'ps':hpassword})       
+  	    return render(request, 'contestanthome.html', {'cname':contestname ,'username':username})       
         else:
 	    return HttpResponse("error")
-    else: 
-        coll = db1.contest.find()
-        for c in coll:
-            if(c["contestname"] == contestname):
-                if username in c[usertype].keys():
-                    if c[usertype][username]["password"] == hpassword :
-		         homepage=usertype+"home.html"
-                         return render(request, homepage , {'ut':homepage, 'un':username, 'ps':hpassword})       
-                else:
-                    return HttpResponse("error")
+    if(usertype == "testadmin"):
+	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+	if(coll != 'None'):
+  	    return render(request, 'testadminhome.html', {'cname':contestname ,'username':username})       
+        else:
+	    return HttpResponse("error")
+    if(usertype == "testcreator"):
+	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+	if(coll != 'None'):
+	    problems=db1.problemsrepository.find()
+	    dt=db1.contest.find_one({'contestname':contestname})
+	    #date=dt.date
+  	    return render(request, 'testcreatorhome.html', 
+			{'date':"date" ,'problems':problems ,'cname':contestname ,'username':username})       
+        else:
+	    return HttpResponse("error")
+    if(usertype == "participantapprover"):
+	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+	if(coll != 'None'):
+	    contestants=db1.contestant.find({'contestname':contestname})
+  	    return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username})       
+        else:
+	    return HttpResponse("error")
 
 def regisuccess(request):
-    cn = request.GET.get('contestname')
-    un = request.GET.get('username')
-    name = request.GET.get('name')
-    email = request.GET.get('email')
-    pswd = request.GET.get('pass')
+    cn = request.POST.get('contestname')
+    un = request.POST.get('username')
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    pswd = request.POST.get('pass')
     a=hashlib.sha1(pswd)
     hpswd=a.hexdigest()
     c = Connection()

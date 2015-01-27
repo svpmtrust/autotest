@@ -33,7 +33,7 @@
             <div class="container-fluid" style="padding:0px 20px;">
                 <div class="navbar-header">
                         <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
-                       <a class="navbar-brand" href="#">Tech Contest</a>
+                       <a class="navbar-brand" href="#">Welcome</a>
                 </div>
                 <form class="navbar-form navbar-right">	
       					 <button class="btn active" style="background-color:#009afd;color:#FFFFFF;" onClick="closeWin()">
@@ -46,7 +46,8 @@
         <div class="page" id="homePage">
                 <h3>Welcome To Register The Tech Contest . . . .</h3><br/>
                 <div class="content">
-                    <form class="regform" method ="get" action="regisuccess">
+                    <form class="regform" method ="post" action="regisuccess">
+                       {% csrf_token %}
                         <!-- progressbar -->
                         <ul id="progressbar">
                             <li class="active">1-->Basic Details</li>
@@ -59,9 +60,10 @@
                             <h2 class="title">Basic Details</h2>
                             <p class="subtitle" style="color:red">Step 1</p>
                             <select name="contestname" id="contestname" class="form-control" >
-                            <option value="select">Select ContestName</option>
-                            <option value="vr">vr</option>
-                            <option value="pvp">pvp</option>
+			    <option value="select" selected>Select ContestName</option>
+                            {% for c in cname %} :
+                            <option value={{c.contestname}}>{{c.contestname}}</option>
+                            {% endfor %}
                             </select>	
                             <input type="text" class="text_field" name="name" placeholder="Enter Name" /><br/>
                             <input type="text" class="text_field" name="email" placeholder="Email" /><br/>

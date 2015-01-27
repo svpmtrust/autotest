@@ -35,11 +35,12 @@
         <div class="page" id="homePage">
            <h3>Login To The Tech Contest . . . .</h3><hr/>
                 <div class="form-group" align="center" style="width:70%;padding-left:30%">
-                    <form method="get" action="loginvalidate" class="form-horizontal">
+                    <form method="post" action="loginvalidate" class="form-horizontal">
+                     {% csrf_token %}
                       <div class="form-group">
                         <select name="contestname" id="contestname" class="form-control" >
                             <option value="select" selected>Select ContestName</option>
-                            {% for c in cname %} :
+                            {% for c in cname %}
                             <option value={{c.contestname}}>{{c.contestname}}</option>
                             {% endfor %}
                         </select>
