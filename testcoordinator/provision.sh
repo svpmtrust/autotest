@@ -13,6 +13,15 @@ echo Installing Celery
 echo -----------------
 sudo pip install celery
 
+pwd
+cd /vagrant
+pwd
+cd testcoordinator/
+pwd
+ls
+sudo -u vagrant celery -A testserver worker --queue=testing &
+echo secceded
+
 echo Upstart the Test Coordinator
 echo ----------------------------
 cp /vagrant/testcoordinator/test-coordinator.Upstart.templ /etc/init/testcoordinator.conf

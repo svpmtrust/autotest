@@ -1,8 +1,9 @@
 import os
-import conf
+#import conf
 from conf import db_host
 from pymongo import MongoClient
 import subprocess
+import time
 
 def mainloop(): 
     db_host = os.environ.get('DB_HOST', None)
