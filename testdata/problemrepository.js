@@ -12,7 +12,7 @@
 11.Puzzle4 .  .  .   100     Artificial Intelligence, requires use of Heuristics
  */
 
-db.problemrepository.insert([ {
+db.problemsrepository.insert([ {
 	"description" : "echo",
 	"qtype" : "program",
 	"difficultylevel" : "easy",

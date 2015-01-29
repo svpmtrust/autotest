@@ -1,112 +1,90 @@
+<!DOCTYPE HTML>
 <html>
-<head></head>
-<style type="text/css">
-#container{
-padding-left:20%;
-width:50%;
-}
-
-</style>
-<script language="javascript">
-function validateForm(){
-if(document.lo.contestname.selectedIndex.value=="Select ContestName")
-{
-	alert("please select a contest");
-	document.lo.contestname.focus();
-	return false;
-}
-return true:
-}
-</script>
-  
-<!--
-<script type="text/javascript">
-function uservalidate()
-{
-  var ut=document.getElementById('usertype').value;
-  if(ut=="contestant")
-   {
-	this.form.action = "contestanthome";
-   }
-  if(ut=="testadmin")
-   {
-	this.form.action = "testadminhome";
-   }
-  if(ut=="testcreator")
-   {
-	this.form.action = "testadminhome";
-   }
-  if(ut=="participantapprover")
-   {
-	this.form.action = "participantapproverhome";
-   }
-  this.form.submit();
-}
-</script>
--->
-
+<head>
+<title>Login To Contest</title>
+		<script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/main.js?r=34"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+     <script>
+	 function closeWin()
+	  {
+   		 window.close(); 
+      }
+	 </script>
+</head>
 <body>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-
-<nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid" style="padding-left:0px;">
+	<nav class="navbar navbar-default" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
                 <div class="navbar-header">
-                    <a  href="#">
-                        <img style="color:red;" id="logo" class="navbar-brand" alt="AVISO" src="/static/logo-aviso.svg">
-                    </a>
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                       <a class="navbar-brand" href="#">Tech Contest</a>
                 </div>
-            </div>
-        </nav>
-<div id="container" align="center">
-<fieldset>
-<legend align="right">Login Form</legend>
-<form name="lo" method="get" action="loginvalidate" class="form-horizontal" onSubmit="return validateForm()">
-  <div class="form-group">
-	<select name="contestname" id="contestname" class="form-control" >
-		<option value="select" selected>Select ContestName</option>
-		<option value="vr">vr</option>
-		<option value="pvp">pvp</option>
-	</select>
-   <br/>
-	<select name="usertype" id="usertype" class="form-control" >
-		<option value="select">Select User Type</option>
-		<option value="contestant">Contestant</option>
-		<option value="testadmin">Test Admin</option>
-		<option value="testcreator">Test Creator</option>
-		<option value="participantapprover">Participant Approver</option>
-	</select>
-   <br/>
-    <label for="inputEmail3" class="col-sm-2 control-label">UserName</label> 
-    <div class="col-sm-10">
-      <input name="username" type="text" class="form-control" id="inputEmail3" placeholder="Username">
-    </div>
-  <br/>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password" required="yes">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default" name="submit" onclick="validateForm()"  >Log in</button>&nbsp;&nbsp;&nbsp;&nbsp;
-      <button type="reset" class="btn btn-default">Cancel</button>
-    </div>
-  </div>
-</form>
-</fieldset>
-</div>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+                <form class="navbar-form navbar-right">	
+      					 <button style="background-color:#009afd;color:#FFFFFF" class="btn active" onClick="closeWin()">
+                              <a href="" style="text-decoration:none;color:#FFFFFF">Close
+      						  <span class="glyphicon glyphicon-off" aria-hidden="true"> </span></a>
+                         </button>
+      			</form>
+	</nav>
+
+    <div class="container" id="main-container">
+        <div class="page" id="homePage">
+           <h3>Login To The Tech Contest . . . .</h3><hr/>
+                <div class="form-group" align="center" style="width:70%;padding-left:30%">
+                    <form method="post" action="loginvalidate" class="form-horizontal">
+                     {% csrf_token %}
+                      <div class="form-group">
+                        <select name="contestname" id="contestname" class="form-control" >
+                            <option value="select" selected>Select ContestName</option>
+                            {% for c in cname %}
+                            <option value={{c.contestname}}>{{c.contestname}}</option>
+                            {% endfor %}
+                        </select>
+                       <br/>
+                        <select name="usertype" id="usertype" class="form-control" >
+                            <option value="select">Select User Type</option>
+                            <option value="contestant">Contestant</option>
+                            <option value="testadmin">Test Admin</option>
+                            <option value="testcreator">Test Creator</option>
+                            <option value="participantapprover">Participant Approver</option>
+                        </select>
+                       <br/>
+                        <label for="inputEmail3" class="col-sm-2 control-label">UserName</label> 
+                        <div class="col-sm-10">
+                          <input name="username" type="text" class="form-control" id="inputEmail3" placeholder="Username">
+                        </div>
+                      <br/>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                          <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password" required="yes">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> Remember me
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <button type="submit" class="btn btn-default" name="submit" onClick="validateForm()"  >Log in</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                          <button type="reset" class="btn btn-default">Cancel</button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+		</div>
+	</div>
 </body>
 </html>
+
+

@@ -14,16 +14,7 @@ if (!vr) {
 				"email" : "tadmin2@gmail.com"
 			}
 		},
-		"contestants" : {
-			"contestant1" : {
-				"password" : "contestant1",
-				"email" : "con1@gmail.com"
-			},
-			"contestant2" : {
-				"password" : "contestant2"
-			}
-		},
-		"testcreators" : {
+		"testcreator" : {
 			"tcreator1" : {
 				"password" : "tcreator1"
 			},
@@ -50,16 +41,7 @@ if (!pvp) {
 				"email" : "tadmin2@gmail.com"
 			}
 		},
-		"contestants" : {
-			"contestant1" : {
-				"password" : "contestant1",
-				"email" : "con1@gmail.com"
-			},
-			"contestant2" : {
-				"password" : "contestant2"
-			}
-		},
-		"testcreators" : {
+		"testcreator" : {
 			"tcreator1" : {
 				"password" : "tcreator1"
 			},

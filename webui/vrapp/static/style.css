@@ -1,7 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Serif); /* to import google font style */ 
 .content{
-	width:960px;
-	margin:20px auto;
+	margin:20px 22%;
 	}
 	
 .main{
@@ -31,11 +30,26 @@ fieldset{
 
 #first{
     display:block;
-	width: 350px;
-	padding:20px;
-	margin-top:50px;
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
 	border-radius:5px;
-	margin-left: 85px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+	
+#second{
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
+	border-radius:5px;
+	box-shadow: 3px 3px 25px 1px gray;
+	}
+	
+#third{
+	width: 450px;
+	padding:10px 50px;
+	margin:40px 85px;
+	border-radius:5px;
 	box-shadow: 3px 3px 25px 1px gray;
 	}
 	
