@@ -55,21 +55,14 @@ function add()
                                 <th>Organisation</th>
                                 <th>Date Of The Contest</th>
                                 <th>Current Status</th>
-                                <th>Edit Details</th>
                                 <th>Delete Contest</th>
                        </tr>
-						{% for c in contests %}
-						<tr> 
-							<td>{{c.contestname}}</td>
-							<td>{{c.organisation}}</td>
+			{% for c in contests %}
+			<tr> 
+			<td>{{c.contestname}}</td>
+			<td>{{c.organisation}}</td>
                             <td>{{c.date}}</td>
                             <td>{{c.status}}</td>
-                            <td>
-                              <button type="button" class="btn btn-warning btn-sm" name="cname" value={{c.contestname}} onClick="add()">
-                               <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Edit&nbsp; 
-                               <span class="glyphicon glyphicon-pencil" aria-hidden="true"> </span></a>
-                        	 </button>
-                             </td>
                              <td>
                               <form method="post" action="deleteContest">
                                {% csrf_token %}
@@ -78,14 +71,14 @@ function add()
                                  Delete 
                                 </button>
                               </form>
-                            </td> </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </table>
-				</div>
+		</div>
             </div>
             <div class="page" id="addingpage" style="visibility:hidden"><a name="addingpage"></a>
-                                <div id="formset">
+                 <div id="formset">
                    <form method="post" action="addContest">
                    {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>

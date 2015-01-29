@@ -20,6 +20,7 @@ def deleteContest(request):
     cn=Connection()
     db1=cn.autotest
     cname=request.POST.get('cname')
+    print(cname)
     db1.contest.remove({ "contestname" : cname })
     return HttpResponseRedirect('superuser.html')
 
@@ -27,6 +28,7 @@ def addContest(request):
     cn=Connection()
     db1=cn.autotest
     cname=request.POST.get('contestname')
+    cname=cname.replace(" ","_")
     organisation=request.POST.get('organisation')
     date=request.POST.get('date')
     status=request.POST.get('status')
@@ -164,9 +166,20 @@ def regisuccess(request):
     db1.contestant.insert(user)
     return render(request,'regisuccess.html',{})
 
-def pup(request):
-    os.system("cd ..")
-    os.system("ls")
-    os.system("vagrant up")
-    #print "vagrant startedddddd"
-    return HttpResponse("Heloooo pup started")
+def puppet(request):
+    cn=request.GET.get('state')
+    c = Connection()
+    db1 = c.autotest
+    print("hiiiiiiiiiiiiiii")
+    cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
+    st=cll["status"]
+    if(st == "Not Started"):
+       db1.contest.update({'contestname':cn},{"$set":{'status':"Started"}})
+       os.system("cd ..")
+       os.system("ls")
+       os.system("vagrant up")
+       print "vagrant startedddddd"
+       return HttpResponse("Heloooo pup started")
+    else:
+       db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
+       return HttpResponse("Heloooo pup stoped")
