@@ -9,7 +9,6 @@
 
 		<script src="/static/vue.js"></script>
         <script src="/static/jquery.js"></script>
-        <script src="/static/main.js?r=34"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -30,14 +29,19 @@
 	 <script>
 			$(function(){
 				$("#username").blur(function(){
-					 $.get("/checkUserName",{'username':username, 'contestname':contestname }),function(data){
-					if(data == "InValid")
+					var contestname = $("#contestname").val();
+					var username = $("#username").val();
+					console.log(contestname);
+					console.log(username);
+					 $.get("/checkContestName",{'username':username,'contestname':contestname},function(data){
+					 console.log(data);
+					 if(data == "InValid")
 					  {
-					     document.alert("UserName Already Exists");	
+					     alert("UserName Already Exists Please Try Another One");	
 					  }
 				   });
-				})
-			})
+				});
+			});
 	</script>	
 </head>
 <body>

@@ -96,7 +96,7 @@ def addContest(request):
                             }
                     }
             })
-    return HttpResponseRedirect('superuser.html')
+    return HttpResponseRedirect('superuser')
 
 def checkContestName(request):
     cn=Connection()
@@ -104,21 +104,22 @@ def checkContestName(request):
     contestname=request.GET.get("contestname")
     contestname=contestname.replace(" ","_")
     con = db1.contest.find_one({'contestname': contestname })
-    if (con != None):
+    if not con:
         return HttpResponse("Valid")
     else:
-        return HttpResponse("Not Valid")
+        return HttpResponse("InValid")
 
 def checkUserName(request):
-    cn=Connection()
-    db1=cn.autotest
-    contestname=request.GET.get("contestname")
-    username=request.GET.get("username")
-    con = db1.contestant.find_one({'contestname': contestname, 'username':username})
-    if (con != None):
-        return HttpResponse("Valid")
-    else:
-        return HttpResponse("Not Valid")
+	cn=Connection()
+	db1=cn.autotest
+	contestname=request.GET.get("contestname")
+	username=request.GET.get("username")
+	contestname=contestname.replace(" ","_")
+	con = db1.contestant.find_one({'contestname': contestname, 'username':username })
+	if not con:
+		return HttpResponse("Valid")
+	else:
+		return HttpResponse("InValid")
 
 def home(request):
     return render(request, 'home.html', {})  
@@ -129,50 +130,97 @@ def registration(request):
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
     return render(request, 'registration.html', {'cname':cname})
 
-def loginform(request):
+def createquestionpaper(request):
     cn=Connection()
     db1=cn.autotest
-    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
-    return render(request, 'loginform.html', {'cname':cname})  
+    cbb=json.loads(request.GET.get("names"))
+    print cbb
+    return HttpResponse("created")
+     
+     
+def loginform(request):
+	cn=Connection()
+	db1=cn.autotest
+	cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+	return render(request, 'loginform.html', {'cname':cname})  
+
+def logout(request):
+	try:
+		del request.session['contestname']
+		del request.session['username']
+	except KeyError:
+		pass
+	return HttpResponseRedirect('/loginform')
 
 def loginvalidate(request):
-    contestname = request.POST.get('contestname')
     usertype = request.POST.get('usertype')
+    contestname = request.POST.get('contestname')
     username = request.POST.get('username')
     password = request.POST.get('password')
     a=hashlib.sha1(password)
     password=a.hexdigest()
     cn = Connection()
-    db1 = cn.autotest
+    db1 = cn.autotest 
+    request.session['contestname'] = contestname
+    request.session['username'] = username
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
         if(coll != 'None'):
-            return render(request, 'contestanthome.html', {'cname':contestname ,'username':username})       
+            return HttpResponseRedirect('/contestanthome')       
         else:
             return HttpResponse("error")
     if(usertype == "testadmin"):
         coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
         if(coll != 'None'):
-            return render(request, 'testadminhome.html', {'cname':contestname ,'username':username})       
+            return HttpResponseRedirect('/testadminhome')       
         else:
             return HttpResponse("error")
     if(usertype == "testcreator"):
         coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
         if(coll != 'None'):
-            problems=db1.problemsrepository.find()
-            dt=db1.contest.find_one({'contestname':contestname})
-            date=dt["date"]
-            return render(request, 'testcreatorhome.html', 
-			{'date':date ,'problems':problems ,'cname':contestname ,'username':username})       
+        	return HttpResponseRedirect('/testcreatorhome')
         else:
             return HttpResponse("error")
     if(usertype == "participantapprover"):
         coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
         if(coll != 'None'):
-            contestants=db1.contestant.find({'contestname':contestname})
-            return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username})       
+             return HttpResponseRedirect('/participantapproverhome')
         else:
             return HttpResponse("error")
+
+def contestanthome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
+
+def testadminhome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	return render(request, 'testadminhome.html', {'cname': contestname ,'username':username}) 
+	
+def testcreatorhome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	cn = Connection()
+	db1 = cn.autotest
+	problems=db1.problemsrepository.find()
+	dt=db1.contest.find_one({'contestname':contestname})
+	date=dt["date"] 
+	return render(request, 'testcreatorhome.html', {'cname': contestname ,'username':username,'date':date ,'problems':problems})       
+
+def participantapproverhome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	cn = Connection()
+	db1 = cn.autotest
+	contestants=db1.contestant.find({'contestname':contestname})
+	pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
+	for i in pa:
+		tc=i["participantapprover"]
+	pa=list()
+	for i in tc.keys():
+		pa.append(i)
+	return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
 
 def regisuccess(request):
     cn = request.POST.get('contestname')
@@ -202,7 +250,7 @@ def regisuccess(request):
     return render(request,'regisuccess.html',{})
 
 def puppet(request):
-    cn=request.GET.get('cn')
+    cn = request.session['contestname']
     c = Connection()
     db1 = c.autotest
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
@@ -217,7 +265,7 @@ def puppet(request):
         return HttpResponse(str("Contest Already Done"))
 
 def stop(request):
-    cn=request.GET.get('cn')
+    cn = request.session['contestname']
     c = Connection()
     db1 = c.autotest
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})

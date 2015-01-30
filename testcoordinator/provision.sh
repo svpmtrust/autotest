@@ -13,15 +13,6 @@ echo Installing Celery
 echo -----------------
 sudo pip install celery
 
-pwd
-cd /vagrant
-pwd
-cd testcoordinator/
-pwd
-ls
-sudo -u vagrant celery -A testserver worker --queue=testing &
-echo secceded
-
 echo Upstart the Test Coordinator
 echo ----------------------------
 cp /vagrant/testcoordinator/test-coordinator.Upstart.templ /etc/init/testcoordinator.conf
@@ -33,12 +24,8 @@ cp /vagrant/testcoordinator/question-paper.Upstart.templ /etc/init/questionpaper
 sudo service questionpaper start
 
 echo creating Participants,mails,programs directories
-echo-------------------------------------------------
+echo -------------------------------------------------
 cd /vagrant
 mkdir mails
 mkdir programs
 mkdir participants
-              
-
-
-

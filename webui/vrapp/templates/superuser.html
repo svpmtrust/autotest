@@ -23,14 +23,19 @@ function add()
  }
 </script>
 <script>
-				$("#contest").change(function(){
+			$(function(){
+				$("#contest").blur(function(){
+					var contestname = $("#contest").val();
+					console.log(contestname);
 					 $.get("/checkContestName",{'contestname':contestname},function(data){
+					 console.log(data);
 					if(data == "InValid")
 					  {
-					     document.alert("Contest Name Already Exists");	
+					     alert("Contest Name Already Exists Please Try Another One");	
 					  }
 				   });
 				});
+			});
 </script>
 </head>
 <body>

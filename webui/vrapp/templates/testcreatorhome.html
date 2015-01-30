@@ -1,39 +1,33 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Test Creator</title>
-		<script src="/static/vue.js"></script>
-        <script src="/static/jquery.js"></script>
-        <script src="/static/main.js?r=34"></script>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-     
-</head>
-<body>
-	<nav class="navbar navbar-default" role="navigation" id="navigation">
-            <div class="container-fluid" style="padding:0px 20px;">
-                <div class="navbar-header">
-                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
-                        <a class="navbar-brand" href="#">{{cname}}</a>
-                </div>
-      					 <form class="navbar-form navbar-right">	
-       							 <button class="btn btn-info">
-                                    <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF">  {{ date }} 
-                                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span></a> 
-                                 </button>&nbsp;&nbsp;&nbsp;&nbsp;
-      						     <button style="background-color:#009afd;color:#FFFFFF" class="btn active" >
-                                    <a href="loginform.html" style="text-decoration:none;color:#FFFFFF">Logout 
-      							    <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>  </a>
-                                 </button>
-      					</form>
-                        <div class="navbar-header navbar-right">
-                      		 <a class="navbar-brand navbar-right" href="#">He!!o&nbsp;&nbsp;
-                     		 {{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      		 </a>
-                       </div>
-	</nav>
+{% extends "base.html" %}
 
+{%block navbar%}
+<div class="navbar-header">
+     <button class="btn btn-info active navbar-btn nav-right nav-brand">
+       <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF">  {{ date }} 
+         <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span></a> 
+     </button>&nbsp;&nbsp;&nbsp;&nbsp;
+ </div>              
+{%endblock%}
+
+{% block content %}
+<script>
+			$(function(){	
+				$("#questionForm").submit(function(event){
+				event.preventDefault();
+				data=[];
+				for(i in cq) {
+					if(cq[i].checked) {
+						data.push(cq[i].value);
+					}
+				}
+				console.log(data);
+			    	$.get("/createquestionpaper", {names:JSON.stringify(data)}, function(data){
+						$("#output").html(data);
+					});
+				});
+			});
+	</script>    
+      						    
 <div class="container" id="main-container">
         <div class="page" id="homePage">
 			<h2>Questions Available</h2>
@@ -46,15 +40,16 @@
                             </div>
                         </form>
                      </div>
-                    <form method="get" action="createquestionpaper.html">
+                     <div id="output"></div>
+                    <form id="questionForm">
                         <table class="table table-hover table-bordered">
                             <tr>
                             	<th>Question Name</th>
                                 <th>Description</th>
                                 <th>Question Type</th>
-                                <th>Defficulty Level</th>
+                                <th>Difficulty Level</th>
                                 <th>Marks</th>
-                                <th>Parcial Scoring</th>
+                                <th>Partial Scoring</th>
                                 <th>Select</th>
                             </tr>
 			  	 {% for p in problems %}
@@ -65,20 +60,20 @@
                                 <td>{{p.difficultylevel}}</td>
                                 <td>{{p.score}}</td>
                                 <td>
-                                <input type="checkbox"id="pscore" name="ps[]" value={{p.description}} />
+                                <input type="radio" id="pscore" name="ps" value={{p.description}} />
                                 </td>
                                 <td align="center" class="input-group input-group-addon">
-                                <input type="checkbox" name="cq[]" value={{p.description}} />
+                                <input type="checkbox" id="cq" name="cq" value={{p.description}} />
                                 </td>
                             </tr>
 		           {% endfor %}
                         </table>
-                        <input type="submit"  class="btn btn-primary" value="Create" />&nbsp;&nbsp;
+                        <input type="submit"  class="btn btn-primary" value="Create" id="btntest" />&nbsp;&nbsp;
                     	<input type="reset"  class="btn btn-primary" value="Reset" />
                    	    </form>
                     </div>
                 </div>
 		</div>
 </div>
-</body>
-</html>
+{% endblock %}
+

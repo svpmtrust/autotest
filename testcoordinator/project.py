@@ -10,7 +10,7 @@ import shlex
 import timed_execution
 import json
 from celery import Celery
-import testserver
+import tasks
 
 def listofParticipants():
     """ This method will go through each user in the participant
@@ -52,7 +52,7 @@ def mainloop():
     col_submissions=db.submissions
     col_scores=db.scores
     for user,programname in listofParticipants():
-        result = testserver.results.apply_async(args=(user, programname), queue='testing')
+        result = tasks.results.apply_async(args=(user, programname), queue='testing')
       if(result[2] == 1):  
         col_submissions.save({
                     "user_name":user,

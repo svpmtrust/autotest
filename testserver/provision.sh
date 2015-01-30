@@ -9,13 +9,6 @@ echo Installing Celery
 echo -----------------
 sudo pip install celery 
 
-pwd
-cd /vagrant
-pwd
-cd testcoordinator/
-ls
-python project.py
-
 echo Upstart the Test Server
 echo ----------------------------
 cp /vagrant/testserver/test-server.upstart.templ /etc/init/testserver.conf

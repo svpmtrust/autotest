@@ -3,7 +3,7 @@ package { [ "git", "wget", "apache2", "apache2-utils", "apg" ]:
   ensure => present
 }
 
-file { "/etc/apache2/conf.d/git.conf":
+file { "/etc/apache2/git.conf":
     ensure => present,
     source => '/etc/puppet/git.conf',
     require => Package["apache2"]

@@ -6,17 +6,13 @@ import subprocess
 import time
 
 def mainloop():
-    files = '/vagrant/starter-files/*'
-    
-    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.105:27017/')
+    files = '/vagrant/starter-files/*' 
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.100:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     direct=conf.participant_dir
-    
-      
     user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})
     for user in user_coll:
-        
         un=user['username']
         pswd=user['password']
         if os.path.isdir(os.path.join(direct,un)):
