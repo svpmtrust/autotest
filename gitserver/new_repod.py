@@ -1,11 +1,4 @@
 import os
-<<<<<<< HEAD
-# import conf
-# from conf import db_host
-=======
-#import conf
-from conf import db_host
->>>>>>> ff286832bd74e9d0d0079336e3cd3becde61f048
 from pymongo import MongoClient
 import subprocess
 import time

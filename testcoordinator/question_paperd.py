@@ -3,30 +3,33 @@ from pymongo import MongoClient
 import conf
 from conf import db_host
 import subprocess
-import conf
-import os
 import time
 
 def mainloop():
-    files = '../starter-files/*'
+    files = '/vagrant/starter-files/*'
+    
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.105:27017/')
     client=MongoClient(db_host)
     db=client.autotest
-    os.system("cd ..")
-    os.chdir("/participants")  
+    direct=conf.participant_dir
+    
+      
     user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})
-    for user in user_coll: 
+    for user in user_coll:
+        
         un=user['username']
         pswd=user['password']
-        if os.path.isdir(os.path.join(direct, user)):
-        	continue
-    	subprocess.call(['git','clone',
-                     "http://{u}:{p}@{h}/git/{u}.git".format(u=un, h=conf.git_host, p=pswd)],
-                    cwd=direct)
-    	subprocess.call('cp -r %s %s' % (files, un), shell=True)
-    	subprocess.call(['git','add','.'], cwd=un)
-    	subprocess.call(['git','commit','-m',"Commiting the initial files"], cwd=un)
-        subprocess.call(['git','push','origin','master'], cwd=un)
+        if os.path.isdir(os.path.join(direct,un)):
+            continue
+        cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"
+        subprocess.Popen(cmnd , shell=True, executable='/bin/bash', cwd=direct)
+        copycmnd="cp -r "+files+" "+direct+un
+        subprocess.Popen(copycmnd , shell=True, executable='/bin/bash')       
+        subprocess.Popen("git add -A",shell=True, executable='/bin/bash',cwd=direct+un)
+        commitcmnd='git commit -m '+'"comitting initial files"'        
+        subprocess.Popen(commitcmnd,shell=True, executable='/bin/bash',cwd=direct+un)
+        subprocess.Popen("git push origin master", shell=True, executable='/bin/bash',cwd=direct+un)
+        
         
 
 # Python main routine to run the mainloop in a loop :-) 
