@@ -8,6 +8,7 @@
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+     
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation" id="navigation">
@@ -45,7 +46,7 @@
                             </div>
                         </form>
                      </div>
-                        <form method="post" action="createquestionpaper.html">
+                    <form method="get" action="createquestionpaper.html">
                         <table class="table table-hover table-bordered">
                             <tr>
                             	<th>Question Name</th>
@@ -56,7 +57,7 @@
                                 <th>Parcial Scoring</th>
                                 <th>Select</th>
                             </tr>
-			   {% for p in problems %}
+			  	 {% for p in problems %}
                             <tr v-repeat="problems | filterBy searchText in problems.description | orderBy 'total' -1">
                                 <td>{{p.description}}</td>
                                 <td>{{p.description}}</td>
@@ -64,13 +65,10 @@
                                 <td>{{p.difficultylevel}}</td>
                                 <td>{{p.score}}</td>
                                 <td>
-                                <select id="pscore">
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
-                                </select>
+                                <input type="checkbox"id="pscore" name="ps[]" value={{p.description}} />
                                 </td>
                                 <td align="center" class="input-group input-group-addon">
-                                <input type="checkbox" />
+                                <input type="checkbox" name="cq[]" value={{p.description}} />
                                 </td>
                             </tr>
 		           {% endfor %}

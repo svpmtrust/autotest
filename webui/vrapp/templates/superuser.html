@@ -22,6 +22,16 @@ function add()
     document.getElementById("addingpage").style.visibility="visible";
  }
 </script>
+<script>
+				$("#contest").change(function(){
+					 $.get("/checkContestName",{'contestname':contestname},function(data){
+					if(data == "InValid")
+					  {
+					     document.alert("Contest Name Already Exists");	
+					  }
+				   });
+				});
+</script>
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation" id="navigation">
@@ -83,7 +93,7 @@ function add()
                    {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>
                         <label for="inputName">Name:</label>
-                        <input type="name" class="form-control" name="contestname" placeholder="Enter Name" />
+                        <input type="name" id="contest" class="form-control" name="contestname" placeholder="Enter Name" />
                         <br/>
                         <label for="inputCustomer">Organisation:</label>
                         <input type="name" class="form-control" name="organisation" placeholder="Enter Company Name" />

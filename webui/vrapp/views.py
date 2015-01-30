@@ -1,3 +1,4 @@
+import smtplib
 import conf
 from conf import db_host
 from django.shortcuts import render
@@ -8,6 +9,8 @@ import json
 import os
 import hashlib
 from bson.son import SON
+import subprocess
+
 
 # Create your views here.
 def superuser(request):
@@ -59,8 +62,6 @@ def addContest(request):
     pa2pswd=hashlib.sha1(pa2pswd)
     pa2pswd=pa2pswd.hexdigest()
     pa2email=request.POST.get('pa2email')
-    # con = db1.contest.findOne({'contestname': cname })
-    # if (con != cname):
     db1.contest.insert({
             "contestname" : cname ,
             "organisation" : organisation ,
@@ -97,6 +98,28 @@ def addContest(request):
             })
     return HttpResponseRedirect('superuser.html')
 
+def checkContestName(request):
+    cn=Connection()
+    db1=cn.autotest
+    contestname=request.GET.get("contestname")
+    contestname=contestname.replace(" ","_")
+    con = db1.contest.find_one({'contestname': contestname })
+    if (con != None):
+        return HttpResponse("Valid")
+    else:
+        return HttpResponse("Not Valid")
+
+def checkUserName(request):
+    cn=Connection()
+    db1=cn.autotest
+    contestname=request.GET.get("contestname")
+    username=request.GET.get("username")
+    con = db1.contestant.find_one({'contestname': contestname, 'username':username})
+    if (con != None):
+        return HttpResponse("Valid")
+    else:
+        return HttpResponse("Not Valid")
+
 def home(request):
     return render(request, 'home.html', {})  
 
@@ -122,34 +145,34 @@ def loginvalidate(request):
     cn = Connection()
     db1 = cn.autotest
     if(usertype == "contestant"):
-	coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
-	if(coll != 'None'):
-  	    return render(request, 'contestanthome.html', {'cname':contestname ,'username':username})       
+        coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
+        if(coll != 'None'):
+            return render(request, 'contestanthome.html', {'cname':contestname ,'username':username})       
         else:
-	    return HttpResponse("error")
+            return HttpResponse("error")
     if(usertype == "testadmin"):
-	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-	if(coll != 'None'):
-  	    return render(request, 'testadminhome.html', {'cname':contestname ,'username':username})       
+        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+        if(coll != 'None'):
+            return render(request, 'testadminhome.html', {'cname':contestname ,'username':username})       
         else:
-	    return HttpResponse("error")
+            return HttpResponse("error")
     if(usertype == "testcreator"):
-	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-	if(coll != 'None'):
-	    problems=db1.problemsrepository.find()
-	    dt=db1.contest.find_one({'contestname':contestname})
-	    #date=dt.date
-  	    return render(request, 'testcreatorhome.html', 
-			{'date':"date" ,'problems':problems ,'cname':contestname ,'username':username})       
+        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+        if(coll != 'None'):
+            problems=db1.problemsrepository.find()
+            dt=db1.contest.find_one({'contestname':contestname})
+            date=dt["date"]
+            return render(request, 'testcreatorhome.html', 
+			{'date':date ,'problems':problems ,'cname':contestname ,'username':username})       
         else:
-	    return HttpResponse("error")
+            return HttpResponse("error")
     if(usertype == "participantapprover"):
-	coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-	if(coll != 'None'):
-	    contestants=db1.contestant.find({'contestname':contestname})
-  	    return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username})       
+        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
+        if(coll != 'None'):
+            contestants=db1.contestant.find({'contestname':contestname})
+            return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username})       
         else:
-	    return HttpResponse("error")
+            return HttpResponse("error")
 
 def regisuccess(request):
     cn = request.POST.get('contestname')
@@ -157,6 +180,18 @@ def regisuccess(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
     pswd = request.POST.get('pass')
+    to = email
+    gmail_user = 'techcontest2015@gmail.com'
+    gmail_pwd = 'aviso2015'
+    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_pwd)
+    header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
+    msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
+    smtpserver.sendmail(gmail_user, to, msg)
+    smtpserver.close()
     a=hashlib.sha1(pswd)
     hpswd=a.hexdigest()
     c = Connection()
@@ -167,19 +202,27 @@ def regisuccess(request):
     return render(request,'regisuccess.html',{})
 
 def puppet(request):
-    cn=request.GET.get('state')
+    cn=request.GET.get('cn')
     c = Connection()
     db1 = c.autotest
-    print("hiiiiiiiiiiiiiii")
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Not Started"):
-       db1.contest.update({'contestname':cn},{"$set":{'status':"Started"}})
-       os.system("cd ..")
-       os.system("ls")
-       os.system("vagrant up")
-       print "vagrant startedddddd"
-       return HttpResponse("Heloooo pup started")
+        os.system("cd ..")
+        os.system("ls")
+        os.system("vagrant up")
+        db1.contest.update({'contestname':cn},{"$set":{'status':"Started"}})
+        return HttpResponse(str("Contest Started"))
     else:
-       db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
-       return HttpResponse("Heloooo pup stoped")
+        return HttpResponse(str("Contest Already Done"))
+
+def stop(request):
+    cn=request.GET.get('cn')
+    c = Connection()
+    db1 = c.autotest
+    cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
+    st=cll["status"]
+    if(st == "Started"):
+        db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
+        os.system("vagrant stop")
+        return HttpResponse(str("Alreadt finished"))

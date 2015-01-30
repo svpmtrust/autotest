@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+echo Installing python
+echo -----------------
+sudo apt-get install python python-pip -y
+ 
+echo Installing pymongo
+echo ----------------
+sudo pip install pymongo
+
 echo Installing puppet
 echo -----------------
 sudo apt-get update

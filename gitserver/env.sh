@@ -1,2 +1,2 @@
 #!/bin/bash
-export DB_HOST='127.0.0.1:27017'
+export DB_HOST='mongodb://192.168.1.105:27017/'

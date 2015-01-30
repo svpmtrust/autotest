@@ -23,3 +23,13 @@ echo --------------------------------
 cp /vagrant/testcoordinator/question-paper.Upstart.templ /etc/init/questionpaper.conf
 sudo service questionpaper start
 
+echo creating Participants,mails,programs directories
+echo-------------------------------------------------
+cd /vagrant
+mkdir mails
+mkdir programs
+mkdir participants
+              
+
+
+
