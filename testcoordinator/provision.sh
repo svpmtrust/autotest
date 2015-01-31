@@ -30,8 +30,8 @@ sudo apt-get install git -y
 
 echo configuring git
 echo ---------------
-sudo git config --global user.name "SVManikanta"
-sudo git config --global user.email "svvndmanikantakumar@gmail.com"
+sudo git config --global user.name "SujithKandamuri"
+sudo git config --global user.email "ksnvsujith@gmail.com"
 echo completed configuring git
 echo -----------------------
 
