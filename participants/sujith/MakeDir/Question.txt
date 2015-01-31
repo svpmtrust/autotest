@@ -1,0 +1,35 @@
+Filefixer         Score: 3
+---------         ---------
+
+write a program to generate shell commands to create directories. if parent directory is not there yet, generate a command to create it.
+
+print the shell commands to stdout 
+
+Input:
+------
+The list of directories to be created will be in a txt file
+
+Input:
+------
+
+Shell commands
+
+Example
+-------
+
+For the sample1.txt in this directory here is the expected output: 
+
+Command to Run
+--------------
+sh run.sh sample1.txt 
+
+
+Expected Output
+---------------
+mkdir /home
+mkdir /home/git-repository
+mkdir /home/local-repository
+mkdir /home/local-repository/Filefixer
+
+
+
