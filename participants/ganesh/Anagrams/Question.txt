@@ -1,0 +1,28 @@
+
+Anagrams          Score: 15
+--------          ---------
+
+Maximum execution time for this program : 6 sec
+ 
+Two words are considered anagrams if all the second word can be
+derived simply by rearranging the letters of the first word. For
+example stop and post are anagrams since rearranging words in stop
+can result in post.
+
+Objective of this program is to find single word anagrams of 4 letters
+or above in the given file. Given file may contain many anagram words
+and all the words should be listed in the output starting with anagrams
+that have most words in the file.
+
+For the sample1.txt in this directory here is the expected output: 
+
+Command to Run
+--------------
+sh run.sh sample1.txt 
+
+
+Expected Output
+---------------
+post, stop, pots
+Read, dear
+Rome, more
