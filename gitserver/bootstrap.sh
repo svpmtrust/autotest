@@ -27,4 +27,7 @@ echo ------------------------------------------
 cp /vagrant/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
 sudo service newrepo start
 
+echo Restart Apache2
+echo ---------------
+sudo service apache2 restart
 

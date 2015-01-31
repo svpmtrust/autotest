@@ -24,7 +24,7 @@ def mainloop():
         subprocess.Popen("git add -A",shell=True, executable='/bin/bash',cwd=direct+un)
         commitcmnd='git commit -m '+'"comitting initial files"'        
         subprocess.Popen(commitcmnd,shell=True, executable='/bin/bash',cwd=direct+un)
-        subprocess.Popen("git push origin master", shell=True, executable='/bin/bash',cwd=direct+un)
+        subprocess.Popen("git push origin", shell=True, executable='/bin/bash',cwd=direct+un)
         
         
 

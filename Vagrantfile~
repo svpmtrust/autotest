@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.define "gitserver" do |gitserver|
     gitserver.vm.provision :shell, path: "gitserver/bootstrap.sh"
-    gitserver.vm.network :forwarded_port, host: 4568, guest: 90
+    gitserver.vm.network :forwarded_port, guest: 80, host: 12003, protocol: 'tcp'
   end
   
   config.vm.define "testcoordinator" do |testcoordinator|
