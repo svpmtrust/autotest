@@ -1,0 +1,84 @@
+
+Puzzle3                        Score:30
+-------                       ----------
+
+Maximum execution time for this program : 150 sec
+
+Objective of this program is to output a series a moves
+that would solve a given puzzle. A puzzle will consist
+of 3 rows and columns in which a word is jumbled in a
+random order.  In each step a move can be made to 
+slide one letter into the empty space.  At the end
+of the moves it should reach a final proper order. 
+
+Example for a word TECHFST: 
+
+Initial Order         Final Order
+
+     1   2   3            1   2   3
+   +---+---+---+          +---+---+---+
+a  | T | C | F |       a  | T | E | C |
+   +---+---+---+          +---+---+---+
+b  | E |   | H |   ==> b  | H | F | S |
+   +---+---+---+          +---+---+---+
+c  | S | T |   |       c  | T |   |   |
+   +---+---+---+          +---+---+---+
+
+For this problem, your program will get two arguments, where
+first is the current position and second is final position. 
+
+sh run.sh 'TCFE HST ' 'TECHFST  '
+
+A possible solution that will solve this puzzle is: 
+
+b3-c3
+b1-b2
+c1-b1
+c2-c1
+c3-c2
+a3-b3
+b3-c3
+a2-a3
+b2-a2
+b1-b2
+b2-b3
+c2-b2
+c3-c2
+b2-b1
+c2-b2
+
+
+Example for phrase LOVE YOU: 
+
+Initial Order         Final Order
+
++---+---+---+        +---+---+---+
+| L |   | E |        | L | O | V |
++---+---+---+        +---+---+---+
+| O | V | Y |   ==>  | E |   | Y |
++---+---+---+        +---+---+---+
+|   | U | O |        | O | U |   |
++---+---+---+        +---+---+---+
+
+For this problem, your program will get two arguments, where
+first is the current position and second is final position. 
+
+sh run.sh 'L EOVY UO' 'LOVE YOU '
+
+A possible solution that will solve this puzzle is: 
+
+c2-c1
+c3-c2
+b3-c3
+a3-b3
+b2-a2
+a2-a3
+c2-b2
+c1-c2
+b2-a2
+b3-b2
+b1-c1
+c3-b3
+b2-b1
+
+ 

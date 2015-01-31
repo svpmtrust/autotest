@@ -1,0 +1,35 @@
+
+Puzzle4                   Score: 100
+-------                  ------------
+
+Maximum execution time for this program : 300 sec 
+
+Objective of this program is to output a series a moves
+that would solve a given puzzle. A puzzle will consist
+of 3 rows and columns in which a word is jumbled in a
+random order.  In each step a move can be made to 
+slide one letter into the empty space.  At the end
+of the moves it should reach a final proper order. 
+
+Example for a word WONDERFUL LIFE!: 
+
+      Initial Order             Final Order
+
+     1   2   3   4              1   2   3   4  
+   +---+---+---+---+           +---+---+---+---+
+a  | N | E | D | F |        a  | W | O | N | D |
+   +---+---+---+---+           +---+---+---+---+
+b  | W |   | O | R |  ==>   b  | E | R | F | U |
+   +---+---+---+---+           +---+---+---+---+
+c  | U | L | F | E |        c  | L |   | L | I |
+   +---+---+---+---+           +---+---+---+---+
+d  | L | I |   | ! |        d  | F | E | ! |   |
+   +---+---+---+---+           +---+---+---+---+
+
+For this problem, your program will get two arguments, where
+first is the current position and second is final position. 
+
+sh run.sh 'NEDFW ORULFELI !' 'WONDERFUL LIFE! '
+
+The possible solution to solve this puzzle is of the same format as puzzle3.
+

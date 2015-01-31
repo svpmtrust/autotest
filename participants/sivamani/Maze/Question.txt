@@ -1,0 +1,63 @@
+
+Maze            Score:15 
+----            --------
+
+Maximum execution time for this program : 6 sec
+
+Objective of this program is to find the way out of a maze 20/20 (sample maze diagram
+is shown below) starting from start point to end point.
+
+
+In this diagram there are four possible directions to move from a cell: UP, LEFT, RIGHT, DOWN. 
+This information can be used to write a binary code using 4 bits for UP, LEFT, RIGHT AND DOWN respectively. 
+                                    
+                                     UP                             UP
+                                  +-------+                      +--   --+               Binary code for this cell
+                                  |       |                      |       |               
+                            LEFT  |       | RIGHT          LEFT  |         RIGHT           1011 => or B in Hexadecimal. 
+                                  |       |                      |       |                
+                                  +-------+                      +--   --+               
+                                    DOWN                           DOWN                    
+                                    
+This notation can be further used to create a maze of any configuration by specifying the possible moves for each cell. 
+See the sample file in this directory to understand how this maze is represented in hexadecimal numbers. 
+
+You can make the following two assumptions to simplify the program: 
+=> You will always enter the maze from the left hand side by moving Right.  Hence your starting move is always Right. 
+=> You will exit the maze towards the right side.  Hence your last move is always Right as well. 
+=> You can assume that there are no other exit points from the maze either on the top, or at the bottom. 
+
+The maze is given in the below format
+
+     +=====+=====+=====+=====+
+     |     |     |     |     |                                         
+     |     |                   => E
+     |     |     |     |     |
+     +=   =+=====+=   =+=====+
+     |     |     |     |     |
+     |                       |
+     |     |     |     |     |
+     +=   =+=====+=====+=====+
+     |     |     |     |     |
+     |                 |     |
+     |     |     |     |     |
+     +=   =+=====+=====+=   =+
+     |     |     |     |     |
+ S=>                         |
+     |     |     |     |     |
+     +=====+=====+=====+=====+
+
+
+The input format is the file sample2.txt in this folder. 
+
+Command to run:
+---------------
+sh run.sh sample2.txt
+
+Expected output:
+---------------
+RUURRURR
+
+If an input breaks any of the assumptions, or if there is no way out,
+you should print "Invalid Maze configuration"
+
