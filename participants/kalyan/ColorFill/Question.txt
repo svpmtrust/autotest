@@ -1,0 +1,16 @@
+Problem
+
+There is a hall of size 1600 * 1600.There are many coloured tiles.The height of each tile is 200.The width of the tiles are not same.The aim is to find the minimum number of colours needed so that two adjacent tiles should not share the same colour.
+
+The input file should have 8 rows and each row should have widths of each tile in that particular row.
+The output is a single number which is the minimum number of colours used.
+
+Validation
+If the sum of all the widths of the tiles in a row exceeds 1600 it should print "invalid input".
+
+Command to Run
+sh run.sh colors.txt
+
+Output
+4
+
