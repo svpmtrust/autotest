@@ -13,6 +13,9 @@ import subprocess
 
 
 # Create your views here.
+
+#--------------SuperUser------------#
+
 def superuser(request):
     cn=Connection()
     db1=cn.autotest
@@ -109,17 +112,8 @@ def checkContestName(request):
     else:
         return HttpResponse("InValid")
 
-def checkUserName(request):
-	cn=Connection()
-	db1=cn.autotest
-	contestname=request.GET.get("contestname")
-	username=request.GET.get("username")
-	contestname=contestname.replace(" ","_")
-	con = db1.contestant.find_one({'contestname': contestname, 'username':username })
-	if not con:
-		return HttpResponse("Valid")
-	else:
-		return HttpResponse("InValid")
+
+#------------Home---------------#
 
 def home(request):
     return render(request, 'home.html', {})  
@@ -130,14 +124,46 @@ def registration(request):
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
     return render(request, 'registration.html', {'cname':cname})
 
-def createquestionpaper(request):
-    cn=Connection()
-    db1=cn.autotest
-    cbb=json.loads(request.GET.get("names"))
-    print cbb
-    return HttpResponse("created")
-     
-     
+def checkUserName(request):
+	cn=Connection()
+	db1=cn.autotest
+	contestname=request.GET.get("contestname")
+	username=request.GET.get("username")
+	con = db1.contestant.find_one({'contestname': contestname, 'username':username })
+	if not con:
+		return HttpResponse("Valid")
+	else:
+		return HttpResponse("InValid")
+
+def regisuccess(request):
+    cn = request.POST.get('contestname')
+    un = request.POST.get('username')
+    name = request.POST.get('name')
+    email = request.POST.get('email')
+    pswd = request.POST.get('pass')
+    to = email
+    gmail_user = 'techcontest2015@gmail.com'
+    gmail_pwd = 'aviso2015'
+    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
+    smtpserver.ehlo()
+    smtpserver.starttls()
+    smtpserver.ehlo
+    smtpserver.login(gmail_user, gmail_pwd)
+    header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
+    msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
+    smtpserver.sendmail(gmail_user, to, msg)
+    smtpserver.close()
+    a=hashlib.sha1(pswd)
+    hpswd=a.hexdigest()
+    c = Connection()
+    db1 = c.autotest
+    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd}
+    db1.contestant.insert(user)
+    return render(request,'regisuccess.html',{})
+
+
+#---------Login----------#
+
 def loginform(request):
 	cn=Connection()
 	db1=cn.autotest
@@ -188,68 +214,24 @@ def loginvalidate(request):
         else:
             return HttpResponse("error")
 
+
+#------------Contestant Home------------#
+
 def contestanthome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
 	return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
 
+#------------TestAdmin Home------------#
+
 def testadminhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
-	return render(request, 'testadminhome.html', {'cname': contestname ,'username':username}) 
+	c = Connection()
+	db1 = c.autotest
+	return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
 	
-def testcreatorhome(request):
-	contestname = request.session['contestname']
-	username = request.session['username']
-	cn = Connection()
-	db1 = cn.autotest
-	problems=db1.problemsrepository.find()
-	dt=db1.contest.find_one({'contestname':contestname})
-	date=dt["date"] 
-	return render(request, 'testcreatorhome.html', {'cname': contestname ,'username':username,'date':date ,'problems':problems})       
-
-def participantapproverhome(request):
-	contestname = request.session['contestname']
-	username = request.session['username']
-	cn = Connection()
-	db1 = cn.autotest
-	contestants=db1.contestant.find({'contestname':contestname})
-	pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
-	for i in pa:
-		tc=i["participantapprover"]
-	pa=list()
-	for i in tc.keys():
-		pa.append(i)
-	return render(request, 'participantapproverhome.html', {'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
-
-def regisuccess(request):
-    cn = request.POST.get('contestname')
-    un = request.POST.get('username')
-    name = request.POST.get('name')
-    email = request.POST.get('email')
-    pswd = request.POST.get('pass')
-    to = email
-    gmail_user = 'techcontest2015@gmail.com'
-    gmail_pwd = 'aviso2015'
-    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
-    smtpserver.ehlo()
-    smtpserver.starttls()
-    smtpserver.ehlo
-    smtpserver.login(gmail_user, gmail_pwd)
-    header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
-    msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
-    smtpserver.sendmail(gmail_user, to, msg)
-    smtpserver.close()
-    a=hashlib.sha1(pswd)
-    hpswd=a.hexdigest()
-    c = Connection()
-    db1 = c.autotest
-    #cid=db1.contest.find_one({'contestname':cn},{'_id':1})
-    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd}
-    db1.contestant.insert(user)
-    return render(request,'regisuccess.html',{})
-
-def puppet(request):
+def puppetrun(request):
     cn = request.session['contestname']
     c = Connection()
     db1 = c.autotest
@@ -264,7 +246,7 @@ def puppet(request):
     else:
         return HttpResponse(str("Contest Already Done"))
 
-def stop(request):
+def puppetstop(request):
     cn = request.session['contestname']
     c = Connection()
     db1 = c.autotest
@@ -274,3 +256,43 @@ def stop(request):
         db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
         os.system("vagrant stop")
         return HttpResponse(str("Alreadt finished"))
+
+#------------TestCreator Home------------#
+
+def testcreatorhome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	cn = Connection()
+	db1 = cn.autotest
+	problems=db1.problemsrepository.find()
+	dt=db1.contest.find_one({'contestname':contestname})
+	date=dt["date"] 
+	return render(request, 'testcreatorhome.html',
+	{'cname': contestname ,'username':username,'date':date ,'problems':problems})       
+
+def createquestionpaper(request):
+    cn=Connection()
+    db1=cn.autotest
+    ques=json.loads(request.GET.get("names"))
+    print ques
+    for q in ques:
+    	print(q)
+    return HttpResponse("created")
+     
+#------------ParticipantApprover Home------------#    
+
+def participantapproverhome(request):
+	contestname = request.session['contestname']
+	username = request.session['username']
+	cn = Connection()
+	db1 = cn.autotest
+	contestants=db1.contestant.find({'contestname':contestname})
+	pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
+	for i in pa:
+		tc=i["participantapprover"]
+	pa=list()
+	for i in tc.keys():
+		pa.append(i)
+	return render(request, 'participantapproverhome.html', 
+	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
+	

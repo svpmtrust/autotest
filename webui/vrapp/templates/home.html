@@ -1,38 +1,13 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Contest Home</title>
-		<script src="/static/vue.js"></script>
-        <script src="/static/jquery.js"></script>
-        <script src="/static/main.js?r=34"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-     <script>
-	 function closeWin()
-	  {
-   		 window.close(); 
-      }
-	 </script>
-</head>
-<body>
-	<nav class="navbar navbar-default" role="navigation" id="navigation">
-            <div class="container-fluid" style="padding:0px 20px;">
-                <div class="navbar-header">
-                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
-                       <a class="navbar-brand" href="#">Tech Contest</a>
-                </div>
-                <form class="navbar-form navbar-right">	
-      					 <button style="background-color:#009afd;color:#FFFFFF" class="btn active" onClick="closeWin()">
-                              <a href="" style="text-decoration:none;color:#FFFFFF">Close
-      						  <span class="glyphicon glyphicon-off" aria-hidden="true"> </span></a>
-                         </button>
-      			</form>
-	</nav>
+{% extends "basemain.html" %}
+{% block content %}
     <div class="container" id="main-container">
         <div class="page" id="homePage">
-                <div class="form-group" align="center" style="width:90%;padding-left:10%">
+                
+		</div>
+	</div>
+	 <div class="container" id="main-container">
+        <div class="page" id="homePage">
+          <div class="form-group" align="center" style="width:90%;padding-left:10%">
                 	<fieldset>
                 		<legend align="left"><h2>Welcome To Tech Contest</h2></legend>
                 		<form method="get" action="registration.html">   
@@ -50,6 +25,5 @@
                  	</fieldset>
                 </div>
 		</div>
-	</div>
-</body>
-</html>
+	</div> 
+{% endblock %}

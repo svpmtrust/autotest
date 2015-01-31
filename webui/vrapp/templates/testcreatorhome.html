@@ -22,7 +22,8 @@
 				}
 				console.log(data);
 			    	$.get("/createquestionpaper", {names:JSON.stringify(data)}, function(data){
-						$("#output").html(data);
+						alert("Test paper Generated With Your seleted Questions \n Thank You!!\nQuestions Are "+data);
+						window.location.reload(true);
 					});
 				});
 			});
@@ -40,7 +41,6 @@
                             </div>
                         </form>
                      </div>
-                     <div id="output"></div>
                     <form id="questionForm">
                         <table class="table table-hover table-bordered">
                             <tr>
@@ -76,4 +76,3 @@
 		</div>
 </div>
 {% endblock %}
-

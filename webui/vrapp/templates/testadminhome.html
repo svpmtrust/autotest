@@ -24,7 +24,7 @@
     <script>
 			$(function(){
 				$("#start").click(function(){
-					$.get("/puppet", {cn:'{{cname}}'}, function(data){
+					$.get("/puppetrun", {cn:'{{cname}}'}, function(data){
 						$("#output").html("Puppet started with process id " + data);
 						 document.getElementById("start").disabled = true;
         				 document.getElementById("stop").disabled = false;
