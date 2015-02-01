@@ -28,12 +28,7 @@ sudo apt-get install git -y
 
 
 
-echo configuring git
-echo ---------------
-sudo git config --global user.name "SujithKandamuri"
-sudo git config --global user.email "ksnvsujith@gmail.com"
-echo completed configuring git
-echo -----------------------
+
 
 echo Upstart the Test Coordinator
 echo ----------------------------

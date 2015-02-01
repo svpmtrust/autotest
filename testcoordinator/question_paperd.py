@@ -16,23 +16,31 @@ def mainloop():
     for user in user_coll:
         un=user['username']
         pswd=user['password']
-	
-        if os.path.isdir(os.path.join(direct,un)):
+	email=user['email']
+	if os.path.isdir(os.path.join(direct,un)):
 	    print os.path.join(direct,un)
+	    print "omitted directory"
             continue
-        cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"
-               
-	subprocess.Popen(cmnd , shell=True, executable='/bin/bash', cwd=direct).wait()
-        copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))
+	subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
+	subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
+        cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"               
+	subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 	
-        subprocess.Popen(copycmnd , shell=True, executable='/bin/bash')  
+	
+		
+	print 'cloned {} successfully'.format(un+".git")
+        copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))	
+        subprocess.call(copycmnd , shell=True, executable='/bin/bash',stdout=subprocess.PIPE,stderr=subprocess.PIPE)  
 	print "copied files"     
-        subprocess.Popen("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+        subprocess.call("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
         commitcmnd='git commit -m '+'"comitting initial files"'
 	print "Added files to git"        
-        subprocess.Popen(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+        subprocess.call(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
 	print "Commited initial files for"+un
-        subprocess.Popen("git push origin", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+        subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+	
+	
+	
 	print "pushed to origin"
         
         
