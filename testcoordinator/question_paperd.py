@@ -12,26 +12,28 @@ def mainloop():
     db=client.autotest
     direct=conf.participant_dir
     user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})
-    print user_coll
-    print direct
+    
     for user in user_coll:
         un=user['username']
         pswd=user['password']
-	print direct+un
+	
         if os.path.isdir(os.path.join(direct,un)):
 	    print os.path.join(direct,un)
             continue
         cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"
-        print "cmnd", cmnd       
-	subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct)
+               
+	subprocess.Popen(cmnd , shell=True, executable='/bin/bash', cwd=direct).wait()
         copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))
-	print "copycmnd",copycmnd
-        subprocess.call(copycmnd , shell=True, executable='/bin/bash')       
-        subprocess.call("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+	
+        subprocess.Popen(copycmnd , shell=True, executable='/bin/bash')  
+	print "copied files"     
+        subprocess.Popen("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
         commitcmnd='git commit -m '+'"comitting initial files"'
-	print "commitcmnd",commitcmnd        
-        subprocess.call(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
-        subprocess.call("git push origin", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+	print "Added files to git"        
+        subprocess.Popen(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+	print "Commited initial files for"+un
+        subprocess.Popen("git push origin", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
+	print "pushed to origin"
         
         
 
