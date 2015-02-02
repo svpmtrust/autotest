@@ -10,15 +10,11 @@ import timed_execution
 import json
 from celery import Celery
 
-app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.104/')
+app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100/')
 
 @app.task
 def progtest(user, programname):
-<<<<<<< HEAD
     i=0
-=======
-    i=1
->>>>>>> 4d31bffe845c45b5a4cf249fb216436d8062681c
     result={}
     if user not in result:
         result[user]=[]

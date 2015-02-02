@@ -10,7 +10,7 @@ import timed_execution
 import json
 from celery import Celery
 
-app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.104/')
+app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100/')
 
 @app.task
 def progtest(user, programname):

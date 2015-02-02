@@ -98,7 +98,8 @@ def addContest(request):
                                     "password" : pa2pswd,
                                     "emaill" : pa2email
                             }
-                    }
+                    },
+                "questions":{}
             })
     return HttpResponseRedirect('superuser')
 
@@ -256,7 +257,7 @@ def puppetstop(request):
     if(st == "Started"):
         db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
         os.system("vagrant stop")
-        return HttpResponse(str("Alreadt finished"))
+        return HttpResponse(str("Already finished"))
 
 #------------TestCreator Home------------#
 @login_required(login_url='/loginform.htm')
@@ -274,10 +275,16 @@ def testcreatorhome(request):
 def createquestionpaper(request):
     cn=Connection()
     db1=cn.autotest
+    contestname = request.session['contestname']
     ques=json.loads(request.GET.get("names"))
-    print ques
+    flags=json.loads(request.GET.get("flags"))
+    coll=db.contest.find_one({"contestname":contestname})
     for q in ques:
-    	print(q)
+    	if i in flags:
+    		coll["questions"].update({i:1})
+    	else
+    		coll["questions"].update({i:0})
+    db1.contest.save(coll)
     return HttpResponse("created")
      
 #------------ParticipantApprover Home------------#    

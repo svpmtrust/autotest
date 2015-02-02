@@ -15,13 +15,20 @@
 				$("#questionForm").submit(function(event){
 				event.preventDefault();
 				data=[];
-				for(i in cq) {
+				for(i=0;i<cq.length;i++) {
 					if(cq[i].checked) {
 						data.push(cq[i].value);
 					}
 				}
 				console.log(data);
-			    	$.get("/createquestionpaper", {names:JSON.stringify(data)}, function(data){
+				flag=[];
+				for(i=0;i<ps.length;i++) {
+					if(ps[i].checked) {
+						flag.push(ps[i].value);
+					}
+				}
+				console.log(flag);
+			    	$.get("/createquestionpaper", {names:JSON.stringify(data) , flags:JSON.stringify(flag)}, function(data){
 						alert("Test paper Generated With Your seleted Questions \n Thank You!!\nQuestions Are "+data);
 						window.location.reload(true);
 					});
@@ -60,7 +67,7 @@
                                 <td>{{p.difficultylevel}}</td>
                                 <td>{{p.score}}</td>
                                 <td>
-                                <input type="radio" id="pscore" name="ps" value={{p.description}} />
+                                <input type="checkbox" id="ps" name="ps" value={{p.description}} />
                                 </td>
                                 <td align="center" class="input-group input-group-addon">
                                 <input type="checkbox" id="cq" name="cq" value={{p.description}} />
