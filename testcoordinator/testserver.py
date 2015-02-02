@@ -1,4 +1,4 @@
-simport subprocess
+import subprocess
 import os
 import conf
 from conf import participant_dir
@@ -14,38 +14,36 @@ app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.104/')
 
 @app.task
 def progtest(user, programname):
-    var i=1
+    i=1
     result={}
     if user not in result:
-       result[user]=[]
-       program_dir=conf.participant_dir+user+'/'+programname
-       program_name=conf.program_dir+programname+'.xml'
+        result[user]=[]
+        program_dir=conf.participant_dir+user+'/'+programname
+        program_name=conf.program_dir+programname+'.xml'
 
         # Check if this programis something we support
-        if not os.path.isfile(program_name): 
+        if not os.path.isfile(program_name):                 
             result[user].append('The program *%s* is INVALID' % programname)
             result[user].append('-----------------------------------------------')
-            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')
-
-            return (user,progname,i)
-         else:
-              # Get more info about the program
-		tree = ET.parse(program_name)
-		root=tree.getroot()
-		program_score=int(root.find("score").text)
-		program_timeout = root.find('time-limit')
-		input_type = root.find('input-type')
-		case_sensitive = root.find('case-sensitive')
-		validation_program = root.find('validation-program')
-		validation_program_info = root.find('validation-program-info')
-		multi_line = root.find('multi-line')
-
-		program_timeout = int(program_timeout.text) if program_timeout is not None else 5
-		input_type = input_type.text if input_type is not None else 'text'
-		case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
-		validation_program = validation_program.text if validation_program is not None else None 
-		validation_program_info = validation_program_info.text if validation_program_info is not None else ''
-		multi_line = True if multi_line is not None and multi_line.text == 'true' else False
+            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')     
+            return (user,programname,i)
+        else:
+            # Get more info about the program
+		    tree = ET.parse(program_name)
+		    root=tree.getroot()
+		    program_score=int(root.find("score").text)
+		    program_timeout = root.find('time-limit')
+		    input_type = root.find('input-type')
+		    case_sensitive = root.find('case-sensitive')
+		    validation_program = root.find('validation-program')
+		    validation_program_info = root.find('validation-program-info')
+		    multi_line = root.find('multi-line')
+            program_timeout = int(program_timeout.text) if program_timeout is not None else 5
+            input_type = input_type.text if input_type is not None else 'text'
+		    case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
+		    validation_program = validation_program.text if validation_program is not None else None 
+		    validation_program_info = validation_program_info.text if validation_program_info is not None else ''
+		    multi_line = True if multi_line is not None and multi_line.text == 'true' else False
 		
 		# Compile the program
 		with file('compilation error.txt','w') as fp:

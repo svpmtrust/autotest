@@ -16,37 +16,29 @@ def mainloop():
     for user in user_coll:
         un=user['username']
         pswd=user['password']
-	email=user['email']
-	if os.path.isdir(os.path.join(direct,un)):
-	    print os.path.join(direct,un)
-	    print "omitted directory"
+        email=user['email']
+        if os.path.isdir(os.path.join(direct,un)):
+            print "omitted {} directory".format(un)
             continue
-	subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
-	subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
+        subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
+        subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
         cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"               
-	subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-	
-	
-		
-	print 'cloned {} successfully'.format(un+".git")
+        subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        print 'cloned {} successfully'.format(un+".git")
         copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))	
         subprocess.call(copycmnd , shell=True, executable='/bin/bash',stdout=subprocess.PIPE,stderr=subprocess.PIPE)  
-	print "copied files"     
         subprocess.call("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
         commitcmnd='git commit -m '+'"comitting initial files"'
-	print "Added files to git"        
+        print "Added questions for {} ".format(un)        
         subprocess.call(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
-	print "Commited initial files for"+un
-        subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-	
-	
-	
-	print "pushed to origin"
+        subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)	
+        print "pushed {} directory to origin".format(un)
         
         
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
+
 if __name__ == '__main__':
     while True:
         start_time=time.time()
