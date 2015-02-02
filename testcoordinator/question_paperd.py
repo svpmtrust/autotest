@@ -38,7 +38,7 @@ def mainloop():
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
-
+# printing results for debugging purpose
 if __name__ == '__main__':
     while True:
         start_time=time.time()
