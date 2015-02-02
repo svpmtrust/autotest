@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 	
     url(r'^loginform', 'vrapp.views.loginform', name='loginform'),
     url(r'^loginvalidate', 'vrapp.views.loginvalidate', name='loginvalidate'),
-
+    url(r'^logout', 'vrapp.views.logout', name='logout'),
 	#------------Contestant Home------------#
 
     url(r'^contestanthome', 'vrapp.views.contestanthome', name='contestanthome'),

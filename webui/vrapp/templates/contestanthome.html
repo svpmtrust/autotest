@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+	 <script>
+			$(function(){
+				$("#submissionsPage").load(function(){
+					 $.get("/submissions",{},function(){
+				   });
+				});
+			});
+	</script>
+
 {%block navbar%}
 <a class="navbar-brand">
 Score: <span v-text="score.total"></span>
@@ -62,7 +71,7 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Score</th>
                                 <th>Rank</th>
                             </tr>
-                            <tr v-repeat="users | filterBy searchText in user_name | orderBy 'total' -1">
+                            <tr v-repeat="username | filterBy searchText in username | orderBy 'total' -1">
                                 <td v-text="username"></td>
                                 <td v-text="username.score"></td>  
                                 <td v-text="$index+1"></td>
@@ -71,7 +80,6 @@ Rank: <span v-text="score.rank"></span>
                     </div>
                 </div>
             </div>
-         
          <div class="page" id="submissionsPage">
                 <h2>Submissions</h2>
                 <div class="container" id="submissions">

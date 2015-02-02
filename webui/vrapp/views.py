@@ -127,15 +127,15 @@ def registration(request):
     return render(request, 'registration.html', {'cname':cname})
 
 def checkUserName(request):
-	cn=Connection()
-	db1=cn.autotest
-	contestname=request.GET.get("contestname")
-	username=request.GET.get("username")
-	con = db1.contestant.find_one({'contestname': contestname, 'username':username })
-	if not con:
-		return HttpResponse("Valid")
-	else:
-		return HttpResponse("InValid")
+    cn=Connection()
+    db1=cn.autotest
+    #contestname=request.GET.get("contestname")
+    username=request.GET.get("username")
+    con = db1.contestant.find_one({'username':username })
+    if not con:
+        return HttpResponse("Valid")
+    else:
+        return HttpResponse("InValid")
 
 def regisuccess(request):
     cn = request.POST.get('contestname')
@@ -163,22 +163,21 @@ def regisuccess(request):
     db1.contestant.insert(user)
     return render(request,'regisuccess.html',{})
 
-
 #---------Login----------#
 
 def loginform(request):
-	cn=Connection()
-	db1=cn.autotest
-	cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
-	return render(request, 'loginform.html', {'cname':cname})  
+    cn=Connection()
+    db1=cn.autotest
+    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+    return render(request, 'loginform.html', {'cname':cname})  
 
 def logout(request):
-	try:
-		del request.session['contestname']
-		del request.session['username']
-	except KeyError:
-		pass
-	return HttpResponseRedirect('/loginform')
+    try:
+        del request.session['contestname']
+        del request.session['username']
+    except KeyError:
+        pass
+    return HttpResponseRedirect('/loginform')
 
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
@@ -193,39 +192,52 @@ def loginvalidate(request):
     request.session['username'] = username
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
-        if(coll != 'None'):
-            return HttpResponseRedirect('/contestanthome')       
+        if not coll:
+            return HttpResponse("error")      
         else:
-            return HttpResponse("error")
+            return HttpResponseRedirect('/contestanthome')
     if(usertype == "testadmin"):
-        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-        if(coll != 'None'):
-            return HttpResponseRedirect('/testadminhome')       
+        coll=db1.contest.find_one({"contestname":contestname})
+        if username in coll["testadmin"].keys():
+            if password==coll["testadmin"][username]["password"]:
+                return HttpResponseRedirect('/testadminhome')
         else:
             return HttpResponse("error")
     if(usertype == "testcreator"):
-        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-        if(coll != 'None'):
-        	return HttpResponseRedirect('/testcreatorhome')
+        coll=db1.contest.find_one({"contestname":contestname})
+        if username in coll["testcreator"].keys():  
+            if password==coll["testcreator"][username]["password"]:
+                return HttpResponseRedirect('/testcreatorhome')               
+            else:
+                return HttpResponse("error")
         else:
             return HttpResponse("error")
     if(usertype == "participantapprover"):
-        coll=db1.contest.find_one({'contestname':contestname,'username':username,'password':password})
-        if(coll != 'None'):
-             return HttpResponseRedirect('/participantapproverhome')
+        coll=db1.contest.find_one({"contestname":contestname})
+        if username in coll["participantapprover"].keys():
+            if password==coll["participantapprover"][username]["password"]:
+                return HttpResponseRedirect('/participantapproverhome')
         else:
             return HttpResponse("error")
 
-
 #------------Contestant Home------------#
-@login_required(login_url='/loginform.htm')
 def contestanthome(request):
-	contestname = request.session['contestname']
-	username = request.session['username']
-	return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
+    contestname = request.session['contestname']
+    username = request.session['username']
+    return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
+
+def submissions(request):
+    c = Connection()
+    db1 = c.autotest
+    username = request.session['username']
+    submissions = db1.autotest.submissions.find({'username':username})
+    data=[]
+    for s in submissions:
+        del s['_id']
+        data.append(s)
+    return HttpResponse(json.dumps(data))
 
 #------------TestAdmin Home------------#
-@login_required(login_url='/loginform.htm')
 def testadminhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
@@ -260,7 +272,6 @@ def puppetstop(request):
         return HttpResponse(str("Already finished"))
 
 #------------TestCreator Home------------#
-@login_required(login_url='/loginform.htm')
 def testcreatorhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
@@ -288,7 +299,6 @@ def createquestionpaper(request):
     return HttpResponse("created")
      
 #------------ParticipantApprover Home------------#    
-@login_required(login_url='/loginform.htm')
 def participantapproverhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']

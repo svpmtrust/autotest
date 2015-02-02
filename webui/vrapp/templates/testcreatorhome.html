@@ -10,6 +10,20 @@
 {%endblock%}
 
 {% block content %}
+     <script type="text/javascript">
+        $(document).ready(function(){ 
+            $("#search").keyup(function() {
+                var value = this.value;
+                
+                $("table").find("tr").each(function(index) {
+       
+                    if (index === 0) return;
+                    var id = $(this).find("td").first().text();
+                    $(this).toggle(id.indexOf(value) !== -1);
+                });
+            });
+        });
+     </script>
 <script>
 			$(function(){	
 				$("#questionForm").submit(function(event){
@@ -60,7 +74,7 @@
                                 <th>Select</th>
                             </tr>
 			  	 {% for p in problems %}
-                            <tr v-repeat="problems | filterBy searchText in problems.description | orderBy 'total' -1">
+                            <tr>
                                 <td>{{p.description}}</td>
                                 <td>{{p.description}}</td>
                                 <td>{{p.qtype}}</td>
