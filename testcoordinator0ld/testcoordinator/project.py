@@ -51,7 +51,7 @@ def mainloop():
     col_submissions=db.submissions
     col_scores=db.scores
     for user,programname in listofParticipants():
-        result = tasks.results.apply_async(args=(user, programname), queue='testserver')
+        result = tasks.results.apply_async(args=(user, programname), queue='testing')
         if(result[2] == 1):
             col_submissions.save({
                     "user_name":user,
@@ -61,26 +61,13 @@ def mainloop():
                     "time":time.time(),
                 })
             continue
-        elif(result[2]==1):
-            print "==> Saving submission record in the DB, after compilation failure <=="
-            col_submissions.save({
-                    "user_name":user,
-                    "program":programname,
-                    "program_result":'COMPILATION FAILED',
-                    "test_case_result":[None,None,None],
-                    "time":time.time(),
-                    "error": result[3]
-                })
-            continue
-
-            
         else:             
             print "==> Saving submission record in the DB, after execution <=="
             col_submissions.save({
                       "user_name":user,
                       "program":programname,
-                      "program_result":result[3],
-                      "test_case_result":[result[4],result[5],result[6]],
+                      "program_result":result[2],
+                      "test_case_result":[result[3],result[4],result[5]],
                       "time":time.time()
                 })
         

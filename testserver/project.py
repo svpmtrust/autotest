@@ -2,14 +2,14 @@ import subprocess
 import os
 import conf
 from conf import participant_dir
+from conf import db_host
 import xml.etree.ElementTree as ET
 import time
 from pymongo import MongoClient
 import shlex
-import timed_execution
 import json
 from celery import Celery
-import tasks
+import testserver
 
 def listofParticipants():
     """ This method will go through each user in the participant
@@ -51,26 +51,38 @@ def mainloop():
     col_submissions=db.submissions
     col_scores=db.scores
     for user,programname in listofParticipants():
-        result = tasks.results.apply_async(args=(user, programname), queue='testsever')
-      if(result[2] == 1):  
-        col_submissions.save({
+        result = tasks.results.apply_async(args=(user, programname), queue='testserver')
+        if(result[2] == 1):
+            col_submissions.save({
                     "user_name":user,
                     "program":programname,
                     "program_result":'INVALID PROGRAM',
                     "test_case_result":[None,None,None],
                     "time":time.time(),
                 })
-        continue
-      else:
-               
-        print "==> Saving submission record in the DB, after execution <=="
-        col_submissions.save({
-            "user_name":user,
-            "program":programname,
-            "program_result":result[2],
-            "test_case_result":[result[3],result[4],result[5]],
-            "time":time.time()
-        })
+            continue
+        elif(result[2]==1):
+            print "==> Saving submission record in the DB, after compilation failure <=="
+            col_submissions.save({
+                    "user_name":user,
+                    "program":programname,
+                    "program_result":'COMPILATION FAILED',
+                    "test_case_result":[None,None,None],
+                    "time":time.time(),
+                    "error": result[3]
+                })
+            continue
+
+            
+        else:             
+            print "==> Saving submission record in the DB, after execution <=="
+            col_submissions.save({
+                      "user_name":user,
+                      "program":programname,
+                      "program_result":result[3],
+                      "test_case_result":[result[4],result[5],result[6]],
+                      "time":time.time()
+                })
         
         # If the user gets some score, update the score collection with latest
         # information
@@ -106,4 +118,3 @@ if __name__ == '__main__':
             pass
         else:
             time.sleep(10-exec_time)
-
