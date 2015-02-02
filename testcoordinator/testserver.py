@@ -8,26 +8,86 @@ from pymongo import MongoClient
 import shlex
 import timed_execution
 import json
-from celery import Celery
 
-app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100/')
 
-@app.task
-def progtest(user, programname):
-    i=0
+def listofParticipants():
+    """ This method will go through each user in the participant
+    directory and looks for changes for the repository
+    corresponding to each user.  
+    
+    Yields the username, and the subdirectory that changed as a
+    tuple.
+    """
+    dirs1 = os.listdir(conf.participant_dir)
+    for user in dirs1:
+        direct=participant_dir + user + '/'
+        previous={}
+        print "Checking for user %s" % user
+        for y in os.listdir(direct):
+            if os.path.isdir(direct+'/'+y) and y[0] !='.':
+                previous[y] = subprocess.check_output(['/usr/bin/git',
+                                                 'log','-1',
+                                                 '--oneline',y],
+                                                cwd=direct)
+        subprocess.call(['/usr/bin/git', 'reset', '--hard', 'HEAD'], cwd=direct)
+        subprocess.call(['/usr/bin/git', 'clean',  '-d',  '-fx', '""'], cwd=direct)
+        subprocess.call(['/usr/bin/git', 'pull', '-s', 'recursive', '-X', 'theirs'], cwd=direct)
+
+        for y in os.listdir(direct):
+            if os.path.isdir(direct+'/'+y) and y[0] !='.':
+                after = subprocess.check_output(['/usr/bin/git',
+                                                 'log','-1',
+                                                 '--oneline',y],
+                                                cwd=direct)
+                if y not in previous or previous[y] != after:
+                    yield user,y
+        
+  
+    
+def inputoutput(progname):
+    """ Yields the combinations of input_string, output_string
+    and description expected to pass for the given program.
+    """
+    tree = ET.parse(conf.program_dir+progname+".xml")
+    root=tree.getroot()
+    for test in root:
+        if test.tag != 'test':
+            continue
+        input_str=test.find('input').text
+        output_str=test.find('output').text
+        description=test.find('description').text
+        yield input_str,output_str,description 
+        
+def mainloop():
+    """ This is the main driver program to look for changes and
+    run tests, save the results and send mails for iteration.
+    """
+    client = MongoClient(conf.db_host)
+    db = client.autotest
+    col_submissions=db.submissions
+    col_scores=db.scores
     result={}
-    if user not in result:
-        result[user]=[]
+    
+    for user,programname in listofParticipants():
+        if user not in result:
+            result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
-<<<<<<< HEAD
+
         # Check if this programis something we support
-        if not os.path.isfile(program_name):
-            i=i+1
+        if not os.path.isfile(program_name): 
             result[user].append('The program *%s* is INVALID' % programname)
             result[user].append('-----------------------------------------------')
             result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')
-            return (user,progname,i)
+            col_submissions.save({
+                    "user_name":user,
+                    "program":programname,
+                    "program_result":'INVALID PROGRAM',
+                    "test_case_result":[None,None,None],
+                    "time":time.time(),
+                })
+            continue
+        
         # Get more info about the program
         tree = ET.parse(program_name)
         root=tree.getroot()
@@ -48,19 +108,26 @@ def progtest(user, programname):
         
         # Compile the program
         with file('compilation error.txt','w') as fp:
-            i=i+1
             ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,
                             stderr=fp,
                             stdout=fp)
         if ret!=0:
-            
             with file('compilation error.txt','r') as fp:
                 error=fp.read()
                 print error
                 result[user].append('program *%s* [COMPILATION FAILED]' % programname)
                 result[user].append(error)
-                return (user,progname,i,error)
-                      
+                print "==> Saving submission record in the DB, after compilation failure <=="
+                col_submissions.save({
+                    "user_name":user,
+                    "program":programname,
+                    "program_result":'COMPILATION FAILED',
+                    "test_case_result":[None,None,None],
+                    "time":time.time(),
+                    "error": error
+                })
+            continue
+        
         # Execute the test cases
         p_pass=[]
         p_fail=[]
@@ -69,63 +136,6 @@ def progtest(user, programname):
         # Hard_code_warning
         inputs_found = 0
         total_inputs = 0
-=======
-
-        # Check if this programis something we support
-        if not os.path.isfile(program_name):                 
-            result[user].append('The program *%s* is INVALID' % programname)
-            result[user].append('-----------------------------------------------')
-            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')     
-            return (user,programname,i)
-        else:
-            # Get more info about the program
-		    tree = ET.parse(program_name)
-		    root=tree.getroot()
-		    program_score=int(root.find("score").text)
-		    program_timeout = root.find('time-limit')
-		    input_type = root.find('input-type')
-		    case_sensitive = root.find('case-sensitive')
-		    validation_program = root.find('validation-program')
-		    validation_program_info = root.find('validation-program-info')
-		    multi_line = root.find('multi-line')
-            program_timeout = int(program_timeout.text) if program_timeout is not None else 5
-            input_type = input_type.text if input_type is not None else 'text'
-		    case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
-		    validation_program = validation_program.text if validation_program is not None else None 
-		    validation_program_info = validation_program_info.text if validation_program_info is not None else ''
-		    multi_line = True if multi_line is not None and multi_line.text == 'true' else False
-		
-		# Compile the program
-		with file('compilation error.txt','w') as fp:
-		    ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,
-		                    stderr=fp,
-		                    stdout=fp)
-		if ret!=0:
-		    with file('compilation error.txt','r') as fp:
-		        error=fp.read()
-		        print error
-		        result[user].append('program *%s* [COMPILATION FAILED]' % programname)
-		        result[user].append(error)
-		        print "==> Saving submission record in the DB, after compilation failure <=="
-		        col_submissions.save({
-		            "user_name":user,
-		            "program":programname,
-		            "program_result":'COMPILATION FAILED',
-		            "test_case_result":[None,None,None],
-		            "time":time.time(),
-		            "error": error
-		        })
-		    continue
-		
-		# Execute the test cases
-		p_pass=[]
-		p_fail=[]
-		p_error=[]
-		
-		# Hard_code_warning
-		inputs_found = 0
-		total_inputs = 0
->>>>>>> 4d31bffe845c45b5a4cf249fb216436d8062681c
 
         for input_i,output_o,description_d in inputoutput(programname):
             # Create the command to run.  In case of file inputs, make
@@ -234,14 +244,42 @@ def progtest(user, programname):
         result[user].extend(p_fail)
         result[user].extend(p_error)
        
-        return (user,programname,i,progstatus,p_pass,p_fail,p_error,your_score,result[user])
+        print "==> Saving submission record in the DB, after execution <=="
+        col_submissions.save({
+            "user_name":user,
+            "program":programname,
+            "program_result":progstatus,
+            "test_case_result":[p_pass,p_fail,p_error],
+            "time":time.time()
+        })
+        
+        # If the user gets some score, update the score collection with latest
+        # information
+        if your_score:
+            current_score = col_scores.find_one({'user_name':user})
+            if not current_score:
+                current_score = {
+                    'user_name': user,
+                    'programs': {}
+                }
+            current_score['programs'][programname] = {
+                    'status': progstatus,
+                    'score': your_score
+            }
+            col_scores.save(current_score)
+            progs = current_score['programs']
+            total_score = sum(progs[x]['score'] for x in progs)
+            result[user].insert(0, "=======================================")
+            result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
+  
+
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
 if __name__ == '__main__':
     while True:
         start_time=time.time()
-        progstest(user,programname)
+        mainloop()
         exec_time = time.time()-start_time
         print exec_time
         
@@ -249,3 +287,4 @@ if __name__ == '__main__':
             pass
         else:
             time.sleep(10-exec_time)
+

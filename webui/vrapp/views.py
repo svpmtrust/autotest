@@ -278,11 +278,11 @@ def createquestionpaper(request):
     contestname = request.session['contestname']
     ques=json.loads(request.GET.get("names"))
     flags=json.loads(request.GET.get("flags"))
-    coll=db.contest.find_one({"contestname":contestname})
-    for q in ques:
+    coll=db1.contest.find_one({"contestname":contestname})
+    for i in ques:
     	if i in flags:
     		coll["questions"].update({i:1})
-    	else
+    	else:
     		coll["questions"].update({i:0})
     db1.contest.save(coll)
     return HttpResponse("created")
