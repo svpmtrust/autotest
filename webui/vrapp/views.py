@@ -10,6 +10,7 @@ import os
 import hashlib
 from bson.son import SON
 import subprocess
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -216,14 +217,14 @@ def loginvalidate(request):
 
 
 #------------Contestant Home------------#
-
+@login_required(login_url='/loginform.htm')
 def contestanthome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
 	return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
 
 #------------TestAdmin Home------------#
-
+@login_required(login_url='/loginform.htm')
 def testadminhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
@@ -258,7 +259,7 @@ def puppetstop(request):
         return HttpResponse(str("Alreadt finished"))
 
 #------------TestCreator Home------------#
-
+@login_required(login_url='/loginform.htm')
 def testcreatorhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
@@ -280,7 +281,7 @@ def createquestionpaper(request):
     return HttpResponse("created")
      
 #------------ParticipantApprover Home------------#    
-
+@login_required(login_url='/loginform.htm')
 def participantapproverhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']

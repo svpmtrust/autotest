@@ -14,12 +14,17 @@ app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.104/')
 
 @app.task
 def progtest(user, programname):
+<<<<<<< HEAD
     i=0
+=======
+    i=1
+>>>>>>> 4d31bffe845c45b5a4cf249fb216436d8062681c
     result={}
     if user not in result:
         result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
+<<<<<<< HEAD
         # Check if this programis something we support
         if not os.path.isfile(program_name):
             i=i+1
@@ -68,6 +73,63 @@ def progtest(user, programname):
         # Hard_code_warning
         inputs_found = 0
         total_inputs = 0
+=======
+
+        # Check if this programis something we support
+        if not os.path.isfile(program_name):                 
+            result[user].append('The program *%s* is INVALID' % programname)
+            result[user].append('-----------------------------------------------')
+            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')     
+            return (user,programname,i)
+        else:
+            # Get more info about the program
+		    tree = ET.parse(program_name)
+		    root=tree.getroot()
+		    program_score=int(root.find("score").text)
+		    program_timeout = root.find('time-limit')
+		    input_type = root.find('input-type')
+		    case_sensitive = root.find('case-sensitive')
+		    validation_program = root.find('validation-program')
+		    validation_program_info = root.find('validation-program-info')
+		    multi_line = root.find('multi-line')
+            program_timeout = int(program_timeout.text) if program_timeout is not None else 5
+            input_type = input_type.text if input_type is not None else 'text'
+		    case_sensitive = True if case_sensitive is not None and case_sensitive.text == 'true' else False
+		    validation_program = validation_program.text if validation_program is not None else None 
+		    validation_program_info = validation_program_info.text if validation_program_info is not None else ''
+		    multi_line = True if multi_line is not None and multi_line.text == 'true' else False
+		
+		# Compile the program
+		with file('compilation error.txt','w') as fp:
+		    ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,
+		                    stderr=fp,
+		                    stdout=fp)
+		if ret!=0:
+		    with file('compilation error.txt','r') as fp:
+		        error=fp.read()
+		        print error
+		        result[user].append('program *%s* [COMPILATION FAILED]' % programname)
+		        result[user].append(error)
+		        print "==> Saving submission record in the DB, after compilation failure <=="
+		        col_submissions.save({
+		            "user_name":user,
+		            "program":programname,
+		            "program_result":'COMPILATION FAILED',
+		            "test_case_result":[None,None,None],
+		            "time":time.time(),
+		            "error": error
+		        })
+		    continue
+		
+		# Execute the test cases
+		p_pass=[]
+		p_fail=[]
+		p_error=[]
+		
+		# Hard_code_warning
+		inputs_found = 0
+		total_inputs = 0
+>>>>>>> 4d31bffe845c45b5a4cf249fb216436d8062681c
 
         for input_i,output_o,description_d in inputoutput(programname):
             # Create the command to run.  In case of file inputs, make
