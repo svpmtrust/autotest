@@ -11,7 +11,8 @@ def mainloop():
     client=MongoClient(db_host)
     db=client.autotest
     direct=conf.participant_dir
-    user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})
+    selected_questions=db.contest.find({'contestname':'VR_Auto_Test'},{'_id':0,'questions':1})
+    user_coll=db.contestant.find({'contestname':"VR_Auto_Test",'Approval_status':'1'},{'username':1,'_id':0,'password':1,'email':1})
     
     for user in user_coll:
         un=user['username']
