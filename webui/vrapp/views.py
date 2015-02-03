@@ -99,7 +99,8 @@ def addContest(request):
                                     "emaill" : pa2email
                             }
                     },
-                "questions":{}
+                "questions":{},
+                "questions_criteria":{}
             })
     return HttpResponseRedirect('superuser')
 
@@ -159,7 +160,12 @@ def regisuccess(request):
     hpswd=a.hexdigest()
     c = Connection()
     db1 = c.autotest
-    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd}
+    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd,
+          "approved_status":"0",
+          "approved_by":[],
+          "status":"",
+          "questions":[]
+          }
     db1.contestant.insert(user)
     return render(request,'regisuccess.html',{})
 

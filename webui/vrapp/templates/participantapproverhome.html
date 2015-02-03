@@ -26,15 +26,13 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Select</th>
+                                <th>Status</th>
                             </tr>
 			   {% for c in contestants %}
                             <tr v-repeat="contestants | filterBy searchText in username | orderBy 'total' -1">
                                 <td v-text="name">{{ c.username }}</td>
                                 <td v-text="email">{{ c.email }}</td>  
-                                <td align="center" class="input-group input-group-addon">
-                                <input type="checkbox" />
-                                </td>
+                                <td align="center">{{c.status}}</td>
                             </tr>
 			    {% endfor %}
                         </table>

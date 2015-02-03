@@ -7,13 +7,22 @@ import time
 
 def mainloop():
     files = '/vagrant/starter-files/*' 
+    sfiles='/vagrant/contest-questions/*'
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.103:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     direct=conf.participant_dir
-    selected_questions=db.contest.find({'contestname':'VR_Auto_Test'},{'_id':0,'questions':1})
-    user_coll=db.contestant.find({'contestname':"VR_Auto_Test",'Approval_status':'1'},{'username':1,'_id':0,'password':1,'email':1})
-    
+    s_q=db.contest.find({'contestname':'VR_Auto_Test'},{'_id':0,'questions':1})
+    user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})
+    ls=os.listdir(files)
+    dir1="/vagrant/"
+    ls1=os.listdir(dir1)
+    if  "contest_questions" not in ls1:
+        subprocess.call(["mkdir contest-questions"],cwd="/vagrant/")
+    for q in s_q:
+         if q in ls:
+             subprocess.call(["cp /vagrant/starter-files/{} /vagrant/contest-questions"].format(q));
+             
     for user in user_coll:
         un=user['username']
         pswd=user['password']
@@ -26,7 +35,7 @@ def mainloop():
         cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"               
         subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         print 'cloned {} successfully'.format(un+".git")
-        copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))	
+        copycmnd="cp -r %s %s" %(sfiles,os.path.join(direct,un))	
         subprocess.call(copycmnd , shell=True, executable='/bin/bash',stdout=subprocess.PIPE,stderr=subprocess.PIPE)  
         subprocess.call("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
         commitcmnd='git commit -m '+'"comitting initial files"'
