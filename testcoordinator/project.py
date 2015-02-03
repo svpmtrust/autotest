@@ -73,9 +73,7 @@ def mainloop():
             result[user]=[]
         program_dir=conf.participant_dir+user+'/'+programname
         program_name=conf.program_dir+programname+'.xml'
-        print "*"*80
-        print program_dir, program_name
-        print "*"*80
+
         # Check if this programis something we support
         if not os.path.isfile(program_name): 
             result[user].append('The program *%s* is INVALID' % programname)

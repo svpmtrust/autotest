@@ -1,24 +1,7 @@
- {% extends "basemain.html" %}
+{% extends "basemain.html" %}
 {% block content %}
      <link rel="stylesheet" type="text/css" href="../static/style.css"/>
-	 <script>
-			$(function(){
-				$("#username").blur(function(){
-					var contestname = $("#contestname").val();
-					var username = $("#username").val();
-					console.log(contestname);
-					console.log(username);
-					 $.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
-					 console.log(data);
-					 if(data == "InValid")
-					  {
-					     alert("UserName Already Exists Please Try Another One");	
-					     window.location.reload(true);
-					  }
-				   });
-				});
-			});
-	</script>	
+	 
     <div class="container" id="main-container">
         <div class="page" id="homePage">
                 <h3>Welcome To Register The Tech Contest . . . .</h3><br/>

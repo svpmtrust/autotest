@@ -7,7 +7,7 @@ import time
 
 def mainloop():
     files = '/vagrant/starter-files/*' 
-    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.100:27017/')
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.103:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     direct=conf.participant_dir

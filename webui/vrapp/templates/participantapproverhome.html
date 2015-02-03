@@ -1,16 +1,7 @@
 {% extends "base.html" %}
 
-{%block navbar%}
-
-<div class="navbar-header"> 
-      <button class="btn btn-success active navbar-btn nav-right nav-brand">
-      <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest </a> 
-      </button>&nbsp;
- </div>    
-           
-{%endblock%}
-
 {% block content %}
+
 <div class="container" id="main-container">
         <div class="page" id="homePage">
 			<h2>Approve Participants</h2>
@@ -19,16 +10,16 @@
                         <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
                         <form class="navbar-form navbar-left">
                             <div class="form-group col-md-4">
-                                <input type="text" class="form-control" placeholder="Name"  v-model="searchText" />
+                                <input type="text" id="search" class="form-control" placeholder="Name"  v-model="searchText" />
                             </div>
                         </form>
                         <br/>
                               <select id="patype" class="dropdown-header">
-                                    <option value="ag">All Registered</option>
-                                    <option value="aa">Overall Approved</option>
+                                    <option value="ag">Registered Contestants</option>
+                                    <option value="aa">Eligible Contestants</option>
                                     <option value="a1">Approved By {{pa1}}</option>
                                     <option value="a2">Approved By {{pa2}}</option>
-                                    <option value="ao">Any One Approved</option>
+                                    <option value="ao">Need To Approved</option>
                                </select>
                      </div>
                         <table class="table table-hover table-bordered">

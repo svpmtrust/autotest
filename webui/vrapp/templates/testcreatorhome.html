@@ -10,46 +10,7 @@
 {%endblock%}
 
 {% block content %}
-     <script type="text/javascript">
-        $(document).ready(function(){ 
-            $("#search").keyup(function() {
-                var value = this.value;
-                
-                $("table").find("tr").each(function(index) {
-       
-                    if (index === 0) return;
-                    var id = $(this).find("td").first().text();
-                    $(this).toggle(id.indexOf(value) !== -1);
-                });
-            });
-        });
-     </script>
-<script>
-			$(function(){	
-				$("#questionForm").submit(function(event){
-				event.preventDefault();
-				data=[];
-				for(i=0;i<cq.length;i++) {
-					if(cq[i].checked) {
-						data.push(cq[i].value);
-					}
-				}
-				console.log(data);
-				flag=[];
-				for(i=0;i<ps.length;i++) {
-					if(ps[i].checked) {
-						flag.push(ps[i].value);
-					}
-				}
-				console.log(flag);
-			    	$.get("/createquestionpaper", {names:JSON.stringify(data) , flags:JSON.stringify(flag)}, function(data){
-						alert("Test paper Generated With Your seleted Questions \n Thank You!!\nQuestions Are "+data);
-						window.location.reload(true);
-					});
-				});
-			});
-	</script>    
-      						    
+			    
 <div class="container" id="main-container">
         <div class="page" id="homePage">
 			<h2>Questions Available</h2>
@@ -58,7 +19,7 @@
                         <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
                         <form class="navbar-form navbar-left">
                             <div class="form-group col-md-8">
-                                <input type="text" class="form-control" placeholder="Question Name"  v-model="searchText" />
+                                <input type="text" id="search" class="form-control" placeholder="Question Name"  v-model="searchText" />
                             </div>
                         </form>
                      </div>
