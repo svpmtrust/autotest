@@ -160,10 +160,15 @@ def regisuccess(request):
     hpswd=a.hexdigest()
     c = Connection()
     db1 = c.autotest
+    d=db1.contest.find_one({"contestname":cn})
+    if d["approverrule"] == "0" :
+        apstatus="1"
+    else:
+        apstatus="0"
     user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd,
-          "approved_status":"0",
+          "approved_status":apstatus,
           "approved_by":[],
-          "status":"",
+          "status":"active",
           "questions":[]
           }
     db1.contestant.insert(user)
@@ -245,11 +250,11 @@ def submissions(request):
 
 #------------TestAdmin Home------------#
 def testadminhome(request):
-	contestname = request.session['contestname']
-	username = request.session['username']
-	c = Connection()
-	db1 = c.autotest
-	return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
+    contestname = request.session['contestname']
+    username = request.session['username']
+    c = Connection()
+    db1 = c.autotest
+    return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
 	
 def puppetrun(request):
     cn = request.session['contestname']
@@ -306,17 +311,41 @@ def createquestionpaper(request):
      
 #------------ParticipantApprover Home------------#    
 def participantapproverhome(request):
-	contestname = request.session['contestname']
-	username = request.session['username']
-	cn = Connection()
-	db1 = cn.autotest
-	contestants=db1.contestant.find({'contestname':contestname})
-	pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
-	for i in pa:
+    contestname = request.session['contestname']
+    username = request.session['username']
+    cn = Connection()
+    db1 = cn.autotest
+    contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
+    pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
+    for i in pa:
 		tc=i["participantapprover"]
-	pa=list()
-	for i in tc.keys():
+    pa=list()
+    for i in tc.keys():
 		pa.append(i)
-	return render(request, 'participantapproverhome.html', 
+    return render(request, 'participantapproverhome.html', 
 	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
-	
+
+'''def dropdown(request):
+    contestname = request.session['contestname']
+    username = request.session['username']
+    sname=request.GET.get("sname")
+    cn = Connection()
+    db1 = cn.autotest
+    #contest=db1.contest.find({"contestname":contestname})
+    if(sname=="eligible"):
+        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
+    elif(sname):
+        contestants=db1.contestant.find({"contestname":contestname,"approved_by":})
+        
+        
+    
+    
+    
+    pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
+    for i in pa:
+        tc=i["participantapprover"]
+    pa=list()
+    for i in tc.keys():
+        pa.append(i)
+    return render(request, 'participantapproverhome.html', 
+    {'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})  '''

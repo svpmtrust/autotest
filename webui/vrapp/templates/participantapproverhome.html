@@ -14,12 +14,12 @@
                             </div>
                         </form>
                         <br/>
-                              <select id="patype" class="dropdown-header">
-                                    <option value="ag">Registered Contestants</option>
-                                    <option value="aa">Eligible Contestants</option>
-                                    <option value="a1">Approved By {{pa1}}</option>
-                                    <option value="a2">Approved By {{pa2}}</option>
-                                    <option value="ao">Need To Approved</option>
+                              <select id="patype" name="patype" class="dropdown-header">
+                                    <option value="registered">Registered Contestants</option>
+                                    <option value="eligible">Eligible Contestants</option>
+                                    <option value={{pa1}}>Approved By {{pa1}}</option>
+                                    <option value={{pa2}}>Approved By {{pa2}}</option>
+                                    <option value="approve">Need To Approved</option>
                                </select>
                      </div>
                         <table class="table table-hover table-bordered">

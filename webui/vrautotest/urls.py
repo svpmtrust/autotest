@@ -43,6 +43,6 @@ urlpatterns = patterns('',
 	#------------ParticipantApprover Home------------#
 
     url(r'^participantapproverhome', 'vrapp.views.participantapproverhome', name='participantapproverhome'),
-
+    url(r'^dropdown', 'vrapp.views.dropdown', name='dropdown'),
     url(r'^admin/', include(admin.site.urls)),    
 )

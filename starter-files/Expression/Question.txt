@@ -1,0 +1,22 @@
+
+Expression                Score: 20
+-----------               ---------
+
+Maximum execution time for this program : 3 sec
+
+Aim of this program is to evaluate any given expression of numbers
+according to BODMAS rule (this is priority order in BODMAS: brackets, 
+division, multiplication, addition and subtraction).
+
+The format of the input and output is shown below.
+
+ Sample Input:
+ -------------
+ (60/30)*25+100-60
+ 
+ Sample Output:	
+ --------------
+ 2
+ 50
+ 150
+ 90

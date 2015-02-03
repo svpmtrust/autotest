@@ -37,3 +37,5 @@ mkdir $1.git
 cd $1.git
 git init --bare
 chown -R www-data.www-data .
+
+sudo service apache2 restart

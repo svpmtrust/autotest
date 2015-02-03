@@ -1,0 +1,11 @@
+
+
+Echo                                 Score: 1
+----                                 -------
+
+Maximum execution time for this program : 1 sec
+
+Write a program that will print it's input exactly
+the same way.  Generally we write these programs to
+make sure rest of the environment is working well. 
+

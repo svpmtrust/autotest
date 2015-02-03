@@ -97,3 +97,20 @@ function add()
  {
     document.getElementById("addingpage").style.visibility="visible";
  }
+ 
+ /*------------participant approver selection-----------------*/
+ 		$(function(){
+				$("#patype").change(function(){
+					var sname = $("#patype").val();
+					console.log(sname);
+ 					$.get("/dropdown",{'sname':sname},function(data){
+					if(data == "InValid")
+					  {
+					     alert("Contest Name Already Exists Please Try Another One");
+					     window.location.reload(true);
+					  }
+				   });
+				});
+			});
+ 
+ 
