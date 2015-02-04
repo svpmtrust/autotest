@@ -14,6 +14,7 @@
                             </div>
                         </form>
                         <br/>
+                      <!--  <form class="navbar-form navbar-left" method="get" action="participantapproverhome"> -->
                               <select id="patype" name="patype" class="dropdown-header">
                                     <option value="registered">Registered Contestants</option>
                                     <option value="eligible">Eligible Contestants</option>
@@ -21,6 +22,8 @@
                                     <option value={{pa2}}>Approved By {{pa2}}</option>
                                     <option value="approve">Need To Approved</option>
                                </select>
+                             <input type="submit" value="Go" />
+                        </form>
                      </div>
                         <table class="table table-hover table-bordered">
                             <tr>
@@ -29,7 +32,7 @@
                                 <th>Status</th>
                             </tr>
 			   {% for c in contestants %}
-                            <tr v-repeat="contestants | filterBy searchText in username | orderBy 'total' -1">
+                            <tr>
                                 <td v-text="name">{{ c.username }}</td>
                                 <td v-text="email">{{ c.email }}</td>  
                                 <td align="center">{{c.status}}</td>

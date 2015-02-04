@@ -313,9 +313,14 @@ def createquestionpaper(request):
 def participantapproverhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
+    sname=request.GET.get("patype")
     cn = Connection()
     db1 = cn.autotest
-    contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
+    contestants=db1.contestant.find({'contestname':contestname})
+    if(sname=="eligible"):
+        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
+    elif(sname=="approve"):
+        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"0"})
     pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
     for i in pa:
 		tc=i["participantapprover"]
@@ -324,28 +329,3 @@ def participantapproverhome(request):
 		pa.append(i)
     return render(request, 'participantapproverhome.html', 
 	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
-
-'''def dropdown(request):
-    contestname = request.session['contestname']
-    username = request.session['username']
-    sname=request.GET.get("sname")
-    cn = Connection()
-    db1 = cn.autotest
-    #contest=db1.contest.find({"contestname":contestname})
-    if(sname=="eligible"):
-        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
-    elif(sname):
-        contestants=db1.contestant.find({"contestname":contestname,"approved_by":})
-        
-        
-    
-    
-    
-    pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
-    for i in pa:
-        tc=i["participantapprover"]
-    pa=list()
-    for i in tc.keys():
-        pa.append(i)
-    return render(request, 'participantapproverhome.html', 
-    {'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})  '''
