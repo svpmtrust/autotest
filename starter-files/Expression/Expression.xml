@@ -1,0 +1,16 @@
+<data>
+   <test name="Expression1">
+     <input>20*30+60</input>
+     <output>660</output>
+     <description>Test for multiple command line arguments</description>
+    </test>
+    <test name='Expression2'>
+     <input>60+30*20</input>
+     <output>660</output>
+     <description>Test for single command line arguments</description>
+    </test>
+    <time-limit>5</time-limit>
+    <input-type>text</input-type>
+    <score>20</score>
+    <case-sensitive>true</case-sensitive>
+</data>

@@ -28,6 +28,7 @@ urlpatterns = patterns('',
 	#------------Contestant Home------------#
 
     url(r'^contestanthome', 'vrapp.views.contestanthome', name='contestanthome'),
+    #url(r'^submissions', 'vrapp.views.submissions', name='submissions'),
 
 	#------------TestAdmin Home------------#
    
@@ -43,5 +44,6 @@ urlpatterns = patterns('',
 	#------------ParticipantApprover Home------------#
 
     url(r'^participantapproverhome', 'vrapp.views.participantapproverhome', name='participantapproverhome'),
+    url(r'^approve', 'vrapp.views.approve', name='approve'),
     url(r'^admin/', include(admin.site.urls)),    
 )

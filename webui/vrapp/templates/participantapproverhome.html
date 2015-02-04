@@ -13,32 +13,39 @@
                                 <input type="text" id="search" class="form-control" placeholder="Name"  v-model="searchText" />
                             </div>
                         </form>
-                        <br/>
-                      <!--  <form class="navbar-form navbar-left" method="get" action="participantapproverhome"> -->
+                        <form class="navbar-form navbar-header" method="get" action="participantapproverhome">
                               <select id="patype" name="patype" class="dropdown-header">
-                                    <option value="registered">Registered Contestants</option>
                                     <option value="eligible">Eligible Contestants</option>
                                     <option value={{pa1}}>Approved By {{pa1}}</option>
                                     <option value={{pa2}}>Approved By {{pa2}}</option>
                                     <option value="approve">Need To Approved</option>
                                </select>
-                             <input type="submit" value="Go" />
+                             <input type="submit" value="Go" class="navbar-form navbar-header navbar-right nav-btn btn btn-sm" />
                         </form>
                      </div>
-                        <table class="table table-hover table-bordered">
+                     <form id="approvecontestantForm">
+                        <table class="table table-hover table-bordered" id="tab">
                             <tr>
-                                <th>Name</th>
+                                <th>Username</th>
                                 <th>Email</th>
-                                <th>Status</th>
+                                <th>Approved</th>
                             </tr>
-			   {% for c in contestants %}
+			   {% for c in contestants %}						
                             <tr>
-                                <td v-text="name">{{ c.username }}</td>
-                                <td v-text="email">{{ c.email }}</td>  
-                                <td align="center">{{c.status}}</td>
+                                <td>{{ c.username }}</td>
+                                <td>{{ c.email }}</td>  
+                          {% if c.approved_status == "1" %}
+                                <td align="center">Approved</td>
+                          {% else %}
+                                 <td>
+                                 	<input type="checkbox" id="contestants" name="contestants" value={{c.username}} />
+                                 </td>
+                         {% endif %}
                             </tr>
 			    {% endfor %}
                         </table>
+                         <input type="submit" value="Approve" id="approvecontestant" class="btn btn-primary" />
+                       </form>
                     </div>
                 </div>
 		</div>

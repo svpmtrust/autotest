@@ -11,6 +11,7 @@ import hashlib
 from bson.son import SON
 import subprocess
 from django.contrib.auth.decorators import login_required
+from celery.worker.job import Request
 
 
 # Create your views here.
@@ -235,19 +236,20 @@ def loginvalidate(request):
 def contestanthome(request):
     contestname = request.session['contestname']
     username = request.session['username']
-    return render(request, 'contestanthome.html', {'cname': contestname ,'username':username}) 
+    c=Connection()
+    db1=c.autotest
+    submissions = db1.submissions.find({'user_name':username})
+    return render(request, 'contestanthome.html', {'cname': contestname ,'username':username, 'submissions':submissions}) 
 
+'''
 def submissions(request):
     c = Connection()
     db1 = c.autotest
+    contestname = request.session['contestname']
     username = request.session['username']
-    submissions = db1.autotest.submissions.find({'username':username})
-    data=[]
-    for s in submissions:
-        del s['_id']
-        data.append(s)
-    return HttpResponse(json.dumps(data))
-
+    submissions = db1.submissions.find({'username':username})
+    return render(request, 'contestanthome.html', {'cname': contestname ,'username':username , 'submissions':submissions})
+'''
 #------------TestAdmin Home------------#
 def testadminhome(request):
     contestname = request.session['contestname']
@@ -317,15 +319,36 @@ def participantapproverhome(request):
     cn = Connection()
     db1 = cn.autotest
     contestants=db1.contestant.find({'contestname':contestname})
+    pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
+    for i in pa:
+        tc=i["participantapprover"]
+    pa=list()
+    for i in tc.keys():
+        pa.append(i)
     if(sname=="eligible"):
         contestants=db1.contestant.find({'contestname':contestname,"approved_status":"1"})
     elif(sname=="approve"):
-        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"0"})
-    pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
-    for i in pa:
-		tc=i["participantapprover"]
-    pa=list()
-    for i in tc.keys():
-		pa.append(i)
+        contestants=db1.contestant.find({'contestname':contestname,"approved_status":"0","approved_by":{"$ne":sname}})
+    else:
+        contestants=db1.contestant.find({'contestname':contestname ,"approved_by":{"$in":[sname]}})
     return render(request, 'participantapproverhome.html', 
-	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})      
+	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})    
+    
+def approve(request):
+    cn = Connection()
+    db1 = cn.autotest
+    users=json.loads(request.GET.get("names"))
+    contestname = request.session['contestname']
+    username = request.session['username']
+    contest=db1.contest.find_one({'contestname':contestname},{"approverrule":1,"_id":0}) 
+    crule=int(contest["approverrule"])
+    print(crule)
+    print(contest) 
+    for u in users:
+        print(u)
+        cont=db1.contestant.find_one({"contestname":contestname,"username":u})
+        cont["approved_by"].append(username)
+        if(crule >= len(cont["approved_by"])):
+            cont["approved_status"]="1"
+        db1.contestant.save(cont)
+    return HttpResponse("Valid")

@@ -23,8 +23,22 @@
                             </div>
                         </form>
                      </div>
+                     <div id="output">
+                      <div>
+                        <label>Easy</label>
+                        <span id="easy"></span>
+                      </div>
+                      <div>
+                        <label>Medium</label>
+                        <span id="medium"></span>
+                       </div>
+                       <div>
+                        <label>Hard</label>
+                        <span id="hard"></span>
+                       </div>
+                    </div>
                     <form id="questionForm">
-                        <table class="table table-hover table-bordered">
+                        <table class="table table-hover table-bordered checkList">
                             <tr>
                             	<th>Question Name</th>
                                 <th>Description</th>
@@ -45,7 +59,7 @@
                                 <input type="checkbox" id="ps" name="ps" value={{p.description}} />
                                 </td>
                                 <td align="center" class="input-group input-group-addon">
-                                <input type="checkbox" id="cq" name="cq" value={{p.description}} />
+                                <input type="checkbox" id="cq" name="cq" value={{p.description}} difficulty-level={{p.difficultylevel}} />
                                 </td>
                             </tr>
 		           {% endfor %}

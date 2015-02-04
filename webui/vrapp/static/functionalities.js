@@ -27,6 +27,23 @@ function testStop() {
         document.getElementById("start").disabled = false;
     }
 
+/*------------checking difficulty level-----------------*/
+
+$(function(){
+var checkEvent = function () {
+	res={easy:0,medium:0,hard:0}
+	$(".checkList input:checked").each(function(index,el) {
+		var dl = $(el).attr('difficulty-level');
+		res[dl]+=1;
+	});
+	$("#output #easy").html(res['easy']);
+	$("#output #medium").html(res['medium']);
+	$("#output #hard").html(res['hard']);
+ }
+ 
+$(".checkList input").on('change',checkEvent);
+});
+
 /*------------Question Paper Creation-----------------*/
 			$(function(){	
 				$("#questionForm").submit(function(event){
@@ -99,14 +116,22 @@ function add()
  }
  
  /*------------participant approver selection-----------------*/
- /*		$(function(){
-				$("#patype").change(function(){
-					var sname = $("#patype").val();
-					console.log(sname);
- 					$.get("/participantapproverhome",{'sname':sname},function(contestants){
-
+			$(function(){	
+				$("#approvecontestantForm").submit(function(event){
+				event.preventDefault();
+				data=[];
+				for(i=0;i<contestants.length;i++) {
+					if(contestants[i].checked) {
+						data.push(contestants[i].value);
+					}
+				}
+			    console.log(data);
+			    $.get("/approve",{names:JSON.stringify(data)},function(msg){
+			     if(msg == "Valid")
+					  {
+					     window.location.reload(true);
+					  }
 				   });
 				});
 			});
- */
  
