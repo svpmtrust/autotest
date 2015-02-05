@@ -1,0 +1,48 @@
+
+
+Pattern                    Score: 25
+-------                   ----------
+
+Maximum execution time for this program : 4 sec
+
+Objective of this program is to compress a given string containing pattern of letters. 
+The common set of letters in the string have to be compressed and the 
+compressed string must be displayed along with translation information, so that when
+the compressed string is expanded the given pattern should reappear. 
+The sets may contain single or multiple letters. 
+
+--------------
+IMPORTANT NOTE
+--------------
+This program looks for very specific output, hence make sure 
+to observe the following details. Good news is these are also
+hints for you to solve the problem  
+
+1. You should find the patterns that cover most surface area. 
+   Ex: In a string abcabcabcabcabc, pattern abc covers most area,
+   compared to pattern abcabc 
+2. Your substituion strings should start immediately after the
+   max char.  Pattern covering most of the original string should
+   get the next_char and so on. 
+3. Every letter in the given string should be replaced even if it
+   is a single char.  
+4. For the remaining letters lowest letter should get the next
+   pattern char and so on. 
+   Ex.  abcabcedf should become g*2ihj,g=abc,h=d,i=e,j=f
+   Observice how e,d,f are sorted into h,i,j in the replacements
+   each having d,e,f respectively. 
+5. In a pattern you will never output *1. 
+   Ex: abcdddabceeeabcgdddabcfff will become hihj*3hlihk*3,h=abc,i=ddd,j=e,k=f,l=g
+   Notice that patterns abc, ddd are repeated but we didn't output *1 for them. 
+   Also notice e,f,g are sorted and assigned j,k,l as per the guideline 4. 
+6. You should treat small patterns that repeat more times better
+   than a single pattern. Both Rule #1 and Rule #6 are attempting to give
+   priority to smaller patterns over large patterns. 
+   Ex: abcabcabcabc should become d*4,d=abc and NOT d*2,d=abcabc
+
+-------------------------------------------------------
+    Sample input                    Sample output 
+-------------------------------------------------------
+  abcabcaaaaababab            dfdfe*4d*3,d=ab,e=a,f=c
+  bcbccbabcakkkk              l*2onmlmp*4,l=bc,m=a,n=b,o=c,p=k
+  

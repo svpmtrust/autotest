@@ -64,7 +64,7 @@ def progtest(user, programname):
             result.update({"progstatus":'COMPILATION FAILED'})
             result.update({"description":error})
             result.update({"score":your_score})
-        return result		
+        return result        
     # Execute the test cases
     p_pass=[]
     p_fail=[]
@@ -77,7 +77,7 @@ def progtest(user, programname):
     # sure filenames are formatted for {pdir}
         run_cmd = ['/bin/bash','run.sh']
         additional_args = shlex.split(input_i)
-    	for each_arg in additional_args:
+        for each_arg in additional_args:
             null_file = file('/dev/null','w')
             is_found = subprocess.call('grep %s *' % each_arg, shell=True, cwd=program_dir, stdout=null_file, stderr=null_file)
             if is_found == 0:
@@ -87,7 +87,7 @@ def progtest(user, programname):
             additional_args = [x.format(pdir=conf.program_dir[0:-1]) for x in additional_args]
         run_cmd.extend(additional_args)
         try:
-	    cmd_op = timed_execution.check_output_with_timeout(run_cmd, cwd=program_dir, timeout=program_timeout)
+            cmd_op = timed_execution.check_output_with_timeout(run_cmd, cwd=program_dir, timeout=program_timeout)
             cmd_op=cmd_op.strip()
             if not case_sensitive:
                 cmd_op = cmd_op.lower()
@@ -109,37 +109,37 @@ def progtest(user, programname):
                                 program_passed = False
                                 print "line mismatch %s and %s" % (el, al)
                                 break
-                        else:
-		            program_passed = True
-	    else:
-	        i_file = 'validation_program_inputs.json'
-	        with file(i_file, 'w') as fp:
-	            json.dump({'inputs': additional_args,
-	                       'output':cmd_op,
-	                       'info': validation_program_info}, fp)
-	        with file('validation_program_output.txt', 'w') as fp:
-	            prog_path = '{pdir}{pcode}'.format(pdir=conf.program_dir, pcode=validation_program)
-	            validation_result = subprocess.check_call(['python', prog_path, i_file])
-	            if validation_result == 0:
-	                program_passed = True
-	            else:
-	                program_passed = False
+                            else:
+                                program_passed = True
+            else:
+                i_file = 'validation_program_inputs.json'
+                with file(i_file, 'w') as fp:
+                    json.dump({'inputs': additional_args,
+                           'output':cmd_op,
+                           'info': validation_program_info}, fp)
+                with file('validation_program_output.txt', 'w') as fp:
+                    prog_path = '{pdir}{pcode}'.format(pdir=conf.program_dir, pcode=validation_program)
+                    validation_result = subprocess.check_call(['python', prog_path, i_file])
+                    if validation_result == 0:
+                        program_passed = True
+                    else:
+                        program_passed = False
             if program_passed:
-	        p_pass.append('%s %s [successful]' %(description_d, programname)) 
-	    else:
-	        p_fail.append('%s %s [failed]' %(description_d, programname))  
-	        if case_sensitive:
-	            p_fail.append(' Actual output ')
-	        else:
-	            p_fail.append(' Actual output (in lower case) ')
-	        p_fail.append(cmd_op)
-	        p_fail.append(' Expected output ')
-	        p_fail.append(output_o)
-	        if input_type == 'filename':
-	            p_fail.append(' Input Provided (file content) ')
-	        else:
-	            p_fail.append(' Input Provided (args) ')
-	        p_fail.append(input_i)            
+                p_pass.append('%s %s [successful]' %(description_d, programname)) 
+            else:
+                p_fail.append('%s %s [failed]' %(description_d, programname))  
+                if case_sensitive:
+                    p_fail.append(' Actual output ')
+                else:
+                    p_fail.append(' Actual output (in lower case) ')
+                p_fail.append(cmd_op)
+                p_fail.append(' Expected output ')
+                p_fail.append(output_o)
+                if input_type == 'filename':
+                    p_fail.append(' Input Provided (file content) ')
+                else:
+                    p_fail.append(' Input Provided (args) ')
+                p_fail.append(input_i)            
         except Exception as ex:
             p_error.append('%s %s [error]' %(description_d, programname))
             p_error.append(str(ex))  
@@ -160,16 +160,16 @@ def progtest(user, programname):
         partial = root.find('partial')
         if partial and partial.text == 'true':
             your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
-	    result.update({"score":your_score})
-        # insert record the db as patial is allowed
+            result.update({"score":your_score})
+            # insert record the db as patial is allowed
         else:
             your_score = 0
             result.update({"score":your_score})
             # insert record the db as patial is not allowed
-    	'''if (inputs_found*100)/total_inputs > 25:
+        '''if (inputs_found*100)/total_inputs > 25:
             your_score = 0
-	    result1[user].append('WARNING for program %s' % program_name)
+        result1[user].append('WARNING for program %s' % program_name)
             result1[user].append("Too may inputs found in the directory")
-	    result1[user].append("If this is not intentional clean up your directory and remove hard coded inputs")'''
+        result1[user].append("If this is not intentional clean up your directory and remove hard coded inputs")'''
 
     return (result)

@@ -30,7 +30,7 @@ def deleteContest(request):
     cname=request.POST.get('cname')
     print(cname)
     db1.contest.remove({ "contestname" : cname })
-    return HttpResponseRedirect('superuser.html')
+    return HttpResponseRedirect('/superuser')
 
 def addContest(request):
     cn=Connection()
@@ -240,6 +240,7 @@ def contestanthome(request):
     db1=c.autotest
     programs = db1.submissions.find({'user_name':username})
     scores=db1.scores.find()
+    #lb=db1.submissions.aggregate([{"$group":{_id:"$"+username+,nos:{"$sum":1}}}])
     return render(request, 'contestanthome.html',
                    {'cname': contestname ,'username':username, 'programs':list(programs), 'scores':scores}) 
 
@@ -258,6 +259,7 @@ def testadminhome(request):
     username = request.session['username']
     c = Connection()
     db1 = c.autotest
+    programs = db1.submissions.find({'user_name':username})
     return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
 	
 def puppetrun(request):

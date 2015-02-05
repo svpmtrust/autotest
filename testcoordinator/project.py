@@ -77,6 +77,24 @@ def mainloop():
             "test_case_result":submission["description"],
                   "time":time.time()
         })
+
+    sccoll=db.scores.find_one({"username":user,"program":program})
+    if sccoll == None and submission["score"] == 0:
+       pass        
+    elif sccoll == None and submission["score"] > 0:      
+        db.scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
+    elif sccoll!=None and submission["score"] == 0:
+        db.scores.remove({"user_name":submission["user"],"program":submission["programname"]})     
+    elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
+       sccoll["score"]=submission["score"] 
+       db.scores.save(sccoll)
+
+
+
+
+
+
+
         
 '''        # If the user gets some score, update the score collection with latest
         # information
