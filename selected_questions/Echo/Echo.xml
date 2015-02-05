@@ -1,0 +1,16 @@
+<data>
+   <test name="Echo1">
+     <input>vebsnet2 rockzzz</input>
+     <output>vebsnet2 rockzzz</output>
+     <description>Test for multiple command line arguments</description>
+    </test>
+    <test name='Echo2'>
+     <input>welcome</input>
+     <output>welcome</output>
+     <description>Test for single command line arguments</description>
+    </test>
+    <time-limit>1</time-limit>
+    <input-type>text</input-type>
+    <score>1</score>
+    <case-sensitive>true</case-sensitive>
+</data>

@@ -53,7 +53,7 @@ def mainloop():
 # We have a minimum delay of 10 seconds between checks
 # printing results for debugging purpose
 if __name__ == '__main__':
-    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.103:27017/')
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     print os.getcwd()
