@@ -2,14 +2,14 @@ import subprocess
 import os
 import conf
 from conf import participant_dir
-from conf import db_host
 import xml.etree.ElementTree as ET
 import time
 from pymongo import MongoClient
 import shlex
+import timed_execution
 import json
 from celery import Celery
-import testserver
+import tasks
 
 def listofParticipants():
     """ This method will go through each user in the participant
@@ -26,10 +26,7 @@ def listofParticipants():
         print "Checking for user %s" % user
         for y in os.listdir(direct):
             if os.path.isdir(direct+'/'+y) and y[0] !='.':
-                previous[y] = subprocess.check_output(['/usr/bin/git',
-                                                 'log','-1',
-                                                 '--oneline',y],
-                                                cwd=direct)
+                previous[y] = subprocess.check_output(['/usr/bin/git','log','-1','--oneline',y],cwd=direct)
         subprocess.call(['/usr/bin/git', 'reset', '--hard', 'HEAD'], cwd=direct)
         subprocess.call(['/usr/bin/git', 'clean',  '-d',  '-fx', '""'], cwd=direct)
         subprocess.call(['/usr/bin/git', 'pull', '-s', 'recursive', '-X', 'theirs'], cwd=direct)
@@ -42,17 +39,45 @@ def listofParticipants():
                                                 cwd=direct)
                 if y not in previous or previous[y] != after:
                     yield user,y
+        
+  
+''' copied to ts    
+def inputoutput(progname):
+    """ Yields the combinations of input_string, output_string
+    and description expected to pass for the given program.
+    """
+    tree = ET.parse(conf.program_dir+progname+".xml")
+    root=tree.getroot()
+    for test in root:
+        if test.tag != 'test':
+            continue
+        input_str=test.find('input').text
+        output_str=test.find('output').text
+        description=test.find('description').text
+        yield input_str,output_str,description 
+'''       
 def mainloop():
     """ This is the main driver program to look for changes and
     run tests, save the results and send mails for iteration.
     """
+    print conf.db_host
     client = MongoClient(conf.db_host)
     db = client.autotest
     col_submissions=db.submissions
     col_scores=db.scores
+    result={}#creating empty dict for results
+        
     for user,programname in listofParticipants():
-        result = tasks.results.apply_async(args=(user, programname), queue='testserver')
-        if(result[2] == 1):
+        if user not in result:
+            result[user]=[]#creating a new tupple in res with no values
+        program_dir=conf.participant_dir+user+'/'+programname #getting program code into program
+        program_name=conf.program_dir+programname+'.xml'#getting program code  xml into program
+
+        # Check if this programis something we support
+        if not os.path.isfile(program_name): 
+            result[user].append('The program *%s* is INVALID' % programname)
+            result[user].append('-----------------------------------------------')
+            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')
             col_submissions.save({
                     "user_name":user,
                     "program":programname,
@@ -61,28 +86,17 @@ def mainloop():
                     "time":time.time(),
                 })
             continue
-        elif(result[2]==1):
-            print "==> Saving submission record in the DB, after compilation failure <=="
-            col_submissions.save({
-                    "user_name":user,
-                    "program":programname,
-                    "program_result":'COMPILATION FAILED',
-                    "test_case_result":[None,None,None],
-                    "time":time.time(),
-                    "error": result[3]
-                })
-            continue
-
-            
-        else:             
-            print "==> Saving submission record in the DB, after execution <=="
-            col_submissions.save({
-                      "user_name":user,
-                      "program":programname,
-                      "program_result":result[3],
-                      "test_case_result":[result[4],result[5],result[6]],
-                      "time":time.time()
-                })
+        _submission = tasks.progtest.apply_async(args=(user, programname), queue='testing')
+        submission = _submission.get()
+        print "==> Saving submission record in the DB, after execution <=="
+        col_submissions.save({
+            "user_name":submission["user"],
+            "program":submission["programname"],
+            "program_result":submission["progstatus"],
+            "score":submission["score"],
+            "test_case_result":submission["description"],
+            "time":time.time()
+        })
         
         # If the user gets some score, update the score collection with latest
         # information
@@ -94,15 +108,13 @@ def mainloop():
                     'programs': {}
                 }
             current_score['programs'][programname] = {
-                    'status': progstatus,
-                    'score': result[6]
+                    'status': submission["progstatus"],
+                    'score': submission["score"]
             }
             col_scores.save(current_score)
             progs = current_score['programs']
             total_score = sum(progs[x]['score'] for x in progs)
-            result[user].insert(0, "=======================================")
             result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
-  
 
 
 # Python main routine to run the mainloop in a loop :-) 
@@ -118,3 +130,4 @@ if __name__ == '__main__':
             pass
         else:
             time.sleep(10-exec_time)
+

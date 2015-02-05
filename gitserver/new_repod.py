@@ -6,7 +6,7 @@ import subprocess
 import time
 
 def mainloop(): 
-    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.100:27017/')
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.107:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     user_coll=db.contestant.find({'contestname':"VR_Auto_Test"},{'username':1,'_id':0,'password':1,'email':1})

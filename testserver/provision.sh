@@ -9,10 +9,11 @@ echo Installing Celery
 echo -----------------
 sudo pip install celery 
 
-echo Upstart the Test Server
-echo ----------------------------
-cp /vagrant/testserver/test-server.upstart.templ /etc/init/testserver.conf
-sudo service testserver start
-
+cd /vagrant
+cd testserver
+echo RabbitMQ Server Starting 
+echo --------------------------
+sudo -u vagrant celery -A tasks worker --queue=testing &
+echo secceded
 
 
