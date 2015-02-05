@@ -17,12 +17,16 @@ def superuser(request):
     return render(request, 'superuser.html', {'contests':contests})
 
 def deleteContest(request):
+    cn=Connection()
+    db1=cn.autotest
     cname=request.POST.get('cname')
     print(cname)
     db1.contest.remove({ "contestname" : cname })
     return HttpResponseRedirect('/superuser')
 
 def addContest(request):
+    cn=Connection()
+    db1=cn.autotest
     cname=request.POST.get('contestname')
     cname=cname.replace(" ","_")
     organisation=request.POST.get('organisation')
@@ -94,6 +98,8 @@ def addContest(request):
     return HttpResponseRedirect('superuser')
 
 def checkContestName(request):
+    cn=Connection()
+    db1=cn.autotest
     contestname=request.GET.get("contestname")
     contestname=contestname.replace(" ","_")
     con = db1.contest.find_one({'contestname': contestname })
@@ -109,10 +115,14 @@ def home(request):
     return render(request, 'home.html', {})  
 
 def registration(request):
+    cn=Connection()
+    db1=cn.autotest
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
     return render(request, 'registration.html', {'cname':cname})
 
 def checkUserName(request):
+    cn=Connection()
+    db1=cn.autotest
     #contestname=request.GET.get("contestname")
     username=request.GET.get("username")
     con = db1.contestant.find_one({'username':username })
@@ -160,6 +170,8 @@ def regisuccess(request):
 #---------Login----------#
 
 def loginform(request):
+    cn=Connection()
+    db1=cn.autotest
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
     return render(request, 'loginform.html', {'cname':cname})  
 
@@ -216,6 +228,8 @@ def loginvalidate(request):
 def contestanthome(request):
     contestname = request.session['contestname']
     username = request.session['username']
+    c=Connection()
+    db1=c.autotest
     programs = db1.submissions.find({'user_name':username})
     scores=db1.scores.find()
     #lb=db1.submissions.aggregate([{"$group":{_id:"$"+username+,nos:{"$sum":1}}}])
@@ -235,11 +249,15 @@ def submissions(request):
 def testadminhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
+    c = Connection()
+    db1 = c.autotest
     programs = db1.submissions.find({'user_name':username})
     return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
 	
 def puppetrun(request):
     cn = request.session['contestname']
+    c = Connection()
+    db1 = c.autotest
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Not Started"):
@@ -253,6 +271,8 @@ def puppetrun(request):
 
 def puppetstop(request):
     cn = request.session['contestname']
+    c = Connection()
+    db1 = c.autotest
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Started"):
@@ -261,6 +281,8 @@ def puppetstop(request):
         return HttpResponse(str("Already finished"))
 
 def deactivateuser(request):
+    cn = Connection()
+    db1 = cn.autotest
     un = request.POST.get("names")
     db1.contestant.update({'username':un},{"$set":{'status':"Deactivate"}})
     return HttpResponseRedirect('/testadminhome') 
@@ -269,6 +291,8 @@ def deactivateuser(request):
 def testcreatorhome(request):
 	contestname = request.session['contestname']
 	username = request.session['username']
+	cn = Connection()
+	db1 = cn.autotest
 	problems=db1.problemsrepository.find()
 	dt=db1.contest.find_one({'contestname':contestname})
 	date=dt["date"] 
@@ -276,6 +300,8 @@ def testcreatorhome(request):
 	{'cname': contestname ,'username':username,'date':date ,'problems':problems})       
 
 def createquestionpaper(request):
+    cn=Connection()
+    db1=cn.autotest
     contestname = request.session['contestname']
     ques=json.loads(request.GET.get("names"))
     flags=json.loads(request.GET.get("flags"))
@@ -299,6 +325,8 @@ def participantapproverhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
     sname=request.GET.get("patype")
+    cn = Connection()
+    db1 = cn.autotest
     contestants=db1.contestant.find({'contestname':contestname})
     pa=db1.contest.find({'contestname':contestname},{'participantapprover':1})
     for i in pa:
@@ -316,6 +344,8 @@ def participantapproverhome(request):
 	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})    
     
 def approve(request):
+    cn = Connection()
+    db1 = cn.autotest
     users=json.loads(request.GET.get("names"))
     contestname = request.session['contestname']
     username = request.session['username']

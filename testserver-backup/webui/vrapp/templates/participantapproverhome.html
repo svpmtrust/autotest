@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container" id="main-container">
+        <div class="page" id="homePage">
+			<h2>Approve Participants</h2>
+               <div id="leaderboard">
+                     <div class="nav navbar navbar-default">
+                        <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group col-md-4">
+                                <input type="text" id="search" class="form-control" placeholder="Name"  v-model="searchText" />
+                            </div>
+                        </form>
+                        <form class="navbar-form navbar-header" method="get" action="participantapproverhome">
+                              <select style="color:blue" id="patype" name="patype" class="dropdown-header btn btn-default dropdown-toggle">
+                                    <option value="eligible">Eligible Contestants</option>
+                                    <option value={{pa1}}>Approved By {{pa1}}</option>
+                                    <option value={{pa2}}>Approved By {{pa2}}</option>
+                                    <option value="approve">Need To Approved</option>
+                               </select>
+                             <input type="submit" value="Go" style="color:blue" class="navbar-form navbar-header navbar-right nav-btn btn btn-sm" />
+                        </form>
+                     </div>
+                     <form id="approvecontestantForm">
+                        <table class="table table-hover table-bordered" id="tab">
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Approved</th>
+                            </tr>
+			   {% for c in contestants %}						
+                            <tr>
+                                <td>{{ c.username }}</td>
+                                <td>{{ c.email }}</td>  
+                          {% if c.approved_status == "1" %}
+                                <td>Approved</td>
+                          {% else %}
+                                 <td>
+                                 	<input type="checkbox" id="contestants" name="contestants" value={{c.username}} />
+                                 </td>
+                         {% endif %}
+                            </tr>
+			    {% endfor %}
+                        </table>
+                         <input type="submit" value="Approve" id="approvecontestant" class="btn btn-primary" />
+                       </form>
+                    </div>
+                </div>
+		</div>
+</div>
+{%endblock%}

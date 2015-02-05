@@ -12,12 +12,12 @@ from celery import Celery
 app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100//')
 
 
-def inputoutput(progname):
+def inputoutput(programname):
     """ Yields the combinations of input_string, output_string
     and description expected to pass for the given program.
     """
-    print "xmlfilename: ",conf.program_dir+progname+".xml"
-    tree = ET.parse(conf.program_dir+progname+".xml")
+    print "xmlfilename: ",conf.program_dir+programname+".xml"
+    tree = ET.parse(conf.program_dir+programname+".xml")
     root=tree.getroot()
     for test in root:
         if test.tag != 'test':
