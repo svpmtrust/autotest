@@ -14,24 +14,6 @@
 {%endblock%}
 
 {% block content %}
-
-    <script>
-    function testStop() {
-        document.getElementById("stop").disabled = true;
-        document.getElementById("start").disabled = false;
-    }
-    </script>
-    <script>
-			$(function(){
-				$("#start").click(function(){
-					$.get("/puppetrun", {cn:'{{cname}}'}, function(data){
-						$("#output").html("Puppet started with process id " + data);
-						 document.getElementById("start").disabled = true;
-        				 document.getElementById("stop").disabled = false;
-					});
-				})
-			})
-	</script>
 	<div class="container" id="main-container">
         <div class="page" id="homePage">
           	<div><b id="output"></b></div>
@@ -41,7 +23,7 @@
                         <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
                         <form class="navbar-form navbar-left">
                             <div class="form-group col-md-8">
-                                <input type="text" class="form-control" placeholder="Username"  v-model="searchText" />
+                                <input type="text" id="search" class="form-control" placeholder="Username"  v-model="searchText" />
                             </div>
                         </form>
                      </div>

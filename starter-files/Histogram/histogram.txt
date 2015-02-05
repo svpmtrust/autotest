@@ -1,0 +1,69 @@
+Abraham:
+- age: 26
+- town: sydney
+- country: austrian                                                                                                             
+- education: m.pharmacy
+
+albert:
+- age: 24
+- town: sunny valley
+- country: american
+- education: B.Tech
+
+christopher:
+- age: 21    
+- town: hyderabad
+- country: indian
+- education: B.Tech
+
+peter:
+- age: 34
+- town: butere 
+- country: kenya  
+
+charles:
+- age: 34
+- town: abuja
+- country: nigerian
+
+albert:
+- age: 30
+- town: visakhapatnam
+- country: indian
+- education: M.Tech
+
+phlip:
+- age: 34
+- town: cario
+- country: Egyptian                                                       
+- education: B.Tech
+
+charles:
+- age: 19
+- town: hyderabad
+- country: indian
+- education: b.pharmacy
+
+melvin:
+- age: 54
+- town: vijayawada
+- country: indian
+- education: M.tech
+
+neal:
+- age: 34
+- town: bhimavaram 
+- country: indian                                                                                                             
+- education: B.Tech
+
+norris:
+- age: 15
+- town: sydney
+- country: australian
+- education: B.Tech
+
+melvin:
+- age: 16
+- town: hongkong
+- country: American
+- education: B.pharmacy

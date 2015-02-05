@@ -40,22 +40,6 @@ def listofParticipants():
                 if y not in previous or previous[y] != after:
                     yield user,y
         
-  
-''' copied to ts    
-def inputoutput(progname):
-    """ Yields the combinations of input_string, output_string
-    and description expected to pass for the given program.
-    """
-    tree = ET.parse(conf.program_dir+progname+".xml")
-    root=tree.getroot()
-    for test in root:
-        if test.tag != 'test':
-            continue
-        input_str=test.find('input').text
-        output_str=test.find('output').text
-        description=test.find('description').text
-        yield input_str,output_str,description 
-'''       
 def mainloop():
     """ This is the main driver program to look for changes and
     run tests, save the results and send mails for iteration.
@@ -66,18 +50,14 @@ def mainloop():
     col_submissions=db.submissions
     col_scores=db.scores
     result={}#creating empty dict for results
-        
     for user,programname in listofParticipants():
         if user not in result:
-            result[user]=[]#creating a new tupple in res with no values
+            result.update({"user":user})#creating a new tupple in res with no values
+            result.update({"programname":programname}) 
         program_dir=conf.participant_dir+user+'/'+programname #getting program code into program
         program_name=conf.program_dir+programname+'.xml'#getting program code  xml into program
-
         # Check if this programis something we support
         if not os.path.isfile(program_name): 
-            result[user].append('The program *%s* is INVALID' % programname)
-            result[user].append('-----------------------------------------------')
-            result[user].append('Sorry but we did not recognize this program name. \nPerhaps you created a private directory for some other purpose.')
             col_submissions.save({
                     "user_name":user,
                     "program":programname,
@@ -95,10 +75,10 @@ def mainloop():
             "program_result":submission["progstatus"],
             "score":submission["score"],
             "test_case_result":submission["description"],
-            "time":time.time()
+                  "time":time.time()
         })
         
-        # If the user gets some score, update the score collection with latest
+'''        # If the user gets some score, update the score collection with latest
         # information
         if your_score:
             current_score = col_scores.find_one({'user_name':user})
@@ -110,12 +90,15 @@ def mainloop():
             current_score['programs'][programname] = {
                     'status': submission["progstatus"],
                     'score': submission["score"]
+                    'status': progstatus,
+                    'score': your_score
+
             }
             col_scores.save(current_score)
             progs = current_score['programs']
             total_score = sum(progs[x]['score'] for x in progs)
             result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
-
+'''
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks

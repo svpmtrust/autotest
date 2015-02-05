@@ -1,0 +1,25 @@
+
+Expansion         Score: 5
+---------         ---------
+
+Maximum execution time for this program : 3 sec     
+
+Objective of this program is to expand the given string if it
+contains a range, for example a-f, 0-5. 
+
+Following are considered valid range expressions: 
+1. lower case letters between a and z.  Ex: a-f, d-i
+2. Upper case letters between A and Z.  Ex: A-F, D-I
+3. Numbers between 0 and 9. Ex: 1-5
+4. All the above 3 in the reverse order. Ex: f-a, F-A, 3-0
+
+In case of invalid sequences in the input string, sequence
+should be copied as is. 
+
+--------------------------------------
+Sample Input       Sample Output
+--------------------------------------
+a-fuy0-3ZA-F       abcdefuy0123ZABCDEF
+a-f6-3F-9          abcdef6543F-9
+-ABCD-             -ABCD-
+--------------------------------------

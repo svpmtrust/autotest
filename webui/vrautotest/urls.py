@@ -24,10 +24,11 @@ urlpatterns = patterns('',
 	
     url(r'^loginform', 'vrapp.views.loginform', name='loginform'),
     url(r'^loginvalidate', 'vrapp.views.loginvalidate', name='loginvalidate'),
-
+    url(r'^logout', 'vrapp.views.logout', name='logout'),
 	#------------Contestant Home------------#
 
     url(r'^contestanthome', 'vrapp.views.contestanthome', name='contestanthome'),
+    #url(r'^submissions', 'vrapp.views.submissions', name='submissions'),
 
 	#------------TestAdmin Home------------#
    
@@ -43,6 +44,6 @@ urlpatterns = patterns('',
 	#------------ParticipantApprover Home------------#
 
     url(r'^participantapproverhome', 'vrapp.views.participantapproverhome', name='participantapproverhome'),
-
+    url(r'^approve', 'vrapp.views.approve', name='approve'),
     url(r'^admin/', include(admin.site.urls)),    
 )

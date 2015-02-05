@@ -10,60 +10,74 @@
 9.Pattern  .  .  .  . 25     Advanced Programming Skills
 10.Puzzle3 .  .  .  . 30     Artificial Intelligence (Brute Force)                   
 11.Puzzle4 .  .  .   100     Artificial Intelligence, requires use of Heuristics
+12.MakeDir .  .  .   35 
+13.ColorFill  .  .   40
  */
 
 db.problemsrepository.insert([ {
-	"description" : "echo",
+	"description" : "Echo",
 	"qtype" : "program",
 	"difficultylevel" : "easy",
 	"score" : "1"
 }, {
-	"description" : "palindrome",
+	"description" : "Palindrome",
 	"qtype" : "program",
 	"difficultylevel" : "easy",
 	"score" : "3"
 }, {
-	"description" : "expansion",
+	"description" : "Expansion",
 	"qtype" : "program",
 	"difficultylevel" : "easy",
 	"score" : "5"
 }, {
-	"description" : "histogram",
+	"description" : "Histogram",
 	"qtype" : "program",
 	"difficultylevel" : "easy",
 	"score" : "8"
 }, {
-	"description" : "sudoku",
+	"description" : "Sudoku",
 	"qtype" : "program",
 	"difficultylevel" : "medium",
 	"score" : "10"
 }, {
-	"description" : "maze",
+	"description" : "Maze",
 	"qtype" : "program",
 	"difficultylevel" : "medium",
 	"score" : "15"
 }, {
-	"description" : "anagrams",
+	"description" : "Anagrams",
 	"qtype" : "program",
-	"difficultylevel" : "hard",
+	"difficultylevel" : "medium",
 	"score" : "15"
 }, {
-	"description" : "expression",
+	"description" : "Expression",
 	"qtype" : "program",
-	"difficultylevel" : "hard",
+	"difficultylevel" : "medium",
 	"score" : "20"
 }, {
-	"description" : "pattern",
+	"description" : "Pattern",
 	"qtype" : "program",
 	"difficultylevel" : "hard",
 	"score" : "25"
 }, {
-	"description" : "puzzle3",
+	"description" : "Puzzle3",
 	"qtype" : "program",
 	"difficultylevel" : "hard",
 	"score" : "30"
+},
+ {
+	"description" : "MakeDir",
+	"qtype" : "program",
+	"difficultylevel" : "hard",
+	"score" : "35"
+},
+ {
+	"description" : "ColorFill",
+	"qtype" : "program",
+	"difficultylevel" : "hard",
+	"score" : "40"
 }, {
-	"description" : "puzzle4",
+	"description" : "Puzzle4",
 	"qtype" : "program",
 	"difficultylevel" : "hard",
 	"score" : "100"

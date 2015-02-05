@@ -1,0 +1,23 @@
+
+
+Sudoku                   Score: 10
+------                  -----------
+
+Maximum execution time for this program : 4 sec
+
+Object of this program is to find out if a solved
+Sudoku is valid or invalid.
+
+There are sample files (valid and invalid sudoku solutions) 
+attached in this folder. Please refer those files 
+for the format of sudoku.
+
+Command to Run
+--------------
+sh run.sh sudoku-valid.txt
+sh run.sh sudoku-invalid.txt
+
+Expected output:
+----------------
+Valid
+Invalid

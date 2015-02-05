@@ -1,5 +1,12 @@
 {% extends "base.html" %}
-
+	<!-- <script>
+			$(function(){
+				$("#submissionsPage").load(function(){
+					 $.get("/submissions",{},function(){
+				   });
+				});
+			});
+	</script> -->
 {%block navbar%}
 <a class="navbar-brand">
 Score: <span v-text="score.total"></span>
@@ -26,23 +33,25 @@ Rank: <span v-text="score.rank"></span>
                         <p class="navbar-text">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></p>
                         <form class="navbar-form navbar-left">
                             <div class="form-group col-md-8">
-                                <input type="text" class="form-control" placeholder="Program Id"  v-model="searchText" />
+                                <input type="text" id="search" class="form-control" placeholder="Program Id"  v-model="searchText" />
                             </div>
                         </form>
                      </div>
                     <table class="table table-hover table-bordered">
                             <tr>
-                                <th>Program Id</th>
+                                <th>Program Name</th>
                                 <th>Status</th>
                                 <th>Nor Of Attempts</th>
                                 <th>Score</th>
                             </tr>
-                            <tr v-repeat="users | filterBy searchText in user_name | orderBy 'total' -1">
-                                <td v-text=""></td>
-                                <td v-text="username.score"></td>  
-                                <td v-text="$index+1"></td>
-                                <td v-text="score"></td>
+                        {% for u in submissions %}
+                            <tr>
+                                <td>{{u.program}}</td>
+                                <td>{{u.program_result}}</td>  
+                                <td></td>
+                                <td>{{u.score}}</td>
                             </tr>
+                         {% endfor %}
                         </table>
 		   </div>
          <div class="col-sm-6" >
@@ -58,21 +67,20 @@ Rank: <span v-text="score.rank"></span>
                      </div>
                         <table class="table table-hover table-bordered">
                             <tr>
-                                <th>Name</th>
+                                <th>Username</th>
                                 <th>Score</th>
-                                <th>Rank</th>
                             </tr>
-                            <tr v-repeat="users | filterBy searchText in user_name | orderBy 'total' -1">
-                                <td v-text="username"></td>
-                                <td v-text="username.score"></td>  
-                                <td v-text="$index+1"></td>
+                         {% for u in submissions %}
+                            <tr>
+                                <td>{{u.username}}</td>
+                                <td>{{u.score}}</td>  
                             </tr>
+                         {% endfor %}
                         </table>
                     </div>
                 </div>
             </div>
-         
-         <div class="page" id="submissionsPage">
+         <div id="submissionsPage">
                 <h2>Submissions</h2>
                 <div class="container" id="submissions">
                     <ul v-repeat="submissions" class="list-group">

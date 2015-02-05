@@ -1,0 +1,78 @@
+
+
+Histogram                   Score:8
+---------                  --------
+
+Maximum execution time for this program :4 sec
+
+Histograms are used to determine the density of data based on given dimensions. 
+
+Objective of this program is to read data from a file and find out the
+count of each distinct value used for a given attribute.
+
+Input file consists of serveral records in the following format: 
+
+ID:
+- <Attribute>: Value
+
+Example: 
+Abraham:
+- age: 26
+- city: sydney
+- citizenship: austrian                                                                                                             
+- qualification: m.pharmacy
+
+In the file the data might be repeated with changes in some of the attributes, then the updated data must be
+considered in counting the values for the given attribute.
+
+The input will be the file and the output should be displayed with attribute values and the
+count of occurance of that value. If a user doesn't have the given attribute, you should use a value of 'N/A'
+
+For the histogram.txt in this directory here is the expected output: 
+
+------------------
+Command to Run - 1
+------------------
+sh run.sh histogram.txt town
+
+Expected output - 1
+-------------------
+bhimavaram,1
+hyderabad,2
+hongkong,1
+cario,1
+sydney,2
+visakhapatnam,1
+butere,1
+------------------
+
+
+------------------
+Command to Run - 2
+------------------
+sh run.sh histogram.txt country
+
+Expected output - 2
+-------------------
+Egyptian,1
+American,1
+indian,4
+austrian,1
+kenya,1
+australian,1
+------------------
+
+------------------
+Command to Run - 3
+------------------
+sh run.sh histogram.txt education
+
+Expected output - 3
+-------------------
+B.pharmacy,1
+m.pharmacy,1
+N/A,1
+B.Tech,4
+b.pharmacy,1
+M.Tech,1
+------------------

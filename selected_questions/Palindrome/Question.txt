@@ -1,0 +1,23 @@
+
+
+Palindrome                  Score: 3
+----------                 ----------
+
+Maximum execution time for this program : 3 sec
+
+Objective of this program is to find out if a sentence or a word is a valid Palindrome
+or not.
+
+The below conditions must be satisfied:
+
+1.Ignore the case sensitivity in the inputs.
+2.Ignore full stops, question marks, exclamation marks, spaces, etc.
+
+  
+----------------------------------------  
+  Sample Input           Sample Output
+----------------------------------------
+ Never odd or even!.       Yes
+ Malayalam                 Yes
+ Kansas                    No
+---------------------------------------
