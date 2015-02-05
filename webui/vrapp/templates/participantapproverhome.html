@@ -14,13 +14,13 @@
                             </div>
                         </form>
                         <form class="navbar-form navbar-header" method="get" action="participantapproverhome">
-                              <select id="patype" name="patype" class="dropdown-header">
+                              <select style="color:blue" id="patype" name="patype" class="dropdown-header btn btn-default dropdown-toggle">
                                     <option value="eligible">Eligible Contestants</option>
                                     <option value={{pa1}}>Approved By {{pa1}}</option>
                                     <option value={{pa2}}>Approved By {{pa2}}</option>
                                     <option value="approve">Need To Approved</option>
                                </select>
-                             <input type="submit" value="Go" class="navbar-form navbar-header navbar-right nav-btn btn btn-sm" />
+                             <input type="submit" value="Go" style="color:blue" class="navbar-form navbar-header navbar-right nav-btn btn btn-sm" />
                         </form>
                      </div>
                      <form id="approvecontestantForm">
@@ -35,7 +35,7 @@
                                 <td>{{ c.username }}</td>
                                 <td>{{ c.email }}</td>  
                           {% if c.approved_status == "1" %}
-                                <td align="center">Approved</td>
+                                <td>Approved</td>
                           {% else %}
                                  <td>
                                  	<input type="checkbox" id="contestants" name="contestants" value={{c.username}} />

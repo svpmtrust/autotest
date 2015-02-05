@@ -238,8 +238,10 @@ def contestanthome(request):
     username = request.session['username']
     c=Connection()
     db1=c.autotest
-    submissions = db1.submissions.find({'user_name':username})
-    return render(request, 'contestanthome.html', {'cname': contestname ,'username':username, 'submissions':submissions}) 
+    programs = db1.submissions.find({'user_name':username})
+    scores=db1.scores.find()
+    return render(request, 'contestanthome.html',
+                   {'cname': contestname ,'username':username, 'programs':list(programs), 'scores':scores}) 
 
 '''
 def submissions(request):
@@ -284,6 +286,13 @@ def puppetstop(request):
         os.system("vagrant stop")
         return HttpResponse(str("Already finished"))
 
+def deactivateuser(request):
+    cn = Connection()
+    db1 = cn.autotest
+    un = request.POST.get("names")
+    db1.contestant.update({'username':un},{"$set":{'status':"Deactivate"}})
+    return HttpResponseRedirect('/testadminhome') 
+
 #------------TestCreator Home------------#
 def testcreatorhome(request):
 	contestname = request.session['contestname']
@@ -303,6 +312,12 @@ def createquestionpaper(request):
     ques=json.loads(request.GET.get("names"))
     flags=json.loads(request.GET.get("flags"))
     coll=db1.contest.find_one({"contestname":contestname})
+    easy=request.GET.get("easy")
+    medium=request.GET.get("medium")
+    hard=request.GET.get("hard")
+    coll["questions_criteria"]={"easy":easy,
+                                "medium":medium,
+                                "hard":hard}
     for i in ques:
     	if i in flags:
     		coll["questions"].update({i:1})

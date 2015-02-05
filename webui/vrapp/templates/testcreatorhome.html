@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 
-{%block navbar%}
-<div class="navbar-header">
-     <button class="btn btn-info active navbar-btn nav-right nav-brand">
-       <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF">  {{ date }} 
-         <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span></a> 
-     </button>&nbsp;&nbsp;&nbsp;&nbsp;
- </div>              
-{%endblock%}
-
 {% block content %}
 			    
 <div class="container" id="main-container">
         <div class="page" id="homePage">
+            <button class="btn btn-info active navbar-btn nav-brand nav-right">
+    		 Date Of The Contest :: {{ date }} 
+       		 <span class="glyphicon glyphicon-calendar" aria-hidden="true"> </span></a> 
+    		</button>
 			<h2>Questions Available</h2>
                <div id="leaderboard">
                      <div class="nav navbar navbar-default">
@@ -21,23 +16,10 @@
                             <div class="form-group col-md-8">
                                 <input type="text" id="search" class="form-control" placeholder="Question Name"  v-model="searchText" />
                             </div>
-                        </form>
+                         </form>
                      </div>
-                     <div id="output">
-                      <div>
-                        <label>Easy</label>
-                        <span id="easy"></span>
-                      </div>
-                      <div>
-                        <label>Medium</label>
-                        <span id="medium"></span>
-                       </div>
-                       <div>
-                        <label>Hard</label>
-                        <span id="hard"></span>
-                       </div>
-                    </div>
-                    <form id="questionForm">
+                   <form id="questionForm">
+                     
                         <table class="table table-hover table-bordered checkList">
                             <tr>
                             	<th>Question Name</th>
@@ -64,9 +46,31 @@
                             </tr>
 		           {% endfor %}
                         </table>
+                        <div id="output" style="color:purple">
+                     <div class="col-sm-3">
+                     <label>Questions Per Contestant :: </label>
+                     </div>
+                      <div class="col-sm-2">
+                        <label>Easy</label>
+                       <span id="easy"></span>
+                        <input type="name" id="easy1" size="2" />
+                      </div>
+                      <div class="col-sm-2">
+                        <label>Medium</label>
+                        <span id="medium"></span>
+                        <input type="name" id="medium1" size="2" />
+                       </div>
+                       <div class="col-sm-2">
+                        <label>Hard</label>
+                        <span id="hard"></span>
+                        <input type="name" id="hard1" size="2" />
+                       </div>
+                    	<div class="col-sm-2">
                         <input type="submit"  class="btn btn-primary" value="Create" id="btntest" />&nbsp;&nbsp;
                     	<input type="reset"  class="btn btn-primary" value="Reset" />
-                   	    </form>
+                    	</div>
+                   	   </div>
+                   	  </form>
                     </div>
                 </div>
 		</div>

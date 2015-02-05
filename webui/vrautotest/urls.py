@@ -35,7 +35,8 @@ urlpatterns = patterns('',
     url(r'^testadminhome', 'vrapp.views.testadminhome', name='testadminhome'),
     url(r'^puppetrun', 'vrapp.views.puppetrun', name='puppetrun'),
     url(r'^puppetstop', 'vrapp.views.puppetstop', name='puppetstop'),
-
+    url(r'^deactivateuser', 'vrapp.views.deactivateuser', name='deactivateuser'),
+    
 	#------------TestCreator Home------------#
 
     url(r'^testcreatorhome$', 'vrapp.views.testcreatorhome', name='testcreatorhome'),

@@ -31,23 +31,25 @@
                             <tr>
                             	<th>User Name</th>
                                 <th>Name</th>
-                                <th>Nor Of Programs Done</th>
-                                <th>Nor Of Submissions Made</th>
-                                <th>Cheater Indications</th>
+                                <th>Number Of Programs Done</th>
+                                <th>Number Of Submissions Made</th>
+                             <!--   <th>Cheater Indications</th>	-->
                                 <th>Score</th>
-                                <th>Rank</th>
+                           <!--     <th>Rank</th>	-->
                                 <th>Action</th>
                             </tr>
-                            <tr v-repeat="users | filterBy searchText in user_name | orderBy 'total' -1">
-                                <td v-text="username"></td>
-                                <td v-text="username.score"></td>  
-                                <td v-text="$index+1"></td>
-                                <td v-text="$index+1"></td>
-                                <td v-text="$index+1"></td>
-                                <td v-text="$index+1"></td>
-                                <td v-text="$index+1"></td>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>                                 
+                                <td></td>
+                             <!--   <td></td>	-->
+                                <td></td>
+                           <!--     <td></td>	-->
                                 <td align="center">
-                                <form method="post" action="#deletingfunction">
+                                <form method="post" action="deactivateuser">
+                                {% csrf_token %} 
+                                   <input type="name" id="name" name="name" style="display:none;" value={{l.contestantname}} />
                                     <button class="btn btn-danger btn-sm">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                                     </button>

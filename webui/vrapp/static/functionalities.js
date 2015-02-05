@@ -44,6 +44,33 @@ var checkEvent = function () {
 $(".checkList input").on('change',checkEvent);
 });
 
+$(function(){
+	$("#easy1").blur(function () {
+		var n = $("#easy1").val();
+   		var m = $("#easy").text();
+	     if(parseInt(n) > parseInt(m)) {
+        	alert("Value must be less than the Selected Questions");
+        	 $("#easy1").val("0");
+   			 }
+	});
+		$("#medium1").blur(function () {
+		var n = $("#medium1").val();
+   		var m = $("#medium").text();
+	     if(parseInt(n) > parseInt(m)) {
+        	alert("Value must be less than the Selected Questions");
+        	 $("#medium1").val("0");
+   			 }
+	});
+		$("#hard1").blur(function () {
+		var n = $("#hard1").val();
+   		var m = $("#hard").text();
+	     if(parseInt(n) > parseInt(m)) {
+        	alert("Value must be less than the Selected Questions");
+        	 $("#hard1").val("0");        	
+   			 }
+	});
+});
+
 /*------------Question Paper Creation-----------------*/
 			$(function(){	
 				$("#questionForm").submit(function(event){
@@ -62,19 +89,16 @@ $(".checkList input").on('change',checkEvent);
 					}
 				}
 				console.log(flag);
-			    	$.get("/createquestionpaper", {names:JSON.stringify(data) , flags:JSON.stringify(flag)}, function(data){
+				var easy = $("#easy1").val();
+				var medium = $("#medium1").val();
+				var hard = $("#hard1").val();
+			    	$.get("/createquestionpaper", {names:JSON.stringify(data) , flags:JSON.stringify(flag) , easy:easy , medium:medium , hard:hard}, function(data){
 						alert("Test paper Generated With Your seleted Questions \n Thank You!!\nQuestions Are "+data);
 						window.location.reload(true);
 					});
 				});
 			});
-			
-/*------------Closing Window-----------------*/
-	 function closeWin()
-	  {
-   		 window.close(); 
-      }
-
+				
 /*------------Checking UserName For Unique-----------------*/
 			$(function(){
 				$("#username").blur(function(){

@@ -44,14 +44,14 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Nor Of Attempts</th>
                                 <th>Score</th>
                             </tr>
-                        {% for u in submissions %}
+                        {% for u in programs %}
                             <tr>
                                 <td>{{u.program}}</td>
                                 <td>{{u.program_result}}</td>  
                                 <td></td>
                                 <td>{{u.score}}</td>
                             </tr>
-                         {% endfor %}
+                         {% endfor %} 
                         </table>
 		   </div>
          <div class="col-sm-6" >
@@ -70,12 +70,12 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Username</th>
                                 <th>Score</th>
                             </tr>
-                         {% for u in submissions %}
+                         {% for s in scores %} 
                             <tr>
-                                <td>{{u.username}}</td>
-                                <td>{{u.score}}</td>  
+                                <td>{{s.user_name}}</td>
+                                <td>{{s.score}}</td>  
                             </tr>
-                         {% endfor %}
+                         {% endfor %}  
                         </table>
                     </div>
                 </div>
@@ -83,13 +83,15 @@ Rank: <span v-text="score.rank"></span>
          <div id="submissionsPage">
                 <h2>Submissions</h2>
                 <div class="container" id="submissions">
-                    <ul v-repeat="submissions" class="list-group">
+ 					<ul class="list-group">
+ 					 {% for p in programs %}
                         <li class="list-group-item">
-                            <div>Program:<span v-text="program"></span></div>
-                            <div>Program result:<span v-text="program_result"></span></div>
+                            <div>Program:<b>{{p.program}}</b></div>
+                            <div>Program result:<b>{{program.program_result}}</b></div>
                             <div>Test case result:</div>
-                            <pre v-text="test_case_result"></pre>
+                            <pre></pre>
                         </li>
+                      {% endfor %}
                     </ul>
                 </div>
             </div>

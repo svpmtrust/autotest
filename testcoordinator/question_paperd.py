@@ -19,7 +19,7 @@ def copy_selected_questions():
 
 def mainloop():
     files = '/vagrant/selected_questions/*' 
-    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.103:27017/')
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
     direct=conf.participant_dir
