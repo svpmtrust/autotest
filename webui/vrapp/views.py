@@ -1,11 +1,9 @@
 import smtplib
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from pymongo import Connection
 import json
 import os
 import hashlib
-#from celery.worker.job import Request
 from vrautotest.settings import db1
 
 # Create your views here.
@@ -141,8 +139,7 @@ def regisuccess(request):
     smtpserver.close()
     a=hashlib.sha1(pswd)
     hpswd=a.hexdigest()
-    c = Connection()
-    db1 = c.autotest
+
     d=db1.contest.find_one({"contestname":cn})
     if d["approverrule"] == "0" :
         apstatus="1"
@@ -178,8 +175,7 @@ def loginvalidate(request):
     password = request.POST.get('password')
     a=hashlib.sha1(password)
     password=a.hexdigest()
-    cn = Connection()
-    db1 = cn.autotest 
+
     request.session['contestname'] = contestname
     request.session['username'] = username
     if(usertype == "contestant"):

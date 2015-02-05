@@ -13,9 +13,13 @@ import os
 from pymongo import MongoClient
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-DB_HOST=os.environ.get('DB_HOST','192.168.1.101:27017')
-client=MongoClient(DB_HOST)
-db1=client.autotest
+
+# Setup a database connection to be used in the rest of the code
+DB_HOST = os.environ.get('DB_HOST', 'localhost:27017')
+client = MongoClient(DB_HOST)
+db1 = client[os.environ.get('DB_NAME', 'autotest')]
+if 'DB_USER' in os.environ:
+    db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
