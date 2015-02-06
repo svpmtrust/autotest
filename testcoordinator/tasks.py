@@ -8,8 +8,9 @@ import shlex
 import timed_execution
 import json
 from celery import Celery
+from conf import db_host
 
-app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100//')
+app = Celery('tasks', backend='amqp', broker='amqp://guest@{}//'.format(db_host.split(':')[0]))
 
 
 def inputoutput(progname):

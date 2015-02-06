@@ -7,7 +7,7 @@ import time
 
 
 def copy_selected_questions():
-    questions_for_contest=db.contest.find({'contestname':'VR_Auto_Test'},{'_id':0,'questions':1})
+    questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
     for i in questions_for_contest:
         x=i['questions']
     sq=list()

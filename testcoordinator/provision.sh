@@ -13,7 +13,7 @@ echo Installing Celery
 echo -----------------
 sudo pip install celery
 
-echo creating Participants,mails,programs directories
+echo creating Participants,programs directories
 echo -------------------------------------------------
 cd $1
 mkdir programs
@@ -34,9 +34,9 @@ sudo service testcoordinator start
 
 echo Running the QuestionPaper Deamon
 echo --------------------------------
-echo env GITSERVER_ROOT=$1 > /etc/init/testcoordinator.conf
-echo env DB_HOST=$2 >> /etc/init/testcoordinator.conf
-echo env CONTEST_NAME=$3 >> /etc/init/testcoordinator.conf
-echo env GIT_HOST=$4 >> /etc/init/testcoordinator.conf
+echo env GITSERVER_ROOT=$1 > /etc/init/questionpaper.conf
+echo env DB_HOST=$2 >> /etc/init/questionpaper.conf
+echo env CONTEST_NAME=$3 >> /etc/init/questionpaper.conf
+echo env GIT_HOST=$4 >> /etc/init/questionpaper.conf
 cat $1/testcoordinator/question-paper.Upstart.templ >> /etc/init/questionpaper.conf
 sudo service questionpaper start

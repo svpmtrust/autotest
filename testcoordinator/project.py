@@ -1,7 +1,7 @@
 import subprocess
 import os
 import conf
-from conf import participant_dir
+from conf import participant_dir, contest_name
 import xml.etree.ElementTree as ET
 import time
 from pymongo import MongoClient
@@ -10,6 +10,7 @@ import timed_execution
 import json
 from celery import Celery
 import tasks
+
 
 def listofParticipants():
     """ This method will go through each user in the participant
@@ -66,57 +67,28 @@ def mainloop():
                     "time":time.time(),
                 })
             continue
-        submission = tasks.progtest.apply_async(args=(user, programname), queue='testing')
+        submission = tasks.progtest.apply_async(args=(user, programname), queue=contest_name+'_testing')
         submission = submission.get()
         print "==> Saving submission record in the DB, after execution <=="
         col_submissions.save({
-            "user_name":submission["user"],
-            "program":submission["programname"],
-            "program_result":submission["progstatus"],
-            "score":submission["score"],
-            "test_case_result":submission["description"],
-                  "time":time.time()
+            "user_name": submission["user"],
+            "program": submission["programname"],
+            "program_result": submission["progstatus"],
+            "score": submission["score"],
+            "test_case_result": submission["description"],
+            "time": time.time()
         })
 
-    sccoll=db.scores.find_one({"username":submission["user"],"program":submission["program"]})
-    if sccoll == None and submission["score"] == 0:
-       pass        
-    elif sccoll == None and submission["score"] > 0:      
-        db.scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
-    elif sccoll!=None and submission["score"] == 0:
-        db.scores.remove({"user_name":submission["user"],"program":submission["programname"]})     
-    elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
-       sccoll["score"]=submission["score"] 
-       db.scores.save(sccoll)
-
-
-
-
-
-
-
-        
-'''        # If the user gets some score, update the score collection with latest
-        # information
-        if your_score:
-            current_score = col_scores.find_one({'user_name':user})
-            if not current_score:
-                current_score = {
-                    'user_name': user,
-                    'programs': {}
-                }
-            current_score['programs'][programname] = {
-                    'status': submission["progstatus"],
-                    'score': submission["score"]
-                    'status': progstatus,
-                    'score': your_score
-
-            }
-            col_scores.save(current_score)
-            progs = current_score['programs']
-            total_score = sum(progs[x]['score'] for x in progs)
-            result[user].insert(0, "YOUR NEW SCORE IS %s" % str(total_score))
-'''
+        sccoll=db.scores.find_one({"username":submission["user"],"program":submission["program"]})
+        if sccoll == None and submission["score"] == 0:
+           pass
+        elif sccoll == None and submission["score"] > 0:
+            db.scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
+        elif sccoll!=None and submission["score"] == 0:
+            db.scores.remove({"user_name":submission["user"],"program":submission["programname"]})
+        elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
+           sccoll["score"]=submission["score"]
+           db.scores.save(sccoll)
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
