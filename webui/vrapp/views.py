@@ -255,7 +255,8 @@ def puppetrun(request):
                 stack_id = cf.create_stack(
                     stack_name=stack_name, template_body=fp.read(),
                     parameters=[
-                        ("KeyName", "recruitment-keys"),
+                        # TODO: Make the KeyName parameterized
+                        ("KeyName", "hiring-keys"),
                         ("DBHost", DB_HOST),
                         ("DBName", DB_NAME),
                         ("ContestName", cn)
