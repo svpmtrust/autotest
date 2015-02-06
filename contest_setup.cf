@@ -56,7 +56,7 @@
       "m3.medium"   : { "Arch" : "64" },
       "m3.small"  : { "Arch" : "64" },
       "c3.xlarge"   : { "Arch" : "64" },
-      "c3.2xlarge"   : { "Arch" : "64" },
+      "c3.2xlarge"   : { "Arch" : "64" }
     },
 
     "RegionAMIMap" : {
