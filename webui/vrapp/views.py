@@ -272,7 +272,8 @@ def puppetrun(request):
                         pass
                     elif our_stack.stack_status in ("CREATE_COMPLETE",
                                                     "UPDATE_COMPLETE"):
-                        git_ip = our_stack.outputs["GitServerAddress"]
+                        outputs = dict((x.key, x.value) for x in our_stack.outputs)
+                        git_ip = outputs["GitServerAddress"]
                         break
                     else:
                         raise Exception('Unable to create the stack. Check AWS')
