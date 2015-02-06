@@ -1,3 +1,0 @@
-cprogram.c: In function 'main':
-cprogram.c:8:20: error: expected ';' before string constant
-cprogram.c:8:30: error: expected statement before ')' token

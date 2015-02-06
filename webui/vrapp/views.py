@@ -129,7 +129,7 @@ def regisuccess(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
     pswd = request.POST.get('pass')
-    to = email
+    '''to = email
     gmail_user = 'techcontest2015@gmail.com'
     gmail_pwd = 'aviso2015'
     smtpserver = smtplib.SMTP("smtp.gmail.com",587)
@@ -142,7 +142,8 @@ def regisuccess(request):
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
     a=hashlib.sha1(pswd)
-    hpswd=a.hexdigest()
+<<<<<<< HEAD
+    hpswd=a.hexdigest()'''
 
     d=db1.contest.find_one({"contestname":cn})
     if d["approverrule"] == "0" :
@@ -156,7 +157,7 @@ def regisuccess(request):
           "questions":[]
           }
     db1.contestant.insert(user)
-    return render(request,'regisuccess.html',{})
+    return render(request,'loginform.html',{})
 
 #---------Login----------#
 
@@ -174,12 +175,15 @@ def logout(request):
 
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
-    contestname = request.POST.get('contestname')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    contestname = request.POST.get('contestname1')
+    username = request.POST.get('username1')
+    password = request.POST.get('password1')
     a=hashlib.sha1(password)
     password=a.hexdigest()
+<<<<<<< HEAD
+=======
 
+>>>>>>> 253dbaa62809e9bd2575a39dbd7d22469fb6b668
     request.session['contestname'] = contestname
     print request.session['contestname']
     request.session['username'] = username
@@ -217,11 +221,16 @@ def loginvalidate(request):
 def contestanthome(request):
     contestname = request.session['contestname']
     username = request.session['username']
+    coll = db1.contestant.find_one({"username":username})
+    password=coll["password"]
     programs = db1.submissions.find({'user_name':username})
     scores=db1.scores.find()
+    conteststatus=db1.contest.find_one({"contestname":contestname},{"_id":0,"status":1})
     #lb=db1.submissions.aggregate([{"$group":{_id:"$"+username+,nos:{"$sum":1}}}])
     return render(request, 'contestanthome.html',
-                   {'cname': contestname ,'username':username, 'programs':list(programs), 'scores':scores}) 
+                   {'cname': contestname ,'username':username,
+                    'password':password, 'cstatus':conteststatus,
+                    'programs':list(programs), 'scores':scores}) 
 
 '''
 def submissions(request):

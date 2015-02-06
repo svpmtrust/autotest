@@ -17,3 +17,6 @@ sudo -u vagrant celery -A tasks worker --queue=testing &
 echo secceded
 
 
+cd /vagrant
+mkdir tsparticipants
+mkdir tsprograms

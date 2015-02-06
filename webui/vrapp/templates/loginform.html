@@ -4,10 +4,10 @@
         <div class="page" id="homePage">
            <h3>Login To The Tech Contest . . . .</h3><hr/>
                 <div class="form-group" align="center" style="width:70%;padding-left:30%">
-                    <form method="post" action="loginvalidate" class="form-horizontal">
+                    <form class="regiForm form-horizontal" method="post" action="loginvalidate">
                      {% csrf_token %}
                       <div class="form-group">
-                        <select name="contestname" id="contestname" class="form-control" >
+                        <select name="contestname1" id="contestname1" class="form-control" >
                             <option value="select" selected>Select ContestName</option>
                             {% for c in cname %}
                             <option value={{c.contestname}}>{{c.contestname}}</option>
@@ -24,14 +24,14 @@
                        <br/>
                         <label for="inputEmail3" class="col-sm-2 control-label">UserName</label> 
                         <div class="col-sm-10">
-                          <input name="username" type="text" class="form-control" id="inputEmail3" placeholder="Username">
+                          <input name="username1" type="text" class="form-control" id="username1" placeholder="Username">
                         </div>
                       <br/>
                       </div>
                       <div class="form-group">
                         <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                          <input name="password" type="password" class="form-control" id="inputPassword3" placeholder="Password" required="yes">
+                          <input name="password1" type="password" class="form-control" id="password1" placeholder="Password" required="yes">
                         </div>
                       </div>
                       <div class="form-group">

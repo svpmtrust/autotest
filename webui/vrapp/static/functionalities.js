@@ -76,16 +76,18 @@ $(function(){
 				$("#questionForm").submit(function(event){
 				event.preventDefault();
 				data=[];
-				for(i=0;i<cq.length;i++) {
-					if(cq[i].checked) {
-						data.push(cq[i].value);
+				checkBoxes = document.getElementsByName('cq');
+				for(i=0;i<checkBoxes.length;i++) {
+					if(checkBoxes[i].checked) {
+						data.push(checkBoxes[i].value);
 					}
 				}
 				console.log(data);
+				flagsvalues = document.getElementsByName('ps');
 				flag=[];
-				for(i=0;i<ps.length;i++) {
-					if(ps[i].checked) {
-						flag.push(ps[i].value);
+				for(i=0;i<flagsvalues.length;i++) {
+					if(flagsvalues[i].checked) {
+						flag.push(flagsvalues[i].value);
 					}
 				}
 				console.log(flag);
@@ -142,11 +144,12 @@ function add()
  /*------------participant approver selection-----------------*/
 			$(function(){	
 				$("#approvecontestantForm").submit(function(event){
+				unames = document.getElementsByName('contestants');
 				event.preventDefault();
 				data=[];
-				for(i=0;i<contestants.length;i++) {
-					if(contestants[i].checked) {
-						data.push(contestants[i].value);
+				for(i=0;i<unames.length;i++) {
+					if(unames[i].checked) {
+						data.push(unames[i].value);
 					}
 				}
 			    console.log(data);
@@ -159,3 +162,25 @@ function add()
 				});
 			});
  
+/*-----------------Checking Password and email-------------*/
+	$(function(){	
+			  $("#email").blur(function(event){
+			  var e = $("#email").val();
+			  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  				if( !emailReg.test( e ) ) {
+    				alert("Not a Valid Email");
+  				}
+			 });
+				$("#cpass").blur(function(event){
+				var p = $("#pass").val();
+				var cp=$("#cpass").val();
+				if(p != cp)
+					{
+						alert("Password Didn't Match");
+						$("#cpass").val("");
+						$("#pass").val("");  
+					}
+			     });
+			});
+
+		
