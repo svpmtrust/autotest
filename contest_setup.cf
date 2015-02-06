@@ -88,7 +88,10 @@
         "InstanceType": { "Ref": "InstanceType" },
         "KeyName": { "Ref": "KeyName" },
         "Tags" : [
-                {"Key" : "Name", "Value" : { "Fn::Join": [" ", ["Git Server -", {"$Ref": "ContestName"}]]} }
+               {"Key" : "Name",
+                "Value" : {"Fn::Join":["", [
+                 "GetServer - ", { "Ref": "ContestName"} ]] }
+             }
         ],
         "Monitoring": true,
         "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
