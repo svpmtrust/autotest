@@ -103,6 +103,7 @@
               "sudo apt-get install -y git",
               "cd ~ubuntu",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest",
+              "cd autotest",
               "bash autotest/gitserver/bootstrap.sh `pwd`"
 	  		   ]]}
 	  	  },
