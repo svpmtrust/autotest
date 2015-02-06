@@ -11,11 +11,28 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from pymongo import MongoClient
+from boto import config as botoconfig
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-DB_HOST=os.environ.get('DB_HOST','192.168.1.101:27017')
-client=MongoClient(DB_HOST)
-db1=client.autotest
+
+# Setup a database connection to be used in the rest of the code
+DB_HOST = os.environ.get('DB_HOST', 'localhost:27017')
+client = MongoClient(DB_HOST)
+DB_NAME = os.environ.get('DB_NAME', 'autotest')
+db1 = client[DB_NAME]
+if 'DB_USER' in os.environ:
+    db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
+on_aws = "ON_AWS" in os.environ
+
+if on_aws:
+    if not botoconfig.has_section('Credentials'):
+        botoconfig.add_section('Credentials')
+    if not botoconfig.has_option('Credentials', 'aws_access_key_id'):
+        botoconfig.set('Credentials', 'aws_access_key_id',
+                       os.environ.get('AWS_KEY'))
+    if not botoconfig.has_option('Credentials', 'aws_secret_access_key'):
+        botoconfig.set('Credentials', 'aws_secret_access_key',
+                        os.environ.get('AWS_SECRET'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -27,7 +44,6 @@ SECRET_KEY = 'z%h7pr=_$j%^l54+xcjco8e+*%y)%j7q^&0w_+j8nfsh=ra_n('
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
@@ -88,6 +104,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-	os.path.join(BASE_DIR, "static"),
-	'/var/www/static/',
+	#os.path.join(BASE_DIR, "static"),
+	#'/var/www/static/',
 )
+STATIC_ROOT = os.path.join(BASE_DIR,'../../static-files/static')
+

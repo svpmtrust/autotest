@@ -7,7 +7,6 @@
 <path>/${PROJECT_DIR_NAME}/testserver</path>
 <path>/${PROJECT_DIR_NAME}/gitserver</path>
 <path>/${PROJECT_DIR_NAME}</path>
-<path>/${PROJECT_DIR_NAME}/testserver-backup/webui</path>
 </pydev_pathproperty>
 <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
 <key>DJANGO_SETTINGS_MODULE</key>

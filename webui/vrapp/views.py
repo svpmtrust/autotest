@@ -1,12 +1,14 @@
 import smtplib
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from pymongo import Connection
 import json
 import os
 import hashlib
-#from celery.worker.job import Request
-from vrautotest.settings import db1
+import time
+from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
+import boto
+import boto.cloudformation
+
 
 # Create your views here.
 
@@ -140,7 +142,9 @@ def regisuccess(request):
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
     a=hashlib.sha1(pswd)
+<<<<<<< HEAD
     hpswd=a.hexdigest()'''
+
     d=db1.contest.find_one({"contestname":cn})
     if d["approverrule"] == "0" :
         apstatus="1"
@@ -176,7 +180,12 @@ def loginvalidate(request):
     password = request.POST.get('password1')
     a=hashlib.sha1(password)
     password=a.hexdigest()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 253dbaa62809e9bd2575a39dbd7d22469fb6b668
     request.session['contestname'] = contestname
+    print request.session['contestname']
     request.session['username'] = username
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
@@ -244,11 +253,58 @@ def puppetrun(request):
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Not Started"):
-        os.system("cd ..")
-        os.system("ls")
-        os.system("vagrant up")
-        db1.contest.update({'contestname':cn},{"$set":{'status':"Started"}})
-        return HttpResponse(str("Contest Started"))
+
+        if on_aws:
+            # TODO: Ideally we should ask celery to launch this in the background
+
+            # Launch the AWS Cloud Formation Stack
+            stack_name = cn.replace('_', '-')
+            cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+            with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
+                stack_id = cf.create_stack(
+                    stack_name=stack_name, template_body=fp.read(),
+                    parameters=[
+                        # TODO: Make the KeyName parameterized
+                        ("KeyName", "hiring-keys"),
+                        ("DBHost", DB_HOST),
+                        ("DBName", DB_NAME),
+                        ("ContestName", cn)
+                    ]
+                )
+            # Get the IP Address from the outputs
+            for x in range(60):
+                stack_data = cf.describe_stacks(stack_name_or_id=stack_name)
+                if len(stack_data) > 0:
+                    our_stack = stack_data[0]
+                    if our_stack.stack_status in ["CREATE_IN_PROGRESS",
+                                                  "UPDATE_IN_PROGRESS"]:
+                        pass
+                    elif our_stack.stack_status in ("CREATE_COMPLETE",
+                                                    "UPDATE_COMPLETE"):
+                        outputs = dict((x.key, x.value) for x in our_stack.outputs)
+                        git_ip = outputs["GitServerAddress"]
+                        break
+                    else:
+                        raise Exception('Unable to create the stack. Check AWS')
+                time.sleep(5)
+            else:
+                raise Exception("Timeout in creating the AWS stack")
+
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': git_ip}
+                               })
+        else:
+            os.system("cd ..")
+            os.system("ls")
+            os.system("vagrant up")
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "192.168.1.101"}
+                               })
+            return HttpResponse(str("Contest Started"))
     else:
         return HttpResponse(str("Contest Already Done"))
 
