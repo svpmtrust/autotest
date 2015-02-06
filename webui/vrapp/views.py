@@ -7,6 +7,8 @@ import hashlib
 import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
+import boto.cloudformation
+
 
 # Create your views here.
 

@@ -24,6 +24,16 @@ if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
 on_aws = "ON_AWS" in os.environ
 
+if on_aws:
+    if not botoconfig.has_section('Credentials'):
+        botoconfig.add_section('Credentials')
+    if not botoconfig.has_option('Credentials', 'aws_access_key_id'):
+        botoconfig.set('Credentials', 'aws_access_key_id',
+                       os.environ.get('AWS_KEY'))
+    if not botoconfig.has_option('Credentials', 'aws_secret_access_key'):
+        botoconfig.set('Credentials', 'aws_secret_access_key',
+                        os.environ.get('AWS_SECRET'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -36,13 +46,6 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
-if not botoconfig.has_section('Credentials'):
-    botoconfig.add_section('Credentials')
-if not botoconfig.has_option('Credentials', 'aws_access_key_id'):
-    botoconfig.set('Credentials', 'aws_access_key_id', 'AKIAJ7LPZLSEWJ46XV7A')
-if not botoconfig.has_option('Credentials', 'aws_secret_access_key'):
-    botoconfig.set('Credentials', 'aws_secret_access_key',
-                           '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')
 
 # Application definition
 
