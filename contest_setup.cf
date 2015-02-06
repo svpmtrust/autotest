@@ -160,9 +160,7 @@
 	  	  },
           "SecurityGroups" : [ { "Ref" : "SSHAccess" } ]
       }
-    }
-
-
+    },
     "TestServer": {
       "Type": "AWS::EC2::Instance",
       "Properties": {

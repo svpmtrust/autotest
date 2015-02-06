@@ -50,12 +50,12 @@ def mainloop():
     db = client.autotest
     col_submissions=db.submissions
     col_scores=db.scores
-    result={}#creating empty dict for results
+    result = {}
     for user,programname in listofParticipants():
         if user not in result:
             result.update({"user":user})#creating a new tupple in res with no values
-            result.update({"programname":programname}) 
-        program_dir=conf.participant_dir+user+'/'+programname #getting program code into program
+            result.update({"programname":programname})
+
         program_name=conf.program_dir+programname+'.xml'#getting program code  xml into program
         # Check if this programis something we support
         if not os.path.isfile(program_name): 
