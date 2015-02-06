@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 
 {%block navbar%}
-      <script>
-          contest_name = '{{contest}}'
-      </script>
       <div class="navbar-header">
    				 <button id="start" class="btn btn-success active navbar-btn nav-right nav-brand" >
   				 Start  <span class="glyphicon glyphicon-play-circle" aria-hidden="true"> </span> 
@@ -11,11 +8,14 @@
 		         <button onclick="testStop()" id="stop" class="btn btn-danger btn-active" disabled>
 				 Stop <span class="glyphicon glyphicon-stop" aria-hidden="true"> </span> 
 				 </button>&nbsp;&nbsp;
-           </div>
+       </div>
      
 {%endblock%}
 
 {% block content %}
+    <script>
+          contest_name = '{{contest}}'
+    </script>
 	<div class="container" id="main-container">
         <div class="page" id="homePage">
           	<div><b id="output"></b></div>
