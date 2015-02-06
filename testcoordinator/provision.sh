@@ -11,7 +11,7 @@ sudo pip install pymongo
 
 echo Installing Celery
 echo -----------------
-sudo pip install celery
+sudo pip install celery, pymongo
 
 echo creating Participants,programs directories
 echo -------------------------------------------------
