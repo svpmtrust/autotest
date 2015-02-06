@@ -250,19 +250,19 @@ def puppetrun(request):
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
                 stack_id = cf.create_stack(
                     stack_name=cn, template_body=fp.read(),
-                    parameters={
-                        "KeyName": "recruitment-keys",
-                        "DBHost": DB_HOST,
-                        "DBName": DB_NAME,
-                        "ContestName": cn
-                    }
+                    parameters=[
+                        ("KeyName", "recruitment-keys"),
+                        ("DBHost", DB_HOST),
+                        ("DBName", DB_NAME),
+                        ("ContestName", cn)
+                    ]
                 )
             # Get the IP Address from the outputs
             for x in range(60):
                 stack_data = cf.describe_stacks(stack_name_or_id=cn)
                 if len(stack_data) > 0:
                     our_stack = stack_data[0]
-                    if our_stack.stack_status in ("CREATE_COMPLETE",
+                    if our_stack.status in ("CREATE_COMPLETE",
                                             "UPDATE_COMPLETE"):
                         git_ip = our_stack.outputs["GitServerAddress"]
                         break
