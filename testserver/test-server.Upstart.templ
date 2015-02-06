@@ -1,4 +1,5 @@
 
+env C_FORCE_ROOT=1
 description "Test Server deamon"
 env PYTHONPATH=../testcoordinator
 start on runlevel [235]
@@ -7,6 +8,5 @@ respawn
 
 script
     cd $GITSERVER_ROOT/testserver
-    python tasks.py >> /var/log/testserver-tasks.log 2>&1
-    celery -A tasks worker --queue=${CONTEST_NAME}_testing & >> /var/log/testing-queue.log 2>&1
+    celery -A tasks worker --queue=${CONTEST_NAME}_testing >> /var/log/testing-queue.log 2>&1
 end script

@@ -7,7 +7,7 @@ sudo apt-get install python python-pip -y
 
 echo Installing Celery
 echo -----------------
-sudo pip install celery -y
+sudo pip install celery
 
 echo creating Participants,programs directories
 echo -------------------------------------------------
@@ -29,4 +29,4 @@ echo ----------------------------
 cat $1/testserver/test-server.Upstart.templ >> /etc/init/testserver.conf
 sudo service testserver start
 
-echo secceded
+echo DONE

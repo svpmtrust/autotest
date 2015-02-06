@@ -8,7 +8,8 @@ import shlex
 import timed_execution
 import json
 from celery import Celery
-from conf import db_host
+from conf import db_host,participant_dir, contest_name
+from pymongo import MongoClient
 
 app = Celery('tasks', backend='amqp', broker='amqp://guest@{}//'.format(db_host.split(':')[0]))
 
@@ -28,12 +29,41 @@ def inputoutput(progname):
         description=test.find('description').text
         yield input_str,output_str,description 
 
+
+def clone_user(user):
+    client = MongoClient(conf.db_host)
+    db = client.autotest
+    user_details = db.contestant.find_one(
+        {"contestname": contest_name, "username":user},
+        {"password": 1, "_id": 0}
+    )
+    if user_details:
+        cmnd = "git clone http://"+user+":"+user_details["password"]+"@"+conf.git_host+"/git"+user+".git"
+        subprocess.call(cmnd, shell=True, executable='/bin/bash', cwd=participant_dir)
+        print 'cloned successfully..'
+    else:
+        raise Exception('Unknown user')
+
+
+def pull_user(user):
+    user_dir = participant_dir + user + '/'
+    subprocess.call(['/usr/bin/git', 'reset', '--hard', 'HEAD'], cwd=user_dir)
+    subprocess.call(['/usr/bin/git', 'clean', '-d', '-fx'], cwd=user_dir)
+    subprocess.call(['/usr/bin/git', 'pull', '-s', 'recursive', '-X', 'theirs'], cwd=user_dir)
+
 @app.task
 def progtest(user, programname):
-    i=1
-    result={}
-    result.update({"user":user})
-    result.update({"programname":programname}) 
+    i = 1
+    result = {}
+    plist = os.listdir(conf.participant_dir)
+    if user not in plist:
+        clone_user(user)
+    else:
+        pull_user(user)
+
+    result["user"] = user
+    result["programname"] = programname
+
     program_name=conf.program_dir+programname+'.xml'#getting program code  xml into program
     program_dir=conf.participant_dir+user+'/'+programname #getting program code into program
     print program_name
@@ -61,11 +91,9 @@ def progtest(user, programname):
         with file('compilation error.txt','r') as fp:
             error=fp.read()
             your_score=0
-            result.update({"user":user})
-            result.update({"programname":programname}) 
-            result.update({"progstatus":'COMPILATION FAILED'})
-            result.update({"description":error})
-            result.update({"score":your_score})
+            result.update({"progstatus": 'COMPILATION FAILED'})
+            result.update({"description":  error})
+            result.update({"score": your_score})
         return result        
     # Execute the test cases
     p_pass=[]
