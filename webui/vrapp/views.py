@@ -141,16 +141,15 @@ def regisuccess(request):
     msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
-    a=hashlib.sha1(pswd)
-<<<<<<< HEAD
-    hpswd=a.hexdigest()'''
-
+    '''
+    a = hashlib.sha1(pswd)
+    hpswd = a.hexdigest()
     d=db1.contest.find_one({"contestname":cn})
     if d["approverrule"] == "0" :
         apstatus="1"
     else:
         apstatus="0"
-    user={"contestname":cn,"name":name,"username":un,"email":email,"password":hpswd,
+    user={"contestname":cn, "name":name, "username":un, "email":email, "password":hpswd,
           "approved_status":apstatus,
           "approved_by":[],
           "status":"active",
@@ -180,10 +179,6 @@ def loginvalidate(request):
     password = request.POST.get('password1')
     a=hashlib.sha1(password)
     password=a.hexdigest()
-<<<<<<< HEAD
-=======
-
->>>>>>> 253dbaa62809e9bd2575a39dbd7d22469fb6b668
     request.session['contestname'] = contestname
     print request.session['contestname']
     request.session['username'] = username
