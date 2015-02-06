@@ -77,8 +77,8 @@ Rank: <span v-text="score.rank"></span>
  					 {% for p in programs %}
                         <li class="list-group-item">
                             <div>Program:<b>{{p.program}}</b></div>
-                            <div>Program result:<b>{{program.program_result}}</b></div>
-                            <div>Test case result:{{program.test_case_result}}</div>
+                            <div>Program result:<b>{{p.program_result}}</b></div>
+                            <div>Test case result:{{p.test_case_result}}</div>
                             <pre></pre>
                         </li>
                       {% endfor %}
