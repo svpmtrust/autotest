@@ -179,6 +179,7 @@ def loginvalidate(request):
     password=a.hexdigest()
 
     request.session['contestname'] = contestname
+    print request.session['contestname']
     request.session['username'] = username
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
