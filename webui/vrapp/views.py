@@ -247,20 +247,21 @@ def puppetrun(request):
             # TODO: Ideally we should ask celery to launch this in the background
 
             # Launch the AWS Cloud Formation Stack
+            stack_name = cn.replace('_', '-')
             cf = boto.connect_cloudformation()
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
                 stack_id = cf.create_stack(
-                    stack_name=cn, template_body=fp.read(),
+                    stack_name=stack_name, template_body=fp.read(),
                     parameters=[
                         ("KeyName", "recruitment-keys"),
                         ("DBHost", DB_HOST),
                         ("DBName", DB_NAME),
-                        ("ContestName", cn)
+                        ("ContestName", stack_name)
                     ]
                 )
             # Get the IP Address from the outputs
             for x in range(60):
-                stack_data = cf.describe_stacks(stack_name_or_id=cn)
+                stack_data = cf.describe_stacks(stack_name_or_id=stack_name)
                 if len(stack_data) > 0:
                     our_stack = stack_data[0]
                     if our_stack.status in ("CREATE_COMPLETE",
