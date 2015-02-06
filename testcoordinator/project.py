@@ -66,8 +66,8 @@ def mainloop():
                     "time":time.time(),
                 })
             continue
-        _submission = tasks.progtest.apply_async(args=(user, programname), queue='testing')
-        submission = _submission.get()
+        submission = tasks.progtest.apply_async(args=(user, programname), queue='testing')
+        submission = submission.get()
         print "==> Saving submission record in the DB, after execution <=="
         col_submissions.save({
             "user_name":submission["user"],
@@ -78,7 +78,7 @@ def mainloop():
                   "time":time.time()
         })
 
-    sccoll=db.scores.find_one({"username":user,"program":program})
+    sccoll=db.scores.find_one({"username":submission["user"],"program":submission["program"]})
     if sccoll == None and submission["score"] == 0:
        pass        
     elif sccoll == None and submission["score"] > 0:      
@@ -131,4 +131,3 @@ if __name__ == '__main__':
             pass
         else:
             time.sleep(10-exec_time)
-

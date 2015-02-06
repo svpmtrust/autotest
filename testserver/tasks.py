@@ -12,12 +12,12 @@ from celery import Celery
 app = Celery('tasks', backend='amqp', broker='amqp://guest@192.168.1.100//')
 
 
-def inputoutput(programname):
+def inputoutput(progname):
     """ Yields the combinations of input_string, output_string
     and description expected to pass for the given program.
     """
-    print "xmlfilename: ",conf.program_dir+programname+".xml"
-    tree = ET.parse(conf.program_dir+programname+".xml")
+    print "xmlfilename: ",conf.program_dir+progname+".xml"
+    tree = ET.parse(conf.program_dir+progname+".xml")
     root=tree.getroot()
     for test in root:
         if test.tag != 'test':
@@ -35,7 +35,8 @@ def progtest(user, programname):
     result.update({"programname":programname}) 
     program_name=conf.program_dir+programname+'.xml'#getting program code  xml into program
     program_dir=conf.participant_dir+user+'/'+programname #getting program code into program
-    
+    print program_name
+    print program_dir
     # Get more info about the program
     tree = ET.parse(program_name)
     root=tree.getroot()
@@ -54,7 +55,7 @@ def progtest(user, programname):
     multi_line = True if multi_line is not None and multi_line.text == 'true' else False
     # Compile the program
     with file('compilation error.txt','w') as fp:
-         ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,stderr=fp,stdout=fp)
+        ret=subprocess.call(['/bin/bash','compile.sh'],cwd=program_dir,stderr=fp,stdout=fp)
     if ret!=0:
         with file('compilation error.txt','r') as fp:
             error=fp.read()
@@ -109,8 +110,8 @@ def progtest(user, programname):
                                 program_passed = False
                                 print "line mismatch %s and %s" % (el, al)
                                 break
-                            else:
-                                program_passed = True
+                        else:
+                            program_passed = True
             else:
                 i_file = 'validation_program_inputs.json'
                 with file(i_file, 'w') as fp:
@@ -161,15 +162,15 @@ def progtest(user, programname):
         if partial and partial.text == 'true':
             your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
             result.update({"score":your_score})
-            # insert record the db as patial is allowed
+        # insert record the db as patial is allowed
         else:
             your_score = 0
             result.update({"score":your_score})
-            # insert record the db as patial is not allowed
-        '''if (inputs_found*100)/total_inputs > 25:
-            your_score = 0
-        result1[user].append('WARNING for program %s' % program_name)
-            result1[user].append("Too may inputs found in the directory")
-        result1[user].append("If this is not intentional clean up your directory and remove hard coded inputs")'''
+        # insert record the db as patial is not allowed
+    '''if (inputs_found*100)/total_inputs > 25:
+        your_score = 0
+    result1[user].append('WARNING for program %s' % program_name)
+        result1[user].append("Too may inputs found in the directory")
+    result1[user].append("If this is not intentional clean up your directory and remove hard coded inputs")'''
 
     return (result)

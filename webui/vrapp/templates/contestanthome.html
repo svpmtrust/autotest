@@ -26,10 +26,21 @@ Rank: <span v-text="score.rank"></span>
 
 {% block content %}
 	<div class="container">
+	<b>Clone your Repository by using :: <a>http://{{username}}:{{password}}@192.168.1.101:12003/git/{{username}}.git</a></b>
+	<div>
+		{% if cstatus == "Started" %}
+			<h2>Your Contest Not At Started</h2>
+			<style>
+				#contest{
+				visibility:"hidden";
+				}
+			</style>
+		{% endif %}
+	</div>
+	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
 			 <h2>Your Programs</h2>
-
                     <table class="table table-hover table-bordered">
                             <tr>
                                 <th>Program Name</th>
@@ -81,4 +92,5 @@ Rank: <span v-text="score.rank"></span>
                 </div>
             </div>
 	</div>
+  </div>
 {% endblock %}
