@@ -26,7 +26,7 @@ Rank: <span v-text="score.rank"></span>
 
 {% block content %}
 	<div class="container">
-	<b>Clone your Repository by using :: <a>http://{{username}}:{{password}}@192.168.1.101:12003/git/{{username}}.git</a></b>
+	<b>Clone your Repository by using :: <a>http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git</a></b>
 	<div>
 		{% if cstatus == "Started" %}
 			<h2>Your Contest Not At Started</h2>

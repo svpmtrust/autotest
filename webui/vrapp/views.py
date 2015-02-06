@@ -220,12 +220,22 @@ def contestanthome(request):
     password=coll["password"]
     programs = db1.submissions.find({'user_name':username})
     scores=db1.scores.find()
-    conteststatus=db1.contest.find_one({"contestname":contestname},{"_id":0,"status":1})
-    #lb=db1.submissions.aggregate([{"$group":{_id:"$"+username+,nos:{"$sum":1}}}])
-    return render(request, 'contestanthome.html',
-                   {'cname': contestname ,'username':username,
-                    'password':password, 'cstatus':conteststatus,
-                    'programs':list(programs), 'scores':scores}) 
+    contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
+    conteststatus = contest_data['status']
+    git_address = contest_data['git_ip']
+
+    return render(
+        request, 'contestanthome.html',
+        {
+            'cname': contestname,
+            'username': username,
+            'password': password,
+            'cstatus': conteststatus,
+            'programs': list(programs),
+            'scores': scores,
+            'git_address': git_address
+        }
+    )
 
 '''
 def submissions(request):
