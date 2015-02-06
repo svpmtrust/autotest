@@ -20,6 +20,7 @@ client = MongoClient(DB_HOST)
 db1 = client[os.environ.get('DB_NAME', 'autotest')]
 if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
+on_aws = "ON_AWS" in os.environ
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/

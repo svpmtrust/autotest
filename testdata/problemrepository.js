@@ -14,6 +14,7 @@
 13.ColorFill  .  .   40
  */
 
+db.problemsrepository.drop()
 db.problemsrepository.insert([ {
 	"description" : "Echo",
 	"qtype" : "program",
@@ -68,14 +69,14 @@ db.problemsrepository.insert([ {
  {
 	"description" : "MakeDir",
 	"qtype" : "program",
-	"difficultylevel" : "hard",
-	"score" : "35"
+	"difficultylevel" : "easy",
+	"score" : "3"
 },
  {
 	"description" : "ColorFill",
 	"qtype" : "program",
-	"difficultylevel" : "hard",
-	"score" : "40"
+	"difficultylevel" : "easy",
+	"score" : "4"
 }, {
 	"description" : "Puzzle4",
 	"qtype" : "program",

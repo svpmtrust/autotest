@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
   
   config.vm.define "gitserver" do |gitserver|
-    gitserver.vm.provision :shell, path: "gitserver/bootstrap.sh"
+    gitserver.vm.provision :shell, path: "gitserver/bootstrap.sh" args: "/vagrant"
     gitserver.vm.network :forwarded_port, guest: 80, host: 12003, protocol: 'tcp'
   end
 

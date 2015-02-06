@@ -15,7 +15,7 @@ sudo apt-get install puppet -y
 
 echo Copying all the puppet scripts
 echo ------------------------------
-sudo cp -r /vagrant/* /etc/puppet
+sudo cp -r $1/* /etc/puppet
 
 echo Running puppet
 echo --------------
@@ -24,7 +24,7 @@ sudo puppet apply -v gitserver/gitserver.pp
 
 echo Running the New Repository Creation Deamon
 echo ------------------------------------------
-cp /vagrant/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
+cp $1/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
 sudo service newrepo start
 
 echo Restart Apache2

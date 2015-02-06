@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 import os
 import hashlib
-from vrautotest.settings import db1
+from vrautotest.settings import db1, on_aws
 
 # Create your views here.
 
@@ -239,11 +239,27 @@ def puppetrun(request):
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Not Started"):
-        os.system("cd ..")
-        os.system("ls")
-        os.system("vagrant up")
-        db1.contest.update({'contestname':cn},{"$set":{'status':"Started"}})
-        return HttpResponse(str("Contest Started"))
+
+        if on_aws:
+            # Launch the AWS Cloud Formation Stack
+
+            # Get the IP Address from the outputs
+            git_ip = get_output_from_cf()
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': git_ip}
+                               })
+        else:
+            os.system("cd ..")
+            os.system("ls")
+            os.system("vagrant up")
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "192.168.1.101"}
+                               })
+            return HttpResponse(str("Contest Started"))
     else:
         return HttpResponse(str("Contest Already Done"))
 
