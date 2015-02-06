@@ -11,7 +11,7 @@
         "m3.xlarge","m3.2xlarge",
       	"c3.2xlarge", "c3.xlarge"
       	],
-      "Default": "c3.2xlarge",
+      "Default": "m3.large",
       "ConstraintDescription" : "must be a valid EC2 instance type."
     },
     "KeyName" : {

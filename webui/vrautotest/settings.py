@@ -11,13 +11,15 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from pymongo import MongoClient
+from boto import config as botoconfig
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Setup a database connection to be used in the rest of the code
 DB_HOST = os.environ.get('DB_HOST', 'localhost:27017')
 client = MongoClient(DB_HOST)
-db1 = client[os.environ.get('DB_NAME', 'autotest')]
+DB_NAME = os.environ.get('DB_NAME', 'autotest')
+db1 = client[DB_NAME]
 if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
 on_aws = "ON_AWS" in os.environ
@@ -32,9 +34,15 @@ SECRET_KEY = 'z%h7pr=_$j%^l54+xcjco8e+*%y)%j7q^&0w_+j8nfsh=ra_n('
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
+if not botoconfig.has_section('Credentials'):
+    botoconfig.add_section('Credentials')
+if not botoconfig.has_option('Credentials', 'aws_access_key_id'):
+    botoconfig.set('Credentials', 'aws_access_key_id', 'AKIAJ7LPZLSEWJ46XV7A')
+if not botoconfig.has_option('Credentials', 'aws_secret_access_key'):
+    botoconfig.set('Credentials', 'aws_secret_access_key',
+                           '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')
 
 # Application definition
 

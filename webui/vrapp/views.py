@@ -4,7 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 import json
 import os
 import hashlib
-from vrautotest.settings import db1, on_aws
+import time
+from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
+import boto
 
 # Create your views here.
 
@@ -241,10 +243,33 @@ def puppetrun(request):
     if(st == "Not Started"):
 
         if on_aws:
-            # Launch the AWS Cloud Formation Stack
+            # TODO: Ideally we should ask celery to launch this in the background
 
+            # Launch the AWS Cloud Formation Stack
+            cf = boto.connect_cloudformation()
+            with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
+                stack_id = cf.create_stack(
+                    stack_name=cn, template_body=fp.read(),
+                    parameters={
+                        "KeyName": "recruitment-keys",
+                        "DBHost": DB_HOST,
+                        "DBName": DB_NAME,
+                        "ContestName": cn
+                    }
+                )
             # Get the IP Address from the outputs
-            git_ip = get_output_from_cf()
+            for x in range(60):
+                stack_data = cf.describe_stacks(stack_name_or_id=cn)
+                if len(stack_data) > 0:
+                    our_stack = stack_data[0]
+                    if our_stack.stack_status in ("CREATE_COMPLETE",
+                                            "UPDATE_COMPLETE"):
+                        git_ip = our_stack.outputs["GitServerAddress"]
+                        break
+                time.sleep(5)
+            else:
+                raise Exception("Timeout in creating the AWS stack")
+
             db1.contest.update({'contestname':cn},
                                {"$set":{
                                    'status':"Started",
