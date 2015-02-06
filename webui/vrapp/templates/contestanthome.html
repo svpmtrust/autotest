@@ -30,16 +30,7 @@ Rank: <span v-text="score.rank"></span>
 	<b>Clone your Repository using:</b> <br/>
     http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git
     {% endif %}
-    <div>
-		{% if cstatus == "Started" %}
-			<h2>Your Contest Not yet Started</h2>
-			<style>
-				#contest{
-				visibility:"hidden";
-				}
-			</style>
-		{% endif %}
-	</div>
+
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">

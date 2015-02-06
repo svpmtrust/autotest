@@ -77,9 +77,7 @@
             "FromPort" : "22",
             "ToPort" : "22",
             "CidrIp" : { "Ref" : "SSHLocation"}
-          }
-        ],
-        [
+          },
           {
             "IpProtocol" : "tcp",
             "FromPort" : "80",
