@@ -266,10 +266,15 @@ def puppetrun(request):
                 stack_data = cf.describe_stacks(stack_name_or_id=stack_name)
                 if len(stack_data) > 0:
                     our_stack = stack_data[0]
-                    if our_stack.status in ("CREATE_COMPLETE",
-                                            "UPDATE_COMPLETE"):
+                    if our_stack.stack_status in ["CREATE_IN_PROGRESS",
+                                                  "UPDATE_IN_PROGRESS"]:
+                        pass
+                    elif our_stack.stack_status in ("CREATE_COMPLETE",
+                                                    "UPDATE_COMPLETE"):
                         git_ip = our_stack.outputs["GitServerAddress"]
                         break
+                    else:
+                        raise Exception('Unable to create the stack. Check AWS')
                 time.sleep(5)
             else:
                 raise Exception("Timeout in creating the AWS stack")
