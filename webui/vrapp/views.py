@@ -256,7 +256,7 @@ def puppetrun(request):
                         ("KeyName", "recruitment-keys"),
                         ("DBHost", DB_HOST),
                         ("DBName", DB_NAME),
-                        ("ContestName", stack_name)
+                        ("ContestName", cn)
                     ]
                 )
             # Get the IP Address from the outputs
