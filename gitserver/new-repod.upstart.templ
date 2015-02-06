@@ -1,10 +1,9 @@
 description "New Repository  Deamon Upstart Script"
-chdir /vagrant/gitserver
 start on runlevel [235]
 stop on runlevel [016]
 respawn
 
 script
-    . ./env.sh
+    cd $GITSERVER_ROOT/gitserver
     python new_repod.py >> /var/log/gitserver.log 2>&1
 end script

@@ -90,21 +90,21 @@
         "Tags" : [
                {"Key" : "Name",
                 "Value" : {"Fn::Join":["", [
-                 "GetServer - ", { "Ref": "ContestName"} ]] }
+                 "GitServer - ", { "Ref": "ContestName"} ]] }
              }
         ],
         "Monitoring": true,
         "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
                                           { "Fn::FindInMap" : [ "InstArchMap", { "Ref" : "InstanceType" },
                                           "Arch" ] } ] },
-          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["\n",[
-			  "#!/bin/bash -ex",
-              "sudo apt-get update",
-              "sudo apt-get install -y git",
-              "cd ~ubuntu",
-			  "git clone http://github.com/svpmtrust/autotest.git autotest",
-              "cd autotest",
-              "bash autotest/gitserver/bootstrap.sh `pwd`"
+          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+			  "#!/bin/bash -ex\n",
+              "sudo apt-get update\n",
+              "sudo apt-get install -y git\n",
+              "cd ~ubuntu\n",
+			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
+              "cd autotest\n",
+              "bash gitserver/bootstrap.sh `pwd` ", {"Ref":"DBHost"}, " ", {"Ref":"ContestName"}
 	  		   ]]}
 	  	  },
           "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]

@@ -24,7 +24,10 @@ sudo puppet apply -v gitserver/gitserver.pp
 
 echo Running the New Repository Creation Deamon
 echo ------------------------------------------
-cp $1/gitserver/new-repod.upstart.templ /etc/init/newrepo.conf
+echo env GITSERVER_ROOT=$1 > /etc/init/newrepo.conf
+echo env DB_HOST=$2 >> /etc/init/newrepo.conf
+echo env CONTEST_NAME=$3 >> /etc/init/newrepo.conf
+cat $1/gitserver/new-repod.upstart.templ >> /etc/init/newrepo.conf
 sudo service newrepo start
 
 echo Restart Apache2
