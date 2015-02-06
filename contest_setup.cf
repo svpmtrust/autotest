@@ -67,11 +67,33 @@
   },
 
   "Resources" : {
-    "SecurityGroup": {
+    "GitAccess": {
       "Type" : "AWS::EC2::SecurityGroup",
       "Properties" : {
         "GroupDescription" : "Enable SSH access to select IPs and web access to all",
         "SecurityGroupIngress" : [ 
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "22",
+            "ToPort" : "22",
+            "CidrIp" : { "Ref" : "SSHLocation"}
+          }
+        ],
+        [
+          {
+            "IpProtocol" : "tcp",
+            "FromPort" : "80",
+            "ToPort" : "22",
+            "CidrIp" : "0.0.0.0/0"
+          }
+        ]
+      }
+    },
+    "SSHAccess": {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable SSH access to select IPs and web access to all",
+        "SecurityGroupIngress" : [
           {
             "IpProtocol" : "tcp",
             "FromPort" : "22",
@@ -107,9 +129,42 @@
               "bash gitserver/bootstrap.sh `pwd` ", {"Ref":"DBHost"}, " ", {"Ref":"ContestName"}
 	  		   ]]}
 	  	  },
-          "SecurityGroups" : [ { "Ref" : "SecurityGroup" } ]
+          "SecurityGroups" : [ { "Ref" : "GitAccess" } ]
+      }
+    },
+
+
+    "TestCoordinator": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": { "Ref": "Zone" },
+        "InstanceType": { "Ref": "InstanceType" },
+        "KeyName": { "Ref": "KeyName" },
+        "Tags" : [
+               {"Key" : "Name",
+                "Value" : {"Fn::Join":["", [
+                 "TestCoordinator - ", { "Ref": "ContestName"} ]] }
+             }
+        ],
+        "Monitoring": true,
+        "ImageId" : { "Fn::FindInMap" : [ "RegionAMIMap", { "Ref" : "AWS::Region" },
+                                          { "Fn::FindInMap" : [ "InstArchMap", { "Ref" : "InstanceType" },
+                                          "Arch" ] } ] },
+          "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+			  "#!/bin/bash -ex\n",
+              "sudo apt-get update\n",
+              "sudo apt-get install -y git\n",
+              "cd ~ubuntu\n",
+			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
+              "cd autotest\n",
+              "bash gitserver/provision.sh `pwd` ", {"Ref":"DBHost"}," ", {"Ref":"ContestName"}, " ", { "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}
+	  		   ]]}
+	  	  },
+          "SecurityGroups" : [ { "Ref" : "SSHAccess" } ]
       }
     }
+
+
   }, 
   "Outputs" : {
     "GitServerAddress" : {

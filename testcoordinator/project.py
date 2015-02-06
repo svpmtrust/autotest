@@ -61,8 +61,8 @@ def mainloop():
             col_submissions.save({
                     "user_name":user,
                     "program":programname,
-                    "program_result":'INVALID PROGRAM',
-                    "test_case_result":[None,None,None],
+                    "program_result": 'INVALID PROGRAM',
+                    "test_case_result": [None,None,None],
                     "time":time.time(),
                 })
             continue
