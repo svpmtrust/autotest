@@ -80,11 +80,11 @@ def mainloop():
         })
 
         sccoll=db.scores.find_one({"username":submission["user"],"program":submission["program"]})
-        if sccoll == None and submission["score"] == 0:
+        if not sccoll and submission["score"] == 0:
            pass
-        elif sccoll == None and submission["score"] > 0:
+        elif not sccoll and submission["score"] > 0:
             db.scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
-        elif sccoll!=None and submission["score"] == 0:
+        elif sccoll and submission["score"] == 0:
             db.scores.remove({"user_name":submission["user"],"program":submission["programname"]})
         elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
            sccoll["score"]=submission["score"]

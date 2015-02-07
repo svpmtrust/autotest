@@ -39,18 +39,18 @@ Rank: <span v-text="score.rank"></span>
                             <tr>
                                 <th>Program Name</th>
                                 <th>Status</th>
-                            <!--    <th>Nor Of Attempts</th>	-->
+                                <th>Nor Of Attempts</th>
                                 <th>Score</th>
                             </tr>
                         {% for u in programs %}
                             <tr>
                                 <td>{{u.program}}</td>
                                 <td>{{u.program_result}}</td>  
-                            <!--    <td></td>	-->
+                                <td></td>
                                 <td>{{u.score}}</td>
                             </tr>
                          {% endfor %} 
-                        </table>
+                      </table>
 		   </div>
          <div class="col-sm-6" >
             <h2>Leaderboard</h2>
