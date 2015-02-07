@@ -38,7 +38,7 @@ def clone_user(user):
         {"password": 1, "_id": 0}
     )
     if user_details:
-        cmnd = "git clone http://"+user+":"+user_details["password"]+"@"+conf.git_host+"/git"+user+".git"
+        cmnd = "git clone http://"+user+":"+user_details["password"]+"@"+conf.git_host+"/git/"+user+".git"
         subprocess.call(cmnd, shell=True, executable='/bin/bash', cwd=participant_dir)
         print 'cloned successfully..'
     else:

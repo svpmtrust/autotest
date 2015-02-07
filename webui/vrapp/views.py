@@ -218,7 +218,7 @@ def contestanthome(request):
     username = request.session['username']
     coll = db1.contestant.find_one({"username":username})
     password=coll["password"]
-    programs = db1.submissions.find({'user_name':username})
+    programs = db1.submissions.find({'user_name': username})
     scores=db1.scores.find()
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
