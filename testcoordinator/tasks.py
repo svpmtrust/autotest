@@ -31,6 +31,7 @@ def inputoutput(progname):
 
 
 def clone_user(user):
+    print "Cloning the user for the first time"
     client = MongoClient(conf.db_host)
     db = client.autotest
     user_details = db.contestant.find_one(
@@ -38,7 +39,7 @@ def clone_user(user):
         {"password": 1, "_id": 0}
     )
     if user_details:
-        cmnd = "git clone http://"+user+":"+user_details["password"]+"@"+conf.git_host+"/git"+user+".git"
+        cmnd = "git clone http://"+user+":"+user_details["password"]+"@"+conf.git_host+"/git/"+user+".git"
         subprocess.call(cmnd, shell=True, executable='/bin/bash', cwd=participant_dir)
         print 'cloned successfully..'
     else:
@@ -46,6 +47,7 @@ def clone_user(user):
 
 
 def pull_user(user):
+    print "Pulling the latest for the user"
     user_dir = participant_dir + user + '/'
     subprocess.call(['/usr/bin/git', 'reset', '--hard', 'HEAD'], cwd=user_dir)
     subprocess.call(['/usr/bin/git', 'clean', '-d', '-fx'], cwd=user_dir)
@@ -105,6 +107,7 @@ def progtest(user, programname):
     for input_i,output_o,description_d in inputoutput(programname):
     # Create the command to run.  In case of file inputs, make
     # sure filenames are formatted for {pdir}
+        print "Validating for %s" % input_i
         run_cmd = ['/bin/bash','run.sh']
         additional_args = shlex.split(input_i)
         for each_arg in additional_args:
@@ -117,7 +120,9 @@ def progtest(user, programname):
             additional_args = [x.format(pdir=conf.program_dir[0:-1]) for x in additional_args]
         run_cmd.extend(additional_args)
         try:
+            print "Running the command"
             cmd_op = timed_execution.check_output_with_timeout(run_cmd, cwd=program_dir, timeout=program_timeout)
+            print "Output is: \n"+cmd_op
             cmd_op=cmd_op.strip()
             if not case_sensitive:
                 cmd_op = cmd_op.lower()
@@ -170,13 +175,16 @@ def progtest(user, programname):
                 else:
                     p_fail.append(' Input Provided (args) ')
                 p_fail.append(input_i)            
+            print p_fail
+            print p_pass
         except Exception as ex:
+            print str(ex)
             p_error.append('%s %s [error]' %(description_d, programname))
             p_error.append(str(ex))  
     if len(p_pass) == 0:
         result.update({"progstatus":"FAIL"})
         your_score = 0
-        result.update({"description":p_fail})
+        result.update({"description":p_fail+p_error})
         result.update({"score":your_score})    
     # insert record the db as execution failed
     elif len(p_fail)+len(p_error)==0:   
@@ -186,7 +194,7 @@ def progtest(user, programname):
     # insert record the db as execution sucess
     else:
         result.update({"progstatus":"PARTIALLY SUCCESSFUL"})
-        result.update({"description":p_error})
+        result.update({"description":p_pass+p_fail})
         partial = root.find('partial')
         if partial and partial.text == 'true':
             your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
