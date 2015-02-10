@@ -45,14 +45,14 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Program Name</th>
                                 <th>Status</th>
                                 <th>Score</th>
-                                <th>Time</th>
+                                <th>Time Of Submission</th>
                             </tr>
                         {% for u in programs %}
                             <tr>
                                 <td><a href=#{{u.program}}>{{u.program}}</a></td>
                                 <td>{{u.program_result}}</td>  
                                 <td>{{u.score}}</td>
-                                <td>{{u._id.generation_time}}</td>
+                                <td>{{time}}</td>
                             </tr>
                          {% endfor %} 
                       </table>
