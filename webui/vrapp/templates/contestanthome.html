@@ -50,7 +50,7 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Score</th>
                             </tr>
                         {% for u in programs %}
-                        <a href="#{{u.program}}">
+                        <a href="#"{{u.program}}>
                             <tr>
                                 <td>{{u.program}}</td>
                                 <td>{{u.program_result}}</td>  
@@ -84,7 +84,7 @@ Rank: <span v-text="score.rank"></span>
  					<ul class="list-group">
  					 {% for p in programs %}
                         <li class="list-group-item">
-                            <div id="{{p.program}}">Program:<b>{{p.program}}</b></div>
+                            <div id={{p.program}}>Program:<b>{{p.program}}</b></div>
                             <div>Program result:<b>{{p.program_result}}</b></div>
                             <div>Test case result:<pre>
                                  {% for l in p.test_case_result %}
