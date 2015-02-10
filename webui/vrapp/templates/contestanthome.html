@@ -36,9 +36,6 @@ Rank: <span v-text="score.rank"></span>
 	<b>Clone your Repository using:</b> <br/>
     http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git
     {% endif %}
-	<div>
-	<h4><a href="#submissionsPage">Go To Submissions</a></h4>
-	</div>
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
@@ -50,13 +47,13 @@ Rank: <span v-text="score.rank"></span>
                                 <th>Score</th>
                             </tr>
                         {% for u in programs %}
-                        <a href="#"{{u.program}}>
                             <tr>
+                             <a href="#"{{u.program}}>
                                 <td>{{u.program}}</td>
                                 <td>{{u.program_result}}</td>  
                                 <td>{{u.score}}</td>
+                             </a>
                             </tr>
-                        </a>
                          {% endfor %} 
                       </table>
 		   </div>
