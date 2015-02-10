@@ -7,26 +7,31 @@ import time
 
 
 def mainloop(client):
-    contest_name = os.environ.get('CONTEST_NAME', None)
-    if contest_name is None:
-        raise Exception('No Contest Name Provided')
+    try:
+        contest_name = os.environ.get('CONTEST_NAME', None)
+        if contest_name is None:
+            raise Exception('No Contest Name Provided')
+    
+        db=client.autotest
+        user_coll=db.contestant.find(
+            {'contestname':contest_name}, {'username':1,'_id':0,'password':1,'email':1})
+        for user in user_coll: 
+            un=user['username']
+            p=user['password']
+            e=user['email'] 
+            user1=un+".git"
+            directory = '/opt/git'
+            ls = os.listdir(directory)
+            if user1 in ls :
+                continue
+            cmnd='sh newuser.sh '+un+' '+p+' '+e
+            subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
 
-    db=client.autotest
-    user_coll=db.contestant.find(
-        {'contestname':contest_name}, {'username':1,'_id':0,'password':1,'email':1})
-    for user in user_coll: 
-        un=user['username']
-        p=user['password']
-        e=user['email'] 
-        user1=un+".git"
-        directory = '/opt/git'
-        ls = os.listdir(directory)
-        if user1 in ls :
-            continue
-        cmnd='sh newuser.sh '+un+' '+p+' '+e
-        subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
-
-
+    except:
+        subprocess.call("cd $GITSERVER_ROOT/gitserver")
+        subprocess.call("python new_repod.py >> /var/log/gitserver.log 2>&1")
+        pass
+        
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
 if __name__ == '__main__':

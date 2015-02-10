@@ -1,5 +1,5 @@
 /*
-1.Echo  .  .  .  .  .  1     Environment Setup
+1.Echo  .  .  .  .  .  0     Environment Setup
 2.Palindrome  .  .  .  3     Basic Programming Skills
 3.Expansion   .  .  .  5     Basic Programming Skills
 4.Histogram   .  .  .  8     Data Structures
@@ -19,7 +19,7 @@ db.problemsrepository.insert([ {
 	"description" : "Echo",
 	"qtype" : "program",
 	"difficultylevel" : "easy",
-	"score" : "1"
+	"score" : "0"
 }, {
 	"description" : "Palindrome",
 	"qtype" : "program",

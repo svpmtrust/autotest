@@ -6,7 +6,13 @@
 				   });
 				});
 			});
-	</script> -->
+	</script> 
+	<script>
+		document.getElementById("sub").onclick = function ()
+		 {
+   			 window.location.hash = "#submissionsPage";
+		 };
+	</script>	-->
 {%block navbar%}
 <a class="navbar-brand">
 Score: <span v-text="score.total"></span>
@@ -25,12 +31,14 @@ Rank: <span v-text="score.rank"></span>
 {%endblock%}
 
 {% block content %}
-	<div class="container">
+	<div class="container" id="container">
     {% if git_address %}
 	<b>Clone your Repository using:</b> <br/>
     http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git
     {% endif %}
-
+	<div>
+	<h4><a href="#submissionsPage">Go To Submissions</a></h4>
+	</div>
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
@@ -39,14 +47,12 @@ Rank: <span v-text="score.rank"></span>
                             <tr>
                                 <th>Program Name</th>
                                 <th>Status</th>
-                                <th>Nor Of Attempts</th>
                                 <th>Score</th>
                             </tr>
                         {% for u in programs %}
                             <tr>
                                 <td>{{u.program}}</td>
                                 <td>{{u.program_result}}</td>  
-                                <td></td>
                                 <td>{{u.score}}</td>
                             </tr>
                          {% endfor %} 
@@ -88,6 +94,9 @@ Rank: <span v-text="score.rank"></span>
                     </ul>
                 </div>
             </div>
+           <div>
+           	<a href="#container">Go To Top</a>
+           </div>
 	</div>
   </div>
 {% endblock %}

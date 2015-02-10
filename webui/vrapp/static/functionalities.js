@@ -108,14 +108,23 @@ $(function(){
 					var username = $("#username").val();
 					console.log(contestname);
 					console.log(username);
-					 $.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
+					var letters = /^[A-Za-z0-9]+$/;
+					if(username.value.match(letters))
+					{
+					$.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
 					 console.log(data);
 					 if(data == "InValid")
 					  {
 					     alert("UserName Already Exists Please Try Another One");	
 					     window.location.reload(true);
 					  }
-				   });
+				   	});
+					}
+					else
+					{
+					alert('Please input alphabet characters only');
+					return false;
+					}
 				});
 			});
 			
