@@ -48,10 +48,9 @@ Rank: <span v-text="score.rank"></span>
                             </tr>
                         {% for u in programs %}
                             <tr>
-                                <td>{{u.program}}</td>
+                                <td><a href=#{{u.program}}>{{u.program}}</a></td>
                                 <td>{{u.program_result}}</td>  
                                 <td>{{u.score}}</td>
-                                <td> <a href=#{{u.program}}> Click To See The Submissions</a></td>
                             </tr>
                          {% endfor %} 
                       </table>
