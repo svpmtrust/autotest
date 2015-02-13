@@ -223,7 +223,7 @@ def contestanthome(request):
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
-    git_address = contest_data['git_ip']
+    git_address = contest_data.get('git_ip', None)
 
     return render(
         request, 'contestanthome.html',
