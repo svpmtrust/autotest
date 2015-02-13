@@ -109,7 +109,7 @@ $(function(){
 					console.log(contestname);
 					console.log(username);
 					var letters = /^[A-Za-z0-9]+$/;
-					if( !letters.test(username) )
+					if( letters.test(username) )
 					{
 					$.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
 					 console.log(data);
