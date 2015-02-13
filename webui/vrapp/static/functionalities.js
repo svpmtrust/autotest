@@ -123,7 +123,7 @@ $(function(){
 					else
 					{
 					alert('Please input alphabet characters only');
-					return false;
+					window.location.reload(true);
 					}
 				});
 			});
