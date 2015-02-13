@@ -156,7 +156,7 @@ def regisuccess(request):
           "questions":[]
           }
     db1.contestant.insert(user)
-    return render(request,'loginform.html',{})
+    return HttpResponseRedirect('loginform')
 
 #---------Login----------#
 
