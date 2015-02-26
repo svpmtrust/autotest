@@ -13,6 +13,7 @@
 /*------------Puppet Start-----------------*/
 			$(function(){
 				$("#start").click(function(){
+					document.getElementById("start").disabled = true;
 					$.get("/puppetrun", {cn:contest_name}, function(data){
 						$("#output").html("Puppet started with process id " + data);
 						 document.getElementById("start").disabled = true;
@@ -25,6 +26,7 @@
 function testStop() {
         document.getElementById("stop").disabled = true;
         document.getElementById("start").disabled = false;
+        $("#output").html("Puppet stoped");
     }
 
 /*------------checking difficulty level-----------------*/
