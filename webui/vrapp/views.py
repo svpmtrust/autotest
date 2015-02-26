@@ -161,16 +161,21 @@ def regisuccess(request):
 #---------Login----------#
 
 def loginform(request):
-    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
-    return render(request, 'loginform.html', {'cname':cname})  
-
-def logout(request):
     try:
         del request.session['contestname']
         del request.session['username']
     except KeyError:
         pass
-    return HttpResponseRedirect('/loginform')
+    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+    return render(request, 'loginform.html', {'cname':cname})  
+
+'''def logout(request):
+    try:
+        del request.session['contestname']
+        del request.session['username']
+    except KeyError:
+        pass
+    return HttpResponseRedirect('/loginform')'''
 
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
