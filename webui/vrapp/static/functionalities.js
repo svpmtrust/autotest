@@ -118,14 +118,17 @@ $(function(){
 					 if(data == "InValid")
 					  {
 					     alert("UserName Already Exists Please Try Another One");	
-					     window.location.reload(true);
+					     //window.location.reload(true);
+					     $("#username").val("");
+					     
 					  }
 				   	});
 					}
 					else
 					{
 					alert('Please input alphabet characters only');
-					window.location.reload(true);
+					//window.location.reload(true);
+					$("#username").val("");
 					}
 				});
 			});
@@ -140,7 +143,8 @@ $(function(){
 					if(data == "InValid")
 					  {
 					     alert("Contest Name Already Exists Please Try Another One");
-					     window.location.reload(true);
+					     //window.location.reload(true);
+					     $("#contest").val("");
 					  }
 				   });
 				});
