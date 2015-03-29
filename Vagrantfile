@@ -7,8 +7,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "hashicorp/precise64"
-  local_ip = "192.168.1.101"
-  contest_name = "VR_Auto_Test"
+  local_ip = "127.0.0.1"
+  contest_name = "GnanaTechContest"
   
   config.vm.define "gitserver" do |gitserver|
     gitserver.vm.provision :shell, path: "gitserver/bootstrap.sh" args: ["/vagrant", local_ip, contest_name]

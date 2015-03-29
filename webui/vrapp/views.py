@@ -315,7 +315,7 @@ def puppetrun(request):
                                    'status':"Started",
                                    'git_ip': "192.168.1.101"}
                                })
-        return HttpResponse(str("Contest Started"))
+        return HttpResponse(str(git_ip))
     else:
         return HttpResponse(str("Contest Already Done"))
 
