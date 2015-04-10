@@ -284,14 +284,14 @@ def puppetrun(request):
                 )
             # Get the IP Address from the outputs
             for x in range(60):
-                db1.contest.update({'contestname':cn},
-                               {"$set":{
-                                   'status':"Started",
-                                   'git_ip': "None"}
-                               })
                 stack_data = cf.describe_stacks(stack_name_or_id=stack_name)
                 if len(stack_data) > 0:
                     our_stack = stack_data[0]
+                    db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "in for loop"}
+                               })
                     if our_stack.stack_status in ["CREATE_IN_PROGRESS",
                                                   "UPDATE_IN_PROGRESS"]:
                         pass
@@ -301,11 +301,17 @@ def puppetrun(request):
                         git_ip = outputs["GitServerAddress"]
                         break
                     else:
-                        raise Exception('Unable to create the stack. Check AWS')
+                        outputs = dict((x.key, x.value) for x in our_stack.outputs)
+                        git_ip = outputs["GitServerAddress"]
+                        db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "coming else"}
+                               })
+                        break
                 time.sleep(5)
             else:
                 raise Exception("Timeout in creating the AWS stack")
-
             db1.contest.update({'contestname':cn},
                                {"$set":{
                                    'status':"Started",
