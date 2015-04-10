@@ -269,11 +269,6 @@ def puppetrun(request):
             # TODO: Ideally we should ask celery to launch this in the background
 
             # Launch the AWS Cloud Formation Stack
-            db1.contest.update({'contestname':cn},
-                               {"$set":{
-                                   'status':"Started",
-                                   'git_ip': "None"}
-                               })
             stack_name = cn.replace('_', '-')
             cf = boto.cloudformation.connect_to_region("ap-southeast-1")
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
@@ -288,6 +283,11 @@ def puppetrun(request):
                     ]
                 )
             # Get the IP Address from the outputs
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "None"}
+                               })
             for x in range(60):
                 stack_data = cf.describe_stacks(stack_name_or_id=stack_name)
                 if len(stack_data) > 0:
