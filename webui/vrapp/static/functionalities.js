@@ -16,7 +16,7 @@
 					$.get("/puppetrun", {cn:contest_name}, function(data){
 						$("#output").html("Puppet started with process id " + data);
 						 document.getElementById("start").disabled = true;
-        				 document.getElementById("stop").disabled = false;
+        			document.getElementById("stop").disabled = false;
 					});
 				});
 			});
