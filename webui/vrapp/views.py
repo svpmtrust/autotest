@@ -263,17 +263,17 @@ def puppetrun(request):
     cn = request.session['contestname']
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
-    db1.contest.update({'contestname':cn},
-                               {"$set":{
-                                   'status':"Started",
-                                   'git_ip': "None"}
-                               })
     if(st == "Not Started"):
 
         if on_aws:
             # TODO: Ideally we should ask celery to launch this in the background
 
             # Launch the AWS Cloud Formation Stack
+            db1.contest.update({'contestname':cn},
+                               {"$set":{
+                                   'status':"Started",
+                                   'git_ip': "None"}
+                               })
             stack_name = cn.replace('_', '-')
             cf = boto.cloudformation.connect_to_region("ap-southeast-1")
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
