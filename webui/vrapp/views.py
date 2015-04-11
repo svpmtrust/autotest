@@ -297,9 +297,9 @@ def puppetrun(request):
                         break
                     else:
                         raise Exception('Unable to create the stack. Check AWS')
-                        time.sleep(5)
-                else:
-                    raise Exception("Timeout in creating the AWS stack")
+                time.sleep(5)
+            else:
+                raise Exception("Timeout in creating the AWS stack")
 
             db1.contest.update({'contestname':cn},
                                {"$set":{
@@ -315,7 +315,7 @@ def puppetrun(request):
                                    'status':"Started",
                                    'git_ip': "192.168.1.101"}
                                })
-        return HttpResponse(str(git_ip))
+        return HttpResponse(str("Contest Started"))
     else:
         return HttpResponse(str("Contest Already Done"))
 
