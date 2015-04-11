@@ -297,7 +297,7 @@ def puppetrun(request):
                         break
                     else:
                         raise Exception('Unable to create the stack. Check AWS')
-                    time.sleep(5)
+                        time.sleep(5)
                 else:
                     raise Exception("Timeout in creating the AWS stack")
 
