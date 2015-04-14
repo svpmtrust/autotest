@@ -5,11 +5,11 @@ echo -----------------
 sudo apt-get update
 sudo apt-get install python python-pip -y
 
-echo Installing Celery
+echo Installing Celery..
 echo -----------------
 sudo pip install celery
 
-echo Installing Pymongo
+echo Installing Pymongo..
 echo ------------------
 sudo pip install pymongo
 
@@ -23,11 +23,11 @@ echo Installing git
 echo --------------
 sudo apt-get install git -y
 
-echo Installing javac
+echo Installing javac..
 echo --------------
 sudo apt-get install default-jre -y
 
-echo Installing java
+echo Installing java..
 echo --------------
 sudo apt-get install default-jdk -y
 

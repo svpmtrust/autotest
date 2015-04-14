@@ -5,11 +5,11 @@ echo -----------------
 sudo apt-get update
 sudo apt-get install python python-pip -y
 
-echo Installing Pymongo
+echo Installing Pymongo..
 echo ------------------
 sudo pip install pymongo
 
-echo Installing Celery
+echo Installing Celery..
 echo -----------------
 sudo pip install celery
 
