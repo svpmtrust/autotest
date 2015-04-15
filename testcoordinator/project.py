@@ -79,16 +79,16 @@ def mainloop():
             "time": time.time()
         })
 
-        sccoll=db.scores.find_one({"username":submission["user"],"program":submission["program"]})
+        sccoll=col_scores.find_one({"user_name":submission["user"],"program":submission["programname"]})
         if not sccoll and submission["score"] == 0:
            pass
         elif not sccoll and submission["score"] > 0:
-            db.scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
+            col_scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
         elif sccoll and submission["score"] == 0:
-            db.scores.remove({"user_name":submission["user"],"program":submission["programname"]})
+            col_scores.remove({"user_name":submission["user"],"program":submission["programname"]})
         elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
            sccoll["score"]=submission["score"]
-           db.scores.save(sccoll)
+        col_scores.save(sccoll)
 
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
