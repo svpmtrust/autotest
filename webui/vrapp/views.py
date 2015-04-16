@@ -246,7 +246,7 @@ def contestanthome(request):
             'programs': list(programs),
             'scores': list(scores),
             'git_address': git_address
-	    'totalscore': totalscore
+	    'totalscore': "00"
         }
     )
 
