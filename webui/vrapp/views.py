@@ -225,6 +225,8 @@ def contestanthome(request):
     password=coll["password"]
     programs = db1.submissions.find({'user_name': username})
     scores=db1.scores.aggregate([
+		     { $match: 
+			{"$and":[{"contestname": contestname } ]}},
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
                    ])
