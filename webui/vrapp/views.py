@@ -229,9 +229,11 @@ def contestanthome(request):
                      { "$sort": { "total": -1 } }
                    ])
     ts=db1.scores.aggregate([
-                     { "$group": { "_id": username, "total": { "$sum": "$score" } } }
+		     { "$match": { "user_name": username } },
+                     { "$group": { "_id": "username", "total": { "$sum": "$score" } } }
                    ])
-    totalscore=ts[result][0]["total"]
+    totalscore=ts["result"][0]["total"]
+    scores=scores["result"]
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
