@@ -32,16 +32,18 @@ Rank: <span v-text="score.rank"></span>
 
 {% block content %}
 	<div class="container" id="container">
+	<div class="alert alert-success">
     {% if git_address %}
 	<b>Clone your Repository using:</b> <br/>
-    http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git
+   <u> http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git</u>
     {% endif %}
+	</div>
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
 			 <h2>Your Programs</h2>
                     <table class="table table-hover table-bordered">
-                            <tr>
+                            <tr class="info">
                                 <th>Program Name</th>
                                 <th>Status</th>
                                 <th>Score</th>
@@ -61,7 +63,7 @@ Rank: <span v-text="score.rank"></span>
             <h2>Leaderboard</h2>
                <div id="leaderboard">
                         <table class="table table-hover table-bordered">
-                            <tr>
+                            <tr class="danger">
                                 <th>Username</th>
                                 <th>Score</th>
                             </tr>
