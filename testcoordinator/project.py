@@ -48,6 +48,7 @@ def mainloop():
     print conf.db_host
     client = MongoClient(conf.db_host)
     db = client.autotest
+    col_contestant=db.contestant
     col_submissions=db.submissions
     col_scores=db.scores
     result = {}
@@ -78,12 +79,14 @@ def mainloop():
             "test_case_result": submission["description"],
             "time": time.time()
         })
-
+	
+	rec_cname=col_contestant.find_one({"username":submission["user"]},{'contestname':1,'_id':0})
+	cname=rec_cname["contestname"]
         sccoll=col_scores.find_one({"user_name":submission["user"],"program":submission["programname"]})
         if not sccoll and submission["score"] == 0:
            pass
         elif not sccoll and submission["score"] > 0:
-            col_scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"]})
+            col_scores.insert({"user_name":submission["user"],"program":submission["programname"],"score":submission["score"],"contestname":cname})
         elif sccoll and submission["score"] == 0:
             col_scores.remove({"user_name":submission["user"],"program":submission["programname"]})
         elif submission["score"] > sccoll["score"] or submission["score"] < sccoll["score"]:
