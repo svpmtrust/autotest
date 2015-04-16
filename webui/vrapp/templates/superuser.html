@@ -1,7 +1,6 @@
 {% extends "basemain.html" %}
 
 {%block navbar%}
-     <link rel="stylesheet" type="text/css" href="../static/style.css"/>
          <button type="button" class="btn btn-success navbar-btn active navbar-right" onClick="add()">
               <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest 
              <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span></a>
@@ -109,7 +108,7 @@ fieldset{
                             <input type="email" class="form-control" name="pa2email" placeholder="Email" />
                        <br/>
                        <hr/>
-                       <input type="submit" class="btn btn-primary" value="Save" />&nbsp&nbsp&nbsp&nbsp
+                       <input type="submit" class="btn btn-primary submit_btn" value="Save" />&nbsp&nbsp&nbsp&nbsp
                        <input type="reset" class="btn btn-primary" value="Reset" />
                 </fieldset>
                </form>
