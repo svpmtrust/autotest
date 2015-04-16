@@ -8,13 +8,6 @@ import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
 import boto.cloudformation
-from django import template
-
-register = template.Library()
-
-@register.filter(name='private')
-def private(obj, attribute):
-    return getattr(obj, attribute)
 
 
 # Create your views here.
@@ -244,6 +237,11 @@ def contestanthome(request):
     totalscore=ts["result"][0]["total"]
     scores=scores["result"]
     rank=0
+    userscores=[]
+    for i,u in enumerate(scores) :
+        user_name=u["_id"]
+        total=u["total"]
+        userscores.append[{'username':user_name , 'total':total}]
     for i,u in enumerate(scores) :
         if u["_id"] == username :
             rank = (i+1)
@@ -259,7 +257,7 @@ def contestanthome(request):
             'password': password,
             'cstatus': conteststatus,
             'programs': list(programs),
-            'scores': list(scores),
+            'scores': list(userscores),
             'git_address': git_address,
 	    'totalscore': totalscore,
 	    'rank':rank

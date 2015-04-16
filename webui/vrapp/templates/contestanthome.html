@@ -69,7 +69,7 @@ Rank: <span v-text="score.rank"></span>
                             </tr>
                          {% for s in scores %} 
                             <tr>
-                                <td>{ value|private:'_id' }}</td>
+                                <td>{{s.username}}</td>
                                 <td>{{s.total}}</td>  
                             </tr>
                          {% endfor %}  
