@@ -225,7 +225,7 @@ def contestanthome(request):
     password=coll["password"]
     programs = db1.submissions.find({'user_name': username})
     scores=db1.scores.aggregate([
-		     { $match: 
+		     { "$match": 
 			{"$and":[{"contestname": contestname } ]}},
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
@@ -236,6 +236,10 @@ def contestanthome(request):
                    ])
     totalscore=ts["result"][0]["total"]
     scores=scores["result"]
+    rank=0
+    for u in scores :
+        if u["_id"]==username :
+            rank = (u.index("_id") + 1)
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
@@ -250,7 +254,8 @@ def contestanthome(request):
             'programs': list(programs),
             'scores': list(scores),
             'git_address': git_address,
-	    'totalscore': totalscore
+	    'totalscore': totalscore,
+	    'rank':rank
         }
     )
 
