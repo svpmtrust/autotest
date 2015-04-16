@@ -16,7 +16,7 @@
 {%block navbar%}
 <a class="navbar-brand">
 Score: <span v-text="score.total"></span>
-<span class="glyphicon glyphicon-saved" aria-hidden="true"></span> {{score}}  &nbsp;&nbsp;&nbsp;&nbsp;
+<span class="glyphicon glyphicon-saved" aria-hidden="true"></span> {{totalscore}}  &nbsp;&nbsp;&nbsp;&nbsp;
 </a>
 <a class="navbar-brand">
 Rank: <span v-text="score.rank"></span>
@@ -70,7 +70,7 @@ Rank: <span v-text="score.rank"></span>
                          {% for s in scores %} 
                             <tr>
                                 <td>{{s.user_name}}</td>
-                                <td>{{s.score}}</td>  
+                                <td>{{s.total}}</td>  
                             </tr>
                          {% endfor %}  
                         </table>
