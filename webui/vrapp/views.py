@@ -129,7 +129,7 @@ def regisuccess(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
     pswd = request.POST.get('pass')
-    '''to = email
+    to = email
     gmail_user = 'techcontest2015@gmail.com'
     gmail_pwd = 'aviso2015'
     smtpserver = smtplib.SMTP("smtp.gmail.com",587)
@@ -141,7 +141,6 @@ def regisuccess(request):
     msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
     smtpserver.sendmail(gmail_user, to, msg)
     smtpserver.close()
-    '''
     a = hashlib.sha1(pswd)
     hpswd = a.hexdigest()
     d=db1.contest.find_one({"contestname":cn})
@@ -230,21 +229,18 @@ def contestanthome(request):
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
                    ])
-    ts=db1.scores.aggregate([
-		     { "$match": { "user_name": username } },
-                     { "$group": { "_id": "username", "total": { "$sum": "$score" } } }
-                   ])
-    totalscore=ts["result"][0]["total"]
     scores=scores["result"]
     rank=0
     userscores=[]
+    totalscore=0
     for i,u in enumerate(scores) :
         user_name=u["_id"]
         total=u["total"]
-        userscores.append[{'username':user_name , 'total':total}]
+        userscores.append({'username':user_name , 'total':total})
     for i,u in enumerate(scores) :
         if u["_id"] == username :
             rank = (i+1)
+            totalscore=u["_total"]
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
@@ -278,7 +274,18 @@ def testadminhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
     programs = db1.submissions.find({'user_name':username})
-    return render(request, 'testadminhome.html', {'cname': contestname ,'username':username})
+    scores=db1.scores.aggregate([
+		     { "$match": 
+			{"$and":[{"contestname": contestname } ]}},
+                     { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
+                     { "$sort": { "total": -1 } }
+                   ])
+    scores=scores["result"]
+    for i,u in enumerate(scores) :
+        user_name=u["_id"]
+        total=u["total"]
+        userscores.append({'username':user_name , 'total':total})
+    return render(request, 'testadminhome.html', {'cname': contestname ,'username':username ,'scores': list(userscores)})
 	
 def puppetrun(request):
     cn = request.session['contestname']

@@ -40,11 +40,12 @@
                                 <th>Action</th>
                             </tr>
                             <tr>
-                                <td></td>
+			     {% for s in scores %} 
+                                <td>s.username</td>
                                 <td></td>                                 
                                 <td></td>
                              <!--   <td></td>	-->
-                                <td></td>
+                                <td>s.total</td>
                            <!--     <td></td>	-->
                                 <td align="center">
                                 <form method="post" action="deactivateuser">
@@ -55,6 +56,7 @@
                                     </button>
                                 </form>
                                 </td>
+				{% endfor %}  
                             </tr>
                         </table>
                     </div>
