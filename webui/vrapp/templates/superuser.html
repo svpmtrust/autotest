@@ -1,6 +1,7 @@
 {% extends "basemain.html" %}
 
 {%block navbar%}
+     <link rel="stylesheet" type="text/css" href="../static/style.css"/>
          <button type="button" class="btn btn-success navbar-btn active navbar-right" onClick="add()">
               <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest 
              <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span></a>
@@ -56,7 +57,7 @@ fieldset{
             </div>
             <div class="page" id="addingpage" style="visibility:hidden"><a name="addingpage"></a>
                  <div id="formset">
-                   <form method="post" action="addContest">
+                   <form class="regform" method="post" action="addContest">
                    {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>
                         <label for="inputName">Name:</label>

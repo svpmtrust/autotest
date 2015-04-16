@@ -34,7 +34,7 @@ Rank: <span v-text="score.rank"></span>
 	<div class="container" id="container">
 	<div class="alert alert-success">
     {% if git_address %}
-	<b>Clone your Repository using:</b> <br/>
+	<b>Clone your Repository using:</b>
    <u> http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git</u>
     {% endif %}
 	</div>
@@ -80,8 +80,8 @@ Rank: <span v-text="score.rank"></span>
          <div id="submissionsPage">
                 <h2>Submissions</h2>
                 <div class="container" id="submissions">
- 					<ul class="list-group">
- 					 {% for p in programs %}
+ 		   <ul class="list-group">
+ 		     {% for p in programs %}
                         <li class="list-group-item">
                             <div id={{p.program}}>Program:<b>{{p.program}}</b></div>
                             <div>Program result:<b>{{p.program_result}}</b></div>
