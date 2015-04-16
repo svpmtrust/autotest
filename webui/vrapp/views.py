@@ -240,7 +240,7 @@ def contestanthome(request):
     for i,u in enumerate(scores) :
         if u["_id"] == username :
             rank = (i+1)
-            totalscore=u["_total"]
+            totalscore=u["total"]
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
@@ -281,6 +281,7 @@ def testadminhome(request):
                      { "$sort": { "total": -1 } }
                    ])
     scores=scores["result"]
+    userscores=[]
     for i,u in enumerate(scores) :
         user_name=u["_id"]
         total=u["total"]
