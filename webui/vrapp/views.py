@@ -8,6 +8,13 @@ import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
 import boto.cloudformation
+from django import template
+
+register = template.Library()
+
+@register.filter(name='private')
+def private(obj, attribute):
+    return getattr(obj, attribute)
 
 
 # Create your views here.
