@@ -2,12 +2,15 @@
 
 {%block navbar%}
       <div class="navbar-header">
-   				 <button id="start" class="btn btn-success active navbar-btn nav-right nav-brand" >
-  				 Start  <span class="glyphicon glyphicon-play-circle" aria-hidden="true"> </span> 
-   				</button> 	           
-		         <button onclick="testStop()" id="stop" class="btn btn-danger btn-active" disabled>
+      		{% if git_address %}
+      			<button onclick="testStop()" id="stop" class="btn btn-danger btn-active" disabled>
 				 Stop <span class="glyphicon glyphicon-stop" aria-hidden="true"> </span> 
 				 </button>&nbsp;&nbsp;
+   			{% else %}
+   				 <button id="start" class="btn btn-success active navbar-btn nav-right nav-brand" >
+  				 Start  <span class="glyphicon glyphicon-play-circle" aria-hidden="true"> </span> 
+   				</button>&nbsp;&nbsp;           
+		    {% endif %}    
        </div>
      
 {%endblock%}
