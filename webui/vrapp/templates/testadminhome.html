@@ -3,11 +3,11 @@
 {%block navbar%}
       <div class="navbar-header">
       		{% if git_address %}
-      			<button onclick="testStop()" id="stop" class="btn btn-danger btn-active" disabled>
+      			<button onclick="testStop()" id="stop" class="btn btn-danger btn-active navbar-btn nav-right nav-brand">
 				 Stop <span class="glyphicon glyphicon-stop" aria-hidden="true"> </span> 
 				 </button>&nbsp;&nbsp;
    			{% else %}
-   				 <button id="start" class="btn btn-success active navbar-btn nav-right nav-brand" >
+   				 <button id="start" class="btn btn-success active navbar-btn nav-right nav-brand">
   				 Start  <span class="glyphicon glyphicon-play-circle" aria-hidden="true"> </span> 
    				</button>&nbsp;&nbsp;           
 		    {% endif %}    
@@ -22,7 +22,7 @@
 	<div class="container" id="main-container">
 	<div class="alert alert-success" id="output">
     {% if git_address %}
-	<b>Contest Started with address <br/>{{git_address}}</b>
+	<b>Contest Started with address --> <u> {{git_address}} </u> </b>
     {% endif %}
 	</div>
         <div class="page" id="homePage">
