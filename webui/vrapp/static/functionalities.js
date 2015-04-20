@@ -14,7 +14,7 @@
 			$(function(){
 				$("#start").click(function(){
 					$.get("/puppetrun", {cn:contest_name}, function(data){
-						$("#output").html("Puppet started with process id " + data);
+						$("#output").html(data);
 						 document.getElementById("start").disabled = true;
         			document.getElementById("stop").disabled = false;
 					});
@@ -25,7 +25,7 @@
 function testStop() {
         document.getElementById("stop").disabled = true;
         document.getElementById("start").disabled = false;
-        $("#output").html("Puppet stoped");
+        $("#output").html("Contest stoped");
     }
 
 /*------------checking difficulty level-----------------*/

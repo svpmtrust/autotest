@@ -360,7 +360,7 @@ def puppetrun(request):
                                })
         return HttpResponse(str(git_ip))
     else:
-        return HttpResponse(str("Contest Already Done"))
+        return HttpResponse(str("Contest Already Started"))
 
 def puppetstop(request):
     cn = request.session['contestname']
@@ -369,7 +369,7 @@ def puppetstop(request):
     if(st == "Started"):
         db1.contest.update({'contestname':cn},{"$set":{'status':"Finished"}})
         os.system("vagrant stop")
-        return HttpResponse(str("Already finished"))
+        return HttpResponse(str("Contest Stopped"))
 
 def deactivateuser(request):
     un = request.POST.get("names")
