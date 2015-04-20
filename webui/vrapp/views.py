@@ -108,6 +108,11 @@ def checkContestName(request):
 #------------Home---------------#
 
 def home(request):
+    try:
+        del request.session['contestname']
+        del request.session['username']
+    except KeyError:
+        pass
     return render(request, 'home.html', {})  
 
 def registration(request):
@@ -255,8 +260,8 @@ def contestanthome(request):
             'programs': list(programs),
             'scores': list(userscores),
             'git_address': git_address,
-	    'totalscore': totalscore,
-	    'rank':rank
+	        'totalscore': totalscore,
+	        'rank':rank
         }
     )
 
@@ -274,6 +279,9 @@ def testadminhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
     programs = db1.submissions.find({'user_name':username})
+    contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
+    conteststatus = contest_data['status']
+    git_address = contest_data.get('git_ip', None)
     scores=db1.scores.aggregate([
 		     { "$match": 
 			{"$and":[{"contestname": contestname } ]}},
@@ -286,8 +294,14 @@ def testadminhome(request):
         user_name=u["_id"]
         total=u["total"]
         userscores.append({'username':user_name , 'total':total})
-    return render(request, 'testadminhome.html', {'cname': contestname ,'username':username ,'scores': list(userscores)})
-	
+    return render(request, 'testadminhome.html', 
+                  {'cname': contestname ,
+                   'username':username ,
+                   'scores': list(userscores),
+                   'cstatus': conteststatus,
+                   'git_address': git_address,
+                   })
+    
 def puppetrun(request):
     cn = request.session['contestname']
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})

@@ -17,8 +17,12 @@
           contest_name = '{{cname}}'
     </script>
 	<div class="container" id="main-container">
+	<div class="alert alert-success" id="output">
+    {% if git_address %}
+	<b>{{git_address}}</b>
+    {% endif %}
+	</div>
         <div class="page" id="homePage">
-          	<div><b id="output"></b></div>
 			<h2>Leaderboard</h2>
                <div id="leaderboard">
                      <div class="nav navbar navbar-default">
