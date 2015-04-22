@@ -278,7 +278,6 @@ def submissions(request):
 def testadminhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
-    programs = db1.submissions.find({'user_name':username})
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     conteststatus = contest_data['status']
     git_address = contest_data.get('git_ip', None)
@@ -293,13 +292,15 @@ def testadminhome(request):
     for i,u in enumerate(scores) :
         user_name=u["_id"]
         total=u["total"]
-        userscores.append({'username':user_name , 'total':total})
+	sub=db1.submissions.find({'user_name':user_name}).count()
+        userscores.append({'username':user_name , 'total':total , 'submissions':sub})
+    programs = db1.submissions.find({'user_name':username})
     return render(request, 'testadminhome.html', 
                   {'cname': contestname ,
                    'username':username ,
                    'scores': list(userscores),
                    'cstatus': conteststatus,
-                   'git_address': git_address,
+                   'git_address': git_address
                    })
     
 def puppetrun(request):
