@@ -290,19 +290,12 @@ def testadminhome(request):
                    ])
     scores=scores["result"]
     userscores=[]
-    for un in users:
-    	for i,u in enumerate(scores) :
-            if un == u["_id"] :
-                user_name=u["_id"]
-                total=u["total"]
-	        sub=db1.submissions.find({'user_name':user_name}).count()
-	        programs = db1.scores.find({'user_name':user_name}).count()
-	    else :
-		user_name=un
-                total=0
-	        sub=0
-	        programs = 0
-	    userscores.append({'username':user_name , 'total':total , 'submissions':sub , 'programs':programs})
+    for i,u in enumerate(scores) :
+        user_name=u["_id"]
+        total=u["total"]
+	sub=db1.submissions.find({'user_name':user_name}).count()
+	programs = db1.scores.find({'user_name':user_name}).count()
+	userscores.append({'username':user_name , 'total':total , 'submissions':sub , 'programs':programs})
     return render(request, 'testadminhome.html', 
                   {'cname': contestname ,
                    'username':username ,
