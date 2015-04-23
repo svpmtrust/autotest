@@ -295,7 +295,7 @@ def testadminhome(request):
             user_name=u["_id"]
             total=u["total"]
 	    sub=db1.submissions.find({'user_name':user_name}).count()
-	    programs = db1.scores.find({'user_name':username}).count()
+	    programs = db1.scores.find({'user_name':user_name}).count()
             userscores.append({'username':user_name , 'total':total , 'submissions':sub , 'programs':programs})
     return render(request, 'testadminhome.html', 
                   {'cname': contestname ,
