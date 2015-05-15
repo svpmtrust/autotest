@@ -46,8 +46,8 @@
                            <!--     <th>Rank</th>	-->
                                 <th>Action</th>
                             </tr>
-                            <tr>
-			     {% for s in scores %} 
+			     {% for s in scores %}
+                            <tr> 
                                 <td>{{s.username}}</td>
                                 <td>{{s.programs}}</td>                                 
                                 <td>{{s.submissions}}</td>
@@ -63,8 +63,8 @@
                                     </button>
                                 </form>
                                 </td>
-				{% endfor %}  
                             </tr>
+			{% endfor %}  
                         </table>
                     </div>
                 </div>
