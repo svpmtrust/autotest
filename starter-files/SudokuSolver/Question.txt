@@ -24,7 +24,7 @@ needs to be solved.  See the 3 sample files in the directory.
 -----------------------------------------------------------------
 Sample Input                                       Sample Output
 -----------------------------------------------------------------
-Impossible                                            0
-Probable                                              1
-Ambiguous                                             ?
+Impossible.txt                                            0
+Probable.txt                                              1
+Ambiguous.txt                                             ?
 -----------------------------------------------------------------
