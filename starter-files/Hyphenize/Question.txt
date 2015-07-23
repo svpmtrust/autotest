@@ -1,0 +1,33 @@
+Hyphenize                   Score: 8
+---------                   --------
+
+Max Execution Time: 3 Secs
+
+Objective of the program is to find increasing and decreasing patterns in the
+given input and Hyphenize it based on the sequence found.  For example: abcde
+can be hyphenized as a-e.  
+
+Hyphenization should work for lower, capital and digits.  For example NO need
+to recognize 101112 as a sequence of 10-12.  However 01234 should be recognized
+as 0-4. At the same time 89:; should NOT be recognized as 8-; Similar lower and
+upper case bounds should be honored. 
+
+Your program should recognize both increasing and decreasing sequences.  I.e. a
+string sequence of abcdefFEDCBA should be recognized as a-fF-A properly. 
+
+A sequence of ABCDEDCBA should be recognized as A-E-A properly as well. 
+
+3 Makes a sequence, not 2
+
+(NOTE:  IF PARTIAL SCORING IS ALLOWED IN THE TEST, RECOGNIZING AT LEAST
+ONE DIRECTION WILL GIVE YOU PARTIAL SCORE)
+
+-----------------------------------------
+Sample Input                Sample Output
+-----------------------------------------
+abcdef                      a-f
+abcdef9812312345            a-f981-31-5
+10111234                    10111-4
+abcdefFEDCBA                a-fF-A
+ABCDEDCBA                   A-E-A
+-------------------------------------------
