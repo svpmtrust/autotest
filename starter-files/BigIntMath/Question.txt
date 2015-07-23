@@ -1,0 +1,26 @@
+BigIntMath                         Score: 10
+----------
+
+Max Execution Time:   3 Seconds
+
+Objective of this problem is to perform basic math operations on very long
+integer values. 
+
+You are expected to implement Addition, Subtraction, Multiplication, Quotent
+and remainder operations.  (+, -, *, / and % respectively)
+
+First argument to your program will identify the operation.  Seconnd and third
+arguments will be the operands to be used. 
+
+NOTE: You are not expected to use any language built-in features for BigInts
+as we are expecting to test your coding skills. 
+
+------------------------------------------------------------------------------
+Sample Input                                                   Sample Output
+------------------------------------------------------------------------------
++ 81723812391238123123 9128391232991283                   81732940782471114406
+- 81723812391238123123 9128391232991283                   81714684000005131840
+* 891820391232 81723827372                             72882975699873470402304
+/ 81723812391238123123 9128391232991283                                   8952
+% 81723812391238123123 9128391232991283                       6454073500157707
+------------------------------------------------------------------------------
