@@ -15,6 +15,9 @@ arguments will be the operands to be used.
 NOTE: You are not expected to use any language built-in features for BigInts
 as we are expecting to test your coding skills. 
 
+NOTE: If PARTIAL scoring is allowed for you, you will get partial credit for +, -, *
+and Division and Modulus.  
+
 ------------------------------------------------------------------------------
 Sample Input                                                   Sample Output
 ------------------------------------------------------------------------------
