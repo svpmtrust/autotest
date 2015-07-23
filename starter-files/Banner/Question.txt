@@ -1,0 +1,29 @@
+Banner                                     Score: 10
+------
+
+Objective of this program is to create a text file
+that can be used to print large banners on continuous sheet.
+This is mostly used in the era of dot matrix printers. 
+
+You are given a font file where the height of each character
+is exactly 8 pixels (a.k.a. Ascii Chars)
+
+Width of the charecter can be variable and must be deducted from
+the file. 
+
+Given text is to be printed in a vertical orientation using this
+font file. 
+
+NOTE: See this article to get the Idea about orientation: 
+http://www.aboutlinux.info/2006/01/print-large-banner-on-your-terminal.html 
+
+Your program is expected to accept the following pattern as argument: 
+
+Sample Input              Expected Output
+-------------------------------------------------------------------------------------------
+Ram                       Printed Vertical with 40 char (5 times) height and 5 char spacing
+Ram,3                     Printed vertical with 24 char (3 times) height and 3 char spacing
+Rama,3,Sita,3             Print Rama and Sita in two lines each with with 24 char spacing. Smaller line must be centered
+Valmiki,2,Ramayanam,7,Story of Rama and Sita,1
+                          Print 3 lines with 16, 56 and 8 char hieghts
+-------------------------------------------------------------------------------------------
