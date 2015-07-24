@@ -1,0 +1,27 @@
+Filefixer         Score: 40
+---------         ---------
+
+Max Execution Time: 30 seconds
+
+Objective of this program is to perform a color comparision to put the given blocks of pictures
+in the right order to recreate the image.
+
+An image is cut into given number of vertical and horizontal pieces.  All these peices are saved
+in a directory whose name is given as your input.  A second argument will give you the number
+of rows and cols in the grid.  Number of cuts will be square of that number.
+
+You are given a utility to load the image into a bitmap array to get you started in both python
+and java.
+
+NOTE: You are free to use any image libraries if you want, but let us know the libraries so
+that we can make sure they are available in testing environment.
+
+Sample Input
+------------
+scramble 3
+
+Sample Output
+-------------
+0 5 2
+7 1 6
+8 4 3
