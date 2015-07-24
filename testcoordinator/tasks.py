@@ -55,6 +55,8 @@ def pull_user(user):
 
 @app.task
 def progtest(user, programname):
+    client = MongoClient(conf.db_host)
+    db = client.autotest
     i = 1
     result = {}
     plist = os.listdir(conf.participant_dir)
