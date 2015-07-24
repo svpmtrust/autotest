@@ -196,7 +196,9 @@ def progtest(user, programname):
         result.update({"progstatus":"PARTIALLY SUCCESSFUL"})
         result.update({"description":p_pass+p_fail})
         partial = root.find('partial')
-        if partial and partial.text == 'true':
+        #if partial and partial.text == 'true':
+        partial = db.contest.find_one({"contestname": contest_name},{"questions."+programname: 1, "_id": 0})
+        if partial[programname]:
             your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
             result.update({"score":your_score})
         # insert record the db as patial is allowed
