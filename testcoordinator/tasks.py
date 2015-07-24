@@ -106,10 +106,12 @@ def progtest(user, programname):
     # Hard_code_warning
     inputs_found = 0
     total_inputs = 0
+    tot_tests = 0
     for input_i,output_o,description_d in inputoutput(programname):
     # Create the command to run.  In case of file inputs, make
     # sure filenames are formatted for {pdir}
         print "Validating for %s" % input_i
+	tot_tests += 1
         run_cmd = ['/bin/bash','run.sh']
         additional_args = shlex.split(input_i)
         for each_arg in additional_args:
@@ -200,8 +202,8 @@ def progtest(user, programname):
         partial = root.find('partial')
         #if partial and partial.text == 'true':
         partial = db.contest.find_one({"contestname": contest_name},{"questions."+programname: 1, "_id": 0})
-        if partial[programname]:
-            your_score = (program_score * len(p_pass)) / (len(p_pass) + len(p_fail) + len(p_error))
+        if partial['questions'][programname] :
+            your_score = (program_score * len(p_pass)) / (tot_tests)
             result.update({"score":your_score})
         # insert record the db as patial is allowed
         else:
