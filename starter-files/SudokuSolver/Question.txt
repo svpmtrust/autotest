@@ -1,7 +1,7 @@
 SudokuSolver                                 Score: 10
 ------------
 
-Max Execution time: 12 Seconds
+Max Execution time: 20 Seconds
 
 Sudoku is a polular game where you are expected to fill in the
 9x9 grid with numbers that are not repeating in rows, cols or
