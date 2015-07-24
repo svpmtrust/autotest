@@ -26,5 +26,5 @@ Sample Input                                       Sample Output
 -----------------------------------------------------------------
 Impossible.txt                                            0
 Probable.txt                                              1
-Ambiguous.txt                                             ?
+Ambiguous.txt                                          4524
 -----------------------------------------------------------------
