@@ -4,6 +4,7 @@ import os
 from pymongo import MongoClient
 import subprocess
 import time
+import traceback
 
 
 def mainloop(client):
@@ -28,8 +29,10 @@ def mainloop(client):
             subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
 
     except:
-        subprocess.call("cd $GITSERVER_ROOT/gitserver")
-        subprocess.call("python new_repod.py >> /var/log/gitserver.log 2>&1")
+        #subprocess.call("cd $GITSERVER_ROOT/gitserver")
+        #subprocess.call("python new_repod.py >> /var/log/gitserver.log 2>&1")
+        print "Unable to run the main loop"
+        traceback.print_exc()
         pass
         
 # Python main routine to run the mainloop in a loop :-) 
