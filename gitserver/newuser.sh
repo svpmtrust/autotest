@@ -38,4 +38,4 @@ cd $1.git
 git init --bare
 chown -R www-data.www-data .
 
-sudo service apache2 reload
+sudo service apache2 restart
