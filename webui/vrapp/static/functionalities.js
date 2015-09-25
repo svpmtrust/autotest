@@ -83,7 +83,6 @@ $(function(){
 						data.push(checkBoxes[i].value);
 					}
 				}
-				console.log(data);
 				flagsvalues = document.getElementsByName('ps');
 				flag=[];
 				for(i=0;i<flagsvalues.length;i++) {
@@ -91,7 +90,6 @@ $(function(){
 						flag.push(flagsvalues[i].value);
 					}
 				}
-				console.log(flag);
 				var easy = $("#easy1").val();
 				var medium = $("#medium1").val();
 				var hard = $("#hard1").val();
@@ -107,27 +105,19 @@ $(function(){
 				$("#username").blur(function(){
 					var contestname = $("#contestname").val();
 					var username = $("#username").val();
-					console.log(contestname);
-					console.log(username);
 					var letters = /^[A-Za-z0-9]+$/;
-					if( letters.test(username) )
-					{
-					$.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
-					 console.log(data);
-					 if(data == "InValid")
-					  {
+					if( letters.test(username) ){
+					 $.get("/checkUserName",{'username':username},function(data){
+					 if(data == "InValid"){
 					     alert("UserName Already Exists Please Try Another One");	
 					     //window.location.reload(true);
-					     $("#username").val("");
-					     
+					     $("#username").val("");  
 					  }
 				   	});
-					}
-					else
-					{
-					alert('Please input alphabet characters only');
-					//window.location.reload(true);
-					$("#username").val("");
+					}else{
+						alert('Username must be alphanumeric');
+						//window.location.reload(true);
+						$("#username").val("");
 					}
 				});
 			});
@@ -136,16 +126,21 @@ $(function(){
 			$(function(){
 				$("#contest").blur(function(){
 					var contestname = $("#contest").val();
-					console.log(contestname);
-					 $.get("/checkContestName",{'contestname':contestname},function(data){
-					 console.log(data);
-					if(data == "InValid")
-					  {
-					     alert("Contest Name Already Exists Please Try Another One");
-					     //window.location.reload(true);
-					     $("#contest").val("");
-					  }
-				   });
+					var letters = /^[A-Za-z0-9_]+$/;
+					if( letters.test(contestname) ){
+						$.get("/checkContestName",{'contestname':contestname},function(data){
+						if(data == "InValid")
+						  {
+						     alert("Contest Name Already Exists Please Try Another One");
+						     //window.location.reload(true);
+						     $("#contest").val("");
+						  }
+					   });
+					}else{
+						alert('Contestname must be alphanumeric with the special character "_"');
+						//window.location.reload(true);
+						$("#contest").val("");
+					}
 				});
 			});
 

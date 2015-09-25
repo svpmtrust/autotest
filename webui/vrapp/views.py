@@ -26,7 +26,6 @@ def deleteContest(request):
 
 def addContest(request):
     cname=request.POST.get('contestname')
-    cname=cname.replace(" ","_")
     organisation=request.POST.get('organisation')
     date=request.POST.get('date')
     status=request.POST.get('status')
@@ -97,7 +96,6 @@ def addContest(request):
 
 def checkContestName(request):
     contestname=request.GET.get("contestname")
-    contestname=contestname.replace(" ","_")
     con = db1.contest.find_one({'contestname': contestname })
     if not con:
         return HttpResponse("Valid")
@@ -134,18 +132,8 @@ def regisuccess(request):
     name = request.POST.get('name')
     email = request.POST.get('email')
     pswd = request.POST.get('pass')
-    to = email
-    gmail_user = 'techcontest2015@gmail.com'
-    gmail_pwd = 'aviso2015'
-    smtpserver = smtplib.SMTP("smtp.gmail.com",587)
-    smtpserver.ehlo()
-    smtpserver.starttls()
-    smtpserver.ehlo
-    smtpserver.login(gmail_user, gmail_pwd)
-    header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
-    msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
-    smtpserver.sendmail(gmail_user, to, msg)
-    smtpserver.close()
+    if not pswd:
+        return HttpResponse("ERROR: You need a password to register")
     a = hashlib.sha1(pswd)
     hpswd = a.hexdigest()
     d=db1.contest.find_one({"contestname":cn})
@@ -159,8 +147,23 @@ def regisuccess(request):
           "status":"active",
           "questions":[]
           }
-    db1.contestant.insert(user)
-    return HttpResponseRedirect('loginform')
+    dbr = db1.contestant.insert(user)
+    if dbr :
+        to = email
+        gmail_user = 'techcontest2015@gmail.com'
+        gmail_pwd = 'aviso2015'
+        smtpserver = smtplib.SMTP("smtp.gmail.com",587)
+        smtpserver.ehlo()
+        smtpserver.starttls()
+        smtpserver.ehlo
+        smtpserver.login(gmail_user, gmail_pwd)
+        header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
+        msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' +  un + '\n Password : ' + pswd + '\n \n'
+        smtpserver.sendmail(gmail_user, to, msg)
+        smtpserver.close()
+        return HttpResponseRedirect('loginform')
+    else :
+        return HttpResponse("ERROR: Sorry Please Register Again")
 
 #---------Login----------#
 
