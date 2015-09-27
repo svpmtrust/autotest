@@ -102,7 +102,6 @@ def checkContestName(request):
     else:
         return HttpResponse("InValid")
 
-
 #------------Home---------------#
 
 def home(request):
@@ -133,7 +132,8 @@ def regisuccess(request):
     email = request.POST.get('email')
     pswd = request.POST.get('pass')
     if not pswd:
-        return HttpResponse("ERROR: You need a password to register")
+        '''return HttpResponse("ERROR: You need a password to register")'''
+        return render(request, 'errorpage.html', {'emessage':"You need a password to register.. Please Register Again"})
     a = hashlib.sha1(pswd)
     hpswd = a.hexdigest()
     d=db1.contest.find_one({"contestname":cn})
@@ -163,7 +163,8 @@ def regisuccess(request):
         smtpserver.close()
         return HttpResponseRedirect('loginform')
     else :
-        return HttpResponse("ERROR: Sorry Please Register Again")
+        '''return HttpResponse("ERROR: Sorry Please Register Again")'''
+        return render(request, 'errorpage.html', {'emessage':"Sorry Something went wrong.. Please Register Again"})
 
 #---------Login----------#
 
@@ -171,10 +172,11 @@ def loginform(request):
     try:
         del request.session['contestname']
         del request.session['username']
+        return render(request, 'errorpage.html', {'emessage':"Sorry Session Expired :("})
     except KeyError:
         pass
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
-    return render(request, 'loginform.html', {'cname':cname})  
+    return render(request, 'loginform.html', {'cname':cname})
 
 '''def logout(request):
     try:
@@ -182,7 +184,8 @@ def loginform(request):
         del request.session['username']
     except KeyError:
         pass
-    return HttpResponseRedirect('/loginform')'''
+    cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
+    return render(request, 'loginform.html', {'cname':cname})'''
 
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
@@ -222,7 +225,9 @@ def loginvalidate(request):
             if password==coll["participantapprover"][username]["password"]:
                 return HttpResponseRedirect('/participantapproverhome')
         else:
-            return HttpResponse("error")
+            '''return HttpResponse("error")'''
+            return render(request, 'errorpage.html', {'emessage':"Sorry Invalid Login Details :("})
+            
 
 #------------Contestant Home------------#
 def contestanthome(request):
