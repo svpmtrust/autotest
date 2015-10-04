@@ -61,12 +61,7 @@ Program             Score    Difficulty
 -------             ------   ----------
 1.Echo  .  .  .  .  .  0     None (Curtesy Solution Provided Already)
 2.Hyphenize   .  .  .  8     Easy
-3.BigIntMath  .  .  . 10     Easy
-4.Banner      .  .  . 10     Easy
-5.SudokuSolver   .  . 10     Medium
-6.Maze .   .  .  .  . 30     Hard
-7.Puzzle3 .  .  .  .  30     Hard
-8.JigSaw  .  .  .  .  40     Hard
+3.Banner      .  .  . 10     Easy
 
 
 =========
