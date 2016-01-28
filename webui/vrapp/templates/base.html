@@ -14,25 +14,25 @@
 	<nav class="navbar navbar-inverse" role="navigation" id="navigation">
             <div class="container-fluid" style="padding:0px 20px;">
                 <div class="navbar-header">
-                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logos/{{ logo }}">
                        <a class="navbar-brand" href="#" style="color:white;"><b>{{cname}}</b></a>
-                </div>                                 
+                </div>
                    <div class="navbar-header navbar-right">
                     <form class="regform" method ="get" action="loginform">
                      <button style="background-color:#009afd;color:#FFFFFF" class="btn active navbar-btn logout-btn">
-                       <!--  <a href="loginform.html" style="text-decoration:none;color:#FFFFFF"> -->Logout 
+                       <!--  <a href="loginform.html" style="text-decoration:none;color:#FFFFFF"> -->Logout
       				   <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>  </a>
                      </button>
                    </form>
                 </div>
                 <div class="navbar-header navbar-right">
                         <a class="navbar-brand" href="#">He!!o&nbsp;&nbsp;
-                       <b style="color:white;">{{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span></b>  
-                        </a>                        
+                       <b style="color:white;">{{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span></b>
+                        </a>
                        {% block navbar %}
-                       
+
                        {% endblock %}
-                      
+
                 </div>
          </div>
 	</nav>
@@ -48,4 +48,3 @@
     	</div>
 </body>
 </html>
-	

@@ -9,6 +9,15 @@ from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
 import boto.cloudformation
 
+#--Image Upload Function-------#
+def imgupload(f,name):
+    loc = " vrapp/static/logs"+name
+    print "***Location***", name
+    with open(loc,"wb+") as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+#-------------#
 
 # Create your views here.
 
@@ -56,8 +65,12 @@ def addContest(request):
     pa2pswd=hashlib.sha1(pa2pswd)
     pa2pswd=pa2pswd.hexdigest()
     pa2email=request.POST.get('pa2email')
+    print "**request**",request
+    img = request.FILES['logo']
+    imgupload(img,img.name)
     db1.contest.insert({
             "contestname" : cname ,
+            "contestlogo" : img.name,
             "organisation" : organisation ,
             "date" : date ,
             "status" : status ,
@@ -110,7 +123,7 @@ def home(request):
         del request.session['username']
     except KeyError:
         pass
-    return render(request, 'home.html', {})  
+    return render(request, 'home.html', {})
 
 def registration(request):
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
@@ -200,7 +213,7 @@ def loginvalidate(request):
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
         if not coll:
-            return HttpResponse("error")      
+            return HttpResponse("error")
         else:
             return HttpResponseRedirect('/contestanthome')
     if(usertype == "testadmin"):
@@ -212,9 +225,9 @@ def loginvalidate(request):
             return HttpResponse("error")
     if(usertype == "testcreator"):
         coll=db1.contest.find_one({"contestname":contestname})
-        if username in coll["testcreator"].keys():  
+        if username in coll["testcreator"].keys():
             if password==coll["testcreator"][username]["password"]:
-                return HttpResponseRedirect('/testcreatorhome')               
+                return HttpResponseRedirect('/testcreatorhome')
             else:
                 return HttpResponse("error")
         else:
@@ -227,7 +240,7 @@ def loginvalidate(request):
         else:
             '''return HttpResponse("error")'''
             return render(request, 'errorpage.html', {'emessage':"Sorry Invalid Login Details :("})
-            
+
 
 #------------Contestant Home------------#
 def contestanthome(request):
@@ -237,7 +250,7 @@ def contestanthome(request):
     password=coll["password"]
     programs = db1.submissions.find({'user_name': username})
     scores=db1.scores.aggregate([
-		     { "$match": 
+		     { "$match":
 			{"$and":[{"contestname": contestname } ]}},
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
@@ -254,10 +267,18 @@ def contestanthome(request):
         if u["_id"] == username :
             rank = (i+1)
             totalscore=u["total"]
+
     contest_data = db1.contest.find_one({"contestname":contestname},{"_id":0, "status": 1, "git_ip": 1})
     #nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
+    data = db1.contest.find({"contestname":contestname})[0]
+    print "**db1data" ,data
     conteststatus = contest_data['status']
+    print "**DATA**", contest_data
+    contestlogo = data['contestlogo']
     git_address = contest_data.get('git_ip', None)
+    userscores = [1,3,4]
+    totalscore = 8
+    rank = 1
     return render(
         request, 'contestanthome.html',
         {
@@ -269,7 +290,8 @@ def contestanthome(request):
             'scores': list(userscores),
             'git_address': git_address,
 	        'totalscore': totalscore,
-	        'rank':rank
+	        'rank':rank,
+            'logo':contestlogo
         }
     )
 
@@ -291,7 +313,7 @@ def testadminhome(request):
     git_address = contest_data.get('git_ip', None)
     users=db1.contestant.find({'contestname':contestname})
     scores=db1.scores.aggregate([
-		     { "$match": 
+		     { "$match":
 			{"$and":[{"contestname": contestname } ]}},
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
@@ -304,14 +326,14 @@ def testadminhome(request):
 	sub=db1.submissions.find({'user_name':user_name}).count()
 	programs = db1.scores.find({'user_name':user_name}).count()
 	userscores.append({'username':user_name , 'total':total , 'submissions':sub , 'programs':programs})
-    return render(request, 'testadminhome.html', 
+    return render(request, 'testadminhome.html',
                   {'cname': contestname ,
                    'username':username ,
                    'scores': list(userscores),
                    'cstatus': conteststatus,
                    'git_address': git_address
                    })
-    
+
 def puppetrun(request):
     cn = request.session['contestname']
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
@@ -384,7 +406,7 @@ def puppetstop(request):
 def deactivateuser(request):
     un = request.POST.get("names")
     db1.contestant.update({'username':un},{"$set":{'status':"Deactivate"}})
-    return HttpResponseRedirect('/testadminhome') 
+    return HttpResponseRedirect('/testadminhome')
 
 #------------TestCreator Home------------#
 def testcreatorhome(request):
@@ -392,9 +414,9 @@ def testcreatorhome(request):
 	username = request.session['username']
 	problems=db1.problemsrepository.find()
 	dt=db1.contest.find_one({'contestname':contestname})
-	date=dt["date"] 
+	date=dt["date"]
 	return render(request, 'testcreatorhome.html',
-	{'cname': contestname ,'username':username,'date':date ,'problems':problems})       
+	{'cname': contestname ,'username':username,'date':date ,'problems':problems})
 
 def createquestionpaper(request):
     contestname = request.session['contestname']
@@ -414,8 +436,8 @@ def createquestionpaper(request):
     		coll["questions"].update({i:0})
     db1.contest.save(coll)
     return HttpResponse("created")
-     
-#------------ParticipantApprover Home------------#    
+
+#------------ParticipantApprover Home------------#
 def participantapproverhome(request):
     contestname = request.session['contestname']
     username = request.session['username']
@@ -433,17 +455,17 @@ def participantapproverhome(request):
         contestants=db1.contestant.find({'contestname':contestname,"approved_status":"0","approved_by":{"$ne":sname}})
     else:
         contestants=db1.contestant.find({'contestname':contestname ,"approved_by":{"$in":[sname]}})
-    return render(request, 'participantapproverhome.html', 
-	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})    
-    
+    return render(request, 'participantapproverhome.html',
+	{'contestants':contestants ,'cname':contestname ,'username':username,'pa1':pa[0],'pa2':pa[1]})
+
 def approve(request):
     users=json.loads(request.GET.get("names"))
     contestname = request.session['contestname']
     username = request.session['username']
-    contest=db1.contest.find_one({'contestname':contestname},{"approverrule":1,"_id":0}) 
+    contest=db1.contest.find_one({'contestname':contestname},{"approverrule":1,"_id":0})
     crule=int(contest["approverrule"])
     print(crule)
-    print(contest) 
+    print(contest)
     for u in users:
         print(u)
         cont=db1.contestant.find_one({"contestname":contestname,"username":u})
