@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>Welcome to error page</title>
+<script src="/static/vue.js"></script>
+        <script src="/static/jquery.js"></script>
+        <script src="/static/functionalities.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container" id="main-container">
+        <div class="page" id="homePage">
+                
+	</div>
+    </div>
+<nav class="navbar navbar-inverse" role="navigation" id="navigation">
+            <div class="container-fluid" style="padding:0px 20px;">
+                <div class="navbar-header">
+                        <img id="logo" class="navbar-brand" alt="Brand" src="/static/logo-aviso.svg">
+                       <a class="navbar-brand" href="#" style="color:white;"><b>{{cname}}</b></a>
+                </div>                                 
+                <div class="navbar-header navbar-right">
+                        <a class="navbar-brand" href="#">He!!o&nbsp;&nbsp;
+                       <b style="color:white;">{{username}}<span class="glyphicon glyphicon-user" aria-hidden="true"> </span></b>  
+                        </a>                        
+                </div>
+         </div>
+	</nav>
+     <div class="container" id="main-container">
+        <div class="page" id="homePage">
+          <div class="form-group" align="center" style="width:90%;padding-left:10%">
+                	<fieldset>
+                	<br/>
+			<br/>
+			<b>{{emessage}}</b>
+			<h4> GO Hav a break!! Get KitKat </h4>
+                        <form method="get" action="loginform.html">
+                        <button type="submit" value="Login" class="active btn btn-info"> Login 
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>
+                        </button>
+                        </form>
+                 	</fieldset>
+			<br/>
+             </div>
+	 </div>
+     </div> 
+</body>
+</html>

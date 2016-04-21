@@ -178,14 +178,14 @@ def loginform(request):
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
     return render(request, 'loginform.html', {'cname':cname})
 
-'''def logout(request):
+def logout(request):
     try:
         del request.session['contestname']
         del request.session['username']
     except KeyError:
         pass
     cname=db1.contest.find({},{'contestname' : 1 , '_id' : 0})
-    return render(request, 'loginform.html', {'cname':cname})'''
+    return render(request, 'loginform.html', {'cname':cname})
 
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
@@ -195,7 +195,6 @@ def loginvalidate(request):
     a=hashlib.sha1(password)
     password=a.hexdigest()
     request.session['contestname'] = contestname
-    print request.session['contestname']
     request.session['username'] = username
     if(usertype == "contestant"):
         coll=db1.contestant.find_one({'contestname':contestname,'username':username,'password':password})
@@ -242,6 +241,8 @@ def contestanthome(request):
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
                    ])
+    #for i in scores:
+    #    scores = i['result']
     scores=scores["result"]
     rank=0
     userscores=[]
@@ -296,6 +297,8 @@ def testadminhome(request):
                      { "$group": { "_id": "$user_name", "total": { "$sum": "$score" } } },
                      { "$sort": { "total": -1 } }
                    ])
+    #for i in scores:
+    #    scores = i['result']
     scores=scores["result"]
     userscores=[]
     for i,u in enumerate(scores) :
@@ -317,7 +320,7 @@ def puppetrun(request):
     cll=db1.contest.find_one({'contestname':cn},{'status':1,'_id':0})
     st=cll["status"]
     if(st == "Not Started"):
-
+        print "ON_AWS is ::::::::::::",on_aws
         if on_aws:
             # TODO: Ideally we should ask celery to launch this in the background
 
