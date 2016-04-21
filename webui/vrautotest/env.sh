@@ -1,1 +1,1 @@
-export DB_HOST=mongodb://192.168.1.101:27017
+export DB_HOST=mongodb://54.179.137.43:27017
