@@ -11,8 +11,8 @@ from celery import Celery
 from conf import db_host,participant_dir, contest_name
 from pymongo import MongoClient
 
-app = Celery('tasks', backend='amqp', broker='amqp://guest@{}//'.format(db_host.split(':')[0]))
-
+#app = Celery('tasks', backend='amqp', broker='amqp://guest@{}//'.format(db_host.split(':')[0]))
+app = Celery('tasks',backend='amqp',broker='amqp://guest@54.179.137.43//')
 
 def inputoutput(progname):
     """ Yields the combinations of input_string, output_string

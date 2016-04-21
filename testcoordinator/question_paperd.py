@@ -12,8 +12,7 @@ def copy_selected_questions():
         x=i['questions']
     sq=list()
     for i in x.keys():
-        sq.append(i)
-       
+        sq.append(i)   
     cmd_to_run = "cp -r {root_dir}/starter-files/README.txt {root_dir}/selected_questions"
     subprocess.call(cmd_to_run.format(root_dir=root_dir), shell=True)
     
@@ -31,6 +30,10 @@ def mainloop(db):
         files = '{}/selected_questions/*'.format(root_dir)
         direct=conf.participant_dir
         user_coll=db.contestant.find({'contestname': contest_name}, {'username': 1, '_id': 0, 'password': 1, 'email': 1})
+
+        questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
+        for i in questions_for_contest:
+            x=i['questions']
         
         for user in user_coll:
             un=user['username']
@@ -39,6 +42,10 @@ def mainloop(db):
             if os.path.isdir(os.path.join(direct,un)):
                 print "omitted {} directory".format(un)
                 continue
+            questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
+	    user=db.contestant.find_one({"username":un})
+            user['questions'] = x.keys()
+            db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
             subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
             cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"               
