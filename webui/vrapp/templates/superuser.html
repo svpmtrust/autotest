@@ -2,14 +2,14 @@
 
 {%block navbar%}
          <button type="button" class="btn btn-success navbar-btn active navbar-right" onClick="add()">
-              <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest 
+              <a href="#addingpage" v-on="click: addingpage" style="text-decoration:none;color:#FFFFFF"> Add Contest
              <span class="glyphicon glyphicon-plus" aria-hidden="true"> </span></a>
          </button>
         <div class="navbar-header navbar-right">
            <a class="navbar-brand navbar-right" href="#">Hello <b style="color:white;">Super User !!&nbsp;&nbsp;
 			<span class="glyphicon glyphicon-user" aria-hidden="true"> </span></b>&nbsp;&nbsp;&nbsp;&nbsp;
            </a>
-        </div>   
+        </div>
 {%endblock%}
 
 {% block content %}
@@ -35,7 +35,7 @@ fieldset{
                                 <th>Delete Contest</th>
                        </tr>
 			{% for c in contests %}
-			<tr> 
+			<tr>
 			<td>{{c.contestname}}</td>
 			<td>{{c.organisation}}</td>
                             <td>{{c.date}}</td>
@@ -45,7 +45,7 @@ fieldset{
                                {% csrf_token %}
                                 <button class="btn btn-danger btn-sm" name="cname" value={{c.contestname}}>
                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
-                                 Delete 
+                                 Delete
                                 </button>
                               </form>
                             </td>
@@ -56,7 +56,7 @@ fieldset{
             </div>
             <div class="page" id="addingpage" style="visibility:hidden"><a name="addingpage"></a>
                  <div id="formset">
-                   <form method="post" action="addContest">
+                   <form method="post" enctype="multipart/form-data" action="addContest">
                    {% csrf_token %}
                     <fieldset><legend align="right">Contest Details</legend>
                         <label for="inputName">Name:</label>
@@ -101,13 +101,16 @@ fieldset{
                        		<input type="name" class="form-control" name="pa1un" placeholder="User Name" />
                             <input type="password" class="form-control" name="pa1pswd" placeholder="Password" />
                             <input type="email" class="form-control" name="pa1email" placeholder="Email" />
-                       <br/>                      
+                       <br/>
                        <b>Participant Approver-2</b>
                        		<input type="name" class="form-control" name="pa2un" placeholder="User Name" />
                             <input type="password" class="form-control" name="pa2pswd" placeholder="Password" -/>
                             <input type="email" class="form-control" name="pa2email" placeholder="Email" />
                        <br/>
                        <hr/>
+                       <label>Logo image</label>
+                       <input type="file" name="logo" />
+                       <br/>
                        <input type="submit" class="btn btn-primary" value="Save" />&nbsp&nbsp&nbsp&nbsp
                        <input type="reset" class="btn btn-primary" value="Reset" />
                 </fieldset>
@@ -116,5 +119,3 @@ fieldset{
 		</div>
 	</div>
 {% endblock %}
-
-
