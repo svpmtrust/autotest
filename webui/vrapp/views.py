@@ -369,8 +369,9 @@ def puppetrun(request):
             db1.contest.update({'contestname':cn},
                                {"$set":{
                                    'status':"Started",
-                                   'git_ip': "192.168.1.101"}
+                                   'git_ip': "192.168.50.1"}
                                })
+            git_ip = "192.168.50.1"
         return HttpResponse(str(git_ip))
     else:
         return HttpResponse(str("Contest Already Started"))
