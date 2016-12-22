@@ -14,6 +14,12 @@ or above in the given file. Given file may contain many anagram words
 and all the words should be listed in the output starting with anagrams
 that have most words in the file.
 
+Notes on the output format: 
+  => No spaces after comma
+  => Output is case sensitive
+  => Words in each line should be in sorted order.
+  
+
 For the sample1.txt in this directory here is the expected output: 
 
 Command to Run
@@ -23,6 +29,6 @@ sh run.sh sample1.txt
 
 Expected Output
 ---------------
-post, stop, pots
-Read, dear
-Rome, more
+post,stop,pots
+Read,dear
+Rome,more
