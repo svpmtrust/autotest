@@ -38,7 +38,7 @@ def mainloop(client):
 # Python main routine to run the mainloop in a loop :-) 
 # We have a minimum delay of 10 seconds between checks
 if __name__ == '__main__':
-        db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
+    db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     while True:
         start_time=time.time()

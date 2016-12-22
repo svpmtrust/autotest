@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "hashicorp/precise64"
-  local_ip = "127.0.0.1"
+  local_ip = "10.0.2.2"
   contest_name = "GnanaTechContest"
 
 
