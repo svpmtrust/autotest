@@ -43,7 +43,7 @@ def mainloop(db):
                 print "omitted {} directory".format(un)
                 continue
             questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
-	    user=db.contestant.find_one({"username":un})
+            user=db.contestant.find_one({"username":un})
             user['questions'] = x.keys()
             db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
