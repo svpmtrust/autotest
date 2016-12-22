@@ -73,6 +73,7 @@ if __name__ == '__main__':
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
+    root_dir="/vagrant"
     print os.getcwd()
     question_directory=os.path.isdir(os.path.join(root_dir, 'selected_questions'))
     if not question_directory:
