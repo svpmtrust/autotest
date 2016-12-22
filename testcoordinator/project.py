@@ -80,8 +80,8 @@ def mainloop():
             "time": time.time()
         })
 	
-	rec_cname=col_contestant.find_one({"username":submission["user"]},{'contestname':1,'_id':0})
-	cname=rec_cname["contestname"]
+        rec_cname=col_contestant.find_one({"username":submission["user"]},{'contestname':1,'_id':0})
+        cname=rec_cname["contestname"]
         sccoll=col_scores.find_one({"user_name":submission["user"],"program":submission["programname"]})
         if not sccoll and submission["score"] == 0:
            pass
