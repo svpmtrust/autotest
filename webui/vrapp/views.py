@@ -21,6 +21,8 @@ def superuser(request):
 def deleteContest(request):
     cname=request.POST.get('cname')
     print(cname)
+    # contests = db1.contest.find()
+    # print contests
     db1.contest.remove({ "contestname" : cname })
     return HttpResponseRedirect('/superuser')
 
@@ -117,13 +119,18 @@ def registration(request):
     return render(request, 'registration.html', {'cname':cname})
 
 def checkUserName(request):
-    #contestname=request.GET.get("contestname")
+    contestname=request.GET.get("contestname")
     username=request.GET.get("username")
-    con = db1.contestant.find_one({'username':username })
-    if not con:
-        return HttpResponse("Valid")
+    #con = db1.contestant.find_one({'username':username })
+    con1 = db1.contestant.find_one({'contestname': contestname,'username':username },{'username':1, '_id':0})
+    # print db1
+    # print con1
+    # print contestname
+    # print username
+    if not con1:
+            return HttpResponse("Valid")
     else:
-        return HttpResponse("InValid")
+            return HttpResponse("InValid")
 
 def regisuccess(request):
     cn = request.POST.get('contestname')

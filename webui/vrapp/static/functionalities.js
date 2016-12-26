@@ -107,7 +107,8 @@ $(function(){
 					var username = $("#username").val();
 					var letters = /^[A-Za-z0-9]+$/;
 					if( letters.test(username) ){
-					 $.get("/checkUserName",{'username':username},function(data){
+					// contestname and username to views.py
+					 $.get("/checkUserName",{'username':username,'contestname':contestname},function(data){
 					 if(data == "InValid"){
 					     alert("UserName Already Exists Please Try Another One");	
 					     //window.location.reload(true);
