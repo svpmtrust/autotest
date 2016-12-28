@@ -18,7 +18,7 @@ def login_required(func):
             return func(request)
 
         else:
-            return loginform(request)
+            return render(request, 'errorpage.html', {'emessage': "Sorry Session Expired :("})
     return inner
 
 # --------------SuperUser------------#
@@ -221,7 +221,7 @@ def logout(request):
         pass
     cname = db1.contest.find({}, {'contestname': 1, '_id': 0})
     print "cname in logout is ", cname
-    return render(request, 'loginform.html', {'cname': cname},{'emessage':"logout succesfull"})
+    return render(request, 'loginform.html', {'cname': cname})
 
 
 def loginvalidate(request):
@@ -233,37 +233,50 @@ def loginvalidate(request):
     password = a.hexdigest()
     request.session['contestname'] = contestname
     request.session['username'] = username
+    cname = db1.contest.find({}, {'contestname': 1, '_id': 0})
+    failurereason = " "
+
     if (usertype == "contestant"):
-        coll = db1.contestant.find_one({'contestname': contestname, 'username': username, 'password': password})
-        if not coll:
-            return HttpResponse("error")
+        coll = db1.contestant.find_one({'contestname': contestname, 'username': username})
+        if coll:
+            if password == coll["password"]:
+                return HttpResponseRedirect('/contestanthome')
+            else:
+                failurereason = "Incorrect password"
         else:
-            return HttpResponseRedirect('/contestanthome')
-    if (usertype == "testadmin"):
+            failurereason = "Incorrect username"
+    elif (usertype == "testadmin"):
         coll = db1.contest.find_one({"contestname": contestname})
         if username in coll["testadmin"].keys():
             if password == coll["testadmin"][username]["password"]:
                 return HttpResponseRedirect('/testadminhome')
+            else:
+                failurereason = "Incorrect password"
         else:
-            return HttpResponse("error")
-    if (usertype == "testcreator"):
+            failurereason = "Incorrect username"
+    elif (usertype == "testcreator"):
         coll = db1.contest.find_one({"contestname": contestname})
         if username in coll["testcreator"].keys():
             if password == coll["testcreator"][username]["password"]:
                 return HttpResponseRedirect('/testcreatorhome')
             else:
-                return HttpResponse("error")
+                failurereason = "Incorrect password"
         else:
-            return HttpResponse("error")
-    if (usertype == "participantapprover"):
+            failurereason = "Incorrect username"
+    elif (usertype == "participantapprover"):
         coll = db1.contest.find_one({"contestname": contestname})
         if username in coll["participantapprover"].keys():
             if password == coll["participantapprover"][username]["password"]:
                 return HttpResponseRedirect('/participantapproverhome')
+            else:
+                failurereason = "Incorrect password"
         else:
-            '''return HttpResponse("error")'''
-            return render(request, 'errorpage.html', {'emessage': "Sorry Invalid Login Details :("})
+            # '''return HttpResponse("error")'''
+            failurereason = "Incorrect username"
 
+    del request.session['contestname']
+    del request.session['username']
+    return render(request, 'loginform.html', {'cname': cname, 'error': failurereason})
 
 # ------------Contestant Home------------#
 @never_cache
