@@ -23,7 +23,8 @@ db1 = client[DB_NAME]
 if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
 on_aws = True #"ON_AWS" in os.environ
-
+if os.path.isfile("/opt/env.py"):
+    execfile("/opt/env.py")
 if on_aws:
     if not botoconfig.has_section('Credentials'):
         botoconfig.add_section('Credentials')

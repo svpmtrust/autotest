@@ -43,7 +43,7 @@ def mainloop(db):
                 print "omitted {} directory".format(un)
                 continue
             questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
-	    user=db.contestant.find_one({"username":un})
+            user=db.contestant.find_one({"username":un})
             user['questions'] = x.keys()
             db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
@@ -73,6 +73,7 @@ if __name__ == '__main__':
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
+    root_dir="/vagrant"
     print os.getcwd()
     question_directory=os.path.isdir(os.path.join(root_dir, 'selected_questions'))
     if not question_directory:
