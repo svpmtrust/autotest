@@ -31,6 +31,10 @@ echo Installing java..
 echo --------------
 sudo apt-get install default-jdk -y
 
+echo Installing amqp..
+echo ---------------
+sudo apt-get install rabbitmq-server
+
 echo Upstart the Test Server
 echo ----------------------------
 echo env GITSERVER_ROOT=$1 > /etc/init/testserver.conf
