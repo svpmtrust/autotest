@@ -41,22 +41,34 @@ Rank: <span v-text="score.rank"></span>
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
-			 <h2>Your Programs</h2>
+			 <h2>Programs status</h2>
                     <table class="table table-hover table-bordered">
                             <tr class="info">
                                 <th>Program Name</th>
-                                <th>Status</th>
+                                <th>First correct submission</th>
+                                <th>Total submissions</th>
+                                <th>Successful submissions</th>
                                 <th>Score</th>
                              <!--   <th>Time Of Submission</th>	-->
                             </tr>
-                        {% for u in programs %}
+                        {% for p in prog%}
                             <tr>
-                                <td><a href=#{{u.program}}>{{u.program}}</a></td>
-                                <td>{{u.program_result}}</td>  
-                                <td>{{u.score}}</td>
-                            <!--    <td>{{time}}</td>	-->
+
+                                <td>{{p.program}}</td>
+                                <td>{{p.First_submitted}}</td>
+                                <td>{{p.Total_sub}}</td>
+                                <td>{{p.Successful_sub}}</td>
+                                <td>{{p.Program_score}}</td>
                             </tr>
-                         {% endfor %} 
+                            {% endfor %}
+                        <!--{% for u in programs %}-->
+                            <!--<tr>-->
+                                <!--<td><a href=#{{u.program}}>{{u.program}}</a></td>-->
+                                <!--<td>{{u.program_result}}</td>  -->
+                                <!--<td>{{u.score}}</td>-->
+                            <!--&lt;!&ndash;    <td>{{time}}</td>	&ndash;&gt;-->
+                            <!--</tr>-->
+                         <!--{% endfor %} -->
                       </table>
 		   </div>
          <div class="col-sm-6" >
