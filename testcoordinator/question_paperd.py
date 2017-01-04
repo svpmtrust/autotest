@@ -73,8 +73,12 @@ if __name__ == '__main__':
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
-    root_dir="/"
+    if os.path.isdir("/vagrant"):
+        root_dir = "/vagrant"
+    else:
+        root_dir = "/home/ubuntu/autotest"
     print os.getcwd()
+    print root_dir
     question_directory=os.path.isdir(os.path.join(root_dir, 'selected_questions'))
     if not question_directory:
         print "creating directory for contest questions"

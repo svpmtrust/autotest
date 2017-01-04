@@ -16,6 +16,7 @@ from boto import config as botoconfig
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 if os.path.isfile("/opt/env.py"):
     execfile("/opt/env.py")
+
 # Setup a database connection to be used in the rest of the code
 DB_HOST = os.environ.get('DB_HOST', 'localhost:27017')
 client = MongoClient(DB_HOST)

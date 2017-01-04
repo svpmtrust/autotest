@@ -55,7 +55,6 @@
                                 <th>First correct submission</th>
                                 <th>Total submissions</th>
                                 <th>Successful submissions</th>
-                                <th>Score</th>
                             </tr>
 
                             {% for p in programsubbmissions%}
@@ -65,7 +64,6 @@
                                 <td>{{p.First_submitted}}</td>
                                 <td>{{p.Total_sub}}</td>
                                 <td>{{p.Successful_sub}}</td>
-                                <td>{{p.Program_score}}</td>
                             </tr>
                             {% endfor %}
                         </table>
