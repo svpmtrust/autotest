@@ -177,7 +177,7 @@ def regisuccess(request):
     if dbr:
         to = email
         gmail_user = 'techcontest2015@gmail.com'
-        gmail_pwd = 'aviso2015'
+        gmail_pwd = 'Aviso@2017'
         smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
         smtpserver.ehlo()
         smtpserver.starttls()
