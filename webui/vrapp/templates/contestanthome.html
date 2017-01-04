@@ -44,15 +44,15 @@ Rank: <span v-text="score.rank"></span>
 			 <h2>Programs status</h2>
                     <table class="table table-hover table-bordered">
                             <tr class="info" >
-                                <th>Program Name</th>
-                                <th>First correct submission</th>
-                                <th>Total submissions</th>
-                                <th>Successful submissions</th>
+                                <th class="text-center">Program Name</th>
+                                <th class="text-center">First correct submission</th>
+                                <th class="text-center">Total submissions</th>
+                                <th class="text-center">Successful submissions</th>
                               <!--  <th>Score</th>
                              <!--   <th>Time Of Submission</th>	-->
                             </tr>
                         {% for p in prog%}
-                            <tr>
+                            <tr class="text-center">
 
                                 <td>{{p.program}}</td>
                                 <td>{{p.First_submitted}}</td>
@@ -75,11 +75,11 @@ Rank: <span v-text="score.rank"></span>
                <div id="leaderboard">
                         <table class="table table-hover table-bordered">
                             <tr class="danger">
-                                <th>Username</th>
-                                <th>Score</th>
+                                <th class="text-center">Username</th>
+                                <th class="text-center">Score</th>
                             </tr>
                          {% for s in scores %} 
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{s.username}}</td>
                                 <td>{{s.total}}</td>  
                             </tr>

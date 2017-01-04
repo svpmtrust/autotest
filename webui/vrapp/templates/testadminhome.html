@@ -51,14 +51,14 @@
                         <h2>Program Submissions</h2>
                         <table class="table table-hover table-bordered">
                             <tr class="info">
-                                <th>Program Name</th>
-                                <th>First correct submission</th>
-                                <th>Total submissions</th>
-                                <th>Successful submissions</th>
+                                <th class="text-center">Program Name</th>
+                                <th class="text-center">First correct submission</th>
+                                <th class="text-center">Total submissions</th>
+                                <th class="text-center">Successful submissions</th>
                             </tr>
 
                             {% for p in programsubbmissions%}
-                            <tr>
+                            <tr class="text-center">
 
                                 <td>{{p.program}}</td>
                                 <td>{{p.First_submitted}}</td>
@@ -72,16 +72,16 @@
                         <h2>Leaderboard</h2>
                         <table class="table table-hover table-bordered">
                             <tr class="info">
-                            	<th>User Name</th>
-                                <th>Number Of Programs Done</th>
-                                <th>Number Of Submissions Made</th>
+                            	<th class="text-center">User Name</th>
+                                <th class="text-center">Number Of Programs Done</th>
+                                <th class="text-center">Number Of Submissions Made</th>
                              <!--   <th>Cheater Indications</th>	-->
-                                <th>Score</th>
+                                <th class="text-center">Score</th>
                            <!--     <th>Rank</th>	-->
-                                <th>Action</th>
+                                <th class="text-center">Action</th>
                             </tr>
 			     {% for s in scores %}
-                            <tr> 
+                            <tr class="text-center">
                                 <td>{{s.username}}</td>
                                 <td>{{s.programs}}</td>                                 
                                 <td>{{s.submissions}}</td>
