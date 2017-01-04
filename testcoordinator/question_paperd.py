@@ -28,33 +28,33 @@ def copy_selected_questions():
 def mainloop(db):
     try:
         files = '{}/selected_questions/*'.format(root_dir)
-        direct=conf.participant_dir
-        user_coll=db.contestant.find({'contestname': contest_name}, {'username': 1, '_id': 0, 'password': 1, 'email': 1})
+        direct = conf.participant_dir
+        user_coll = db.contestant.find({'contestname': contest_name}, {'username': 1, '_id': 0, 'password': 1, 'email': 1})
 
-        questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
+        questions_for_contest = db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
         for i in questions_for_contest:
-            x=i['questions']
+            x = i['questions']
         
         for user in user_coll:
-            un=user['username']
-            pswd=user['password']
-            email=user['email']
+            un = user['username']
+            pswd = user['password']
+            email = user['email']
             if os.path.isdir(os.path.join(direct,un)):
                 print "omitted {} directory".format(un)
                 continue
-            questions_for_contest=db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
-            user=db.contestant.find_one({"username":un})
+            questions_for_contest = db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
+            user = db.contestant.find_one({"username":un})
             user['questions'] = x.keys()
             db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
             subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
-            cmnd="git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"               
+            cmnd = "git clone http://"+un+":"+pswd+"@"+conf.git_host+"/git/"+un+".git"
             subprocess.call(cmnd , shell=True, executable='/bin/bash', cwd=direct,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             print 'cloned {} successfully'.format(un+".git")
-            copycmnd="cp -r %s %s" %(files,os.path.join(direct,un))    
+            copycmnd = "cp -r %s %s" %(files,os.path.join(direct,un))
             subprocess.call(copycmnd , shell=True, executable='/bin/bash',stdout=subprocess.PIPE,stderr=subprocess.PIPE)  
             subprocess.call("git add -A",shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
-            commitcmnd='git commit -m '+'"comitting initial files"'
+            commitcmnd = 'git commit -m '+'"comitting initial files"'
             print "Added questions for {} ".format(un)        
             subprocess.call(commitcmnd,shell=True, executable='/bin/bash',cwd=os.path.join(direct,un))
             print "pushing to origin"
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     db_host = os.environ.get('DB_HOST', 'mongodb://192.168.1.101:27017/')
     client=MongoClient(db_host)
     db=client.autotest
-    root_dir="/vagrant"
+    root_dir="/"
     print os.getcwd()
     question_directory=os.path.isdir(os.path.join(root_dir, 'selected_questions'))
     if not question_directory:
