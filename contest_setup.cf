@@ -181,9 +181,13 @@
 			  "#!/bin/bash -ex\n",
               "sudo apt-get update\n",
               "sudo apt-get install -y git\n",
-              "cd ~ubuntu\n",
+
+              "adduser --disabled-password --gecos "" autotest"
+              "cd /home/autotest\n",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",
+			  "chown autotest:autotest /home/autotest"
               "cd autotest\n",
+
               "bash testserver/provision.sh `pwd` ", {"Ref":"DBHost"}," ", {"Ref":"ContestName"}, " ", { "Fn::GetAtt" : [ "GitServer", "PublicDnsName" ]}
 	  		   ]]}
 	  	  },
