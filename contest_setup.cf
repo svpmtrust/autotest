@@ -338,8 +338,8 @@
                                 "git clone https://github.com/padmasreepotta/autotest.git\n",
                                 "chown -R autotest:autotest /home/autotest\n",
                                 "cd autotest\n",
-                                "sudo apt-get install rabbitmq-server\n",
-                                "bash testserver/provision.sh /home/autotest/autotest/testcoordinator/ ",
+                                "sudo apt-get install -y rabbitmq-server\n",
+                                "bash testserver/provision.sh /home/autotest/autotest/testcoordinator ",
                                 {
                                     "Ref":"DBHost"
                                 },
