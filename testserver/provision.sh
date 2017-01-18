@@ -43,6 +43,7 @@ echo env CONTEST_NAME=$3 >> /etc/init/testserver.conf
 echo env GIT_HOST=$4 >> /etc/init/testserver.conf
 echo ----------------------------
 cat $1/testserver/test-server.Upstart.templ >> /etc/init/testserver.conf
+
 sudo service testserver start
 
 echo DONE
