@@ -18,6 +18,8 @@ echo -------------------------------------------------
 cd $1
 mkdir programs
 mkdir participants
+chown -R autotest:autotest /home/autotest/autotest/programs
+chown -R autotest:autotest /home/autotest/autotest/participants
 
 echo Installing git
 echo --------------
