@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.cache import never_cache
 import json
 import os
+import subprocess
 import hashlib
 import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
@@ -21,6 +22,7 @@ def login_required(func):
             return render(request, 'errorpage.html', {'emessage': "Sorry Session Expired :("})
 
     return inner
+
 
 
 # --------------SuperUser------------#
@@ -175,18 +177,21 @@ def regisuccess(request):
             }
     dbr = db1.contestant.insert(user)
     if dbr:
-        to = email
-        gmail_user = 'techcontest2015@gmail.com'
-        gmail_pwd = 'Aviso@2017'
-        smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
-        smtpserver.ehlo()
-        smtpserver.starttls()
-        smtpserver.ehlo
-        smtpserver.login(gmail_user, gmail_pwd)
-        header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
-        msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' + un + '\n Password : ' + pswd + '\n \n'
-        smtpserver.sendmail(gmail_user, to, msg)
-        smtpserver.close()
+        try:
+            to = email
+            gmail_user = 'techcontest2015@gmail.com'
+            gmail_pwd = 'Aviso2017'
+            smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+            smtpserver.ehlo()
+            smtpserver.starttls()
+            smtpserver.ehlo
+            smtpserver.login(gmail_user, gmail_pwd)
+            header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
+            msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' + un + '\n Password : ' + pswd + '\n \n'
+            smtpserver.sendmail(gmail_user, to, msg)
+            smtpserver.close()
+        except Exception as e:
+            print "Error while sending mail"
         return HttpResponseRedirect('loginform')
     else:
         '''return HttpResponse("ERROR: Sorry Please Register Again")'''
@@ -544,10 +549,7 @@ def puppetstop(request):
     st = cll["status"]
     if (st == "Started"):
         # db1.contest.update({'contestname': cn}, {"$set": {'status': "Finished"}})
-        os.system("cd ..")
-        os.system("vagrantt ssh gitserver")
-        os.system("cd /vagrant")
-        os.system("zip -r cn.zip participants")
+
         os.system("vagrant stop")
 
         return HttpResponse(str("Contest Stopped"))
