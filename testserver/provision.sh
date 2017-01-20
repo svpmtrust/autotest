@@ -18,6 +18,8 @@ echo -------------------------------------------------
 cd $1
 mkdir programs
 mkdir participants
+chown -R autotest:autotest /home/autotest/autotest/programs
+chown -R autotest:autotest /home/autotest/autotest/participants
 
 echo Installing git
 echo --------------
@@ -43,6 +45,7 @@ echo env CONTEST_NAME=$3 >> /etc/init/testserver.conf
 echo env GIT_HOST=$4 >> /etc/init/testserver.conf
 echo ----------------------------
 cat $1/testserver/test-server.Upstart.templ >> /etc/init/testserver.conf
+
 sudo service testserver start
 
 echo DONE

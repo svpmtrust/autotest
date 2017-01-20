@@ -2,6 +2,8 @@
 env C_FORCE_ROOT=1
 description "Test Server deamon"
 env PYTHONPATH=../testcoordinator
+setuid autotest
+setgid autotest
 start on runlevel [235]
 stop on runlevel [016]
 respawn
