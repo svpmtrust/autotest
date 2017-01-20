@@ -10,6 +10,7 @@ import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
 import boto.cloudformation
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -230,7 +231,7 @@ def logout(request):
     print "cname in logout is ", cname
     return render(request, 'loginform.html', {'cname': cname})
 
-
+@csrf_exempt
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
     contestname = request.POST.get('contestname1')
