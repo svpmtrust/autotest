@@ -152,7 +152,7 @@ def checkUserName(request):
     else:
         return HttpResponse("InValid")
 
-
+@csrf_exempt
 def regisuccess(request):
     cn = request.POST.get('contestname')
     un = request.POST.get('username')
