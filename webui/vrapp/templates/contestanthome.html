@@ -33,10 +33,14 @@ Rank: <span v-text="score.rank"></span>
 {% block content %}
 	<div class="container" id="container">
 	<div class="alert alert-success">
-    {% if git_address %}
+    {% if git_address and git_repo_created %}
 	<b>Clone your Repository using:</b><br/>
    <u> http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git</u>
+        {% else %}
+        <b>User creation in progress..</b>
+        <u>Please Wait..</u>
     {% endif %}
+
 	</div>
 	<div id="contest">
        <div class="row" id="homePage">

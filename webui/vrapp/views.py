@@ -174,7 +174,8 @@ def regisuccess(request):
             "approved_status": apstatus,
             "approved_by": [],
             "status": "active",
-            "questions": []
+            "questions": [],
+            "git_repo_created": False
             }
     dbr = db1.contestant.insert(user)
     if dbr:
@@ -298,6 +299,7 @@ def contestanthome(request):
     coll = db1.contestant.find_one({"username": username})
     password = coll["password"]
     programs = db1.submissions.find({'user_name': username})
+    git_repo_created = coll["git_repo_created"]
     scores = db1.scores.aggregate([
         {"$match":
              {"$and": [{"contestname": contestname}]}},
@@ -375,6 +377,7 @@ def contestanthome(request):
             'git_address': git_address,
             'totalscore': totalscore,
             'rank': rank,
+            'git_repo_created': git_repo_created,
             'prog':pro,
         }
     ))
