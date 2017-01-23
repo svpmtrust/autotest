@@ -5,15 +5,7 @@ RULES OF ENGAGEMENT
    must be their own.  
 2. Use of Internet, reference texts, cheat sheets (a.k.a. slips)
    is ALLOWED. 
-3. Phone-a-Friend, Ask some one else to write the programs is
-   NOT ALLOWED.  The person you are calling, or helping you
-   can appear for the test instead :-) and we can hire him. 
-4. You have about 6 hours to write the code.  If you are not done 
-    with at least one easy problem in 3 hours, you should really asses your
-    position. 
-5. To proceed to the interview round you should score at least 15 points. 
-6. Be ready to explain how your program works.  If you didn't
-   write it, we will know very easily, and you will be asked to explain. 
+4. You have about 12 hours to write the code.
 
 INSTRUCTIONS
 ------------
