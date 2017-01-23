@@ -60,6 +60,8 @@ def mainloop(db):
             print "pushing to origin"
             subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)    
             print "pushed {} directory to origin".format(un)
+            user['git_repo_created'] = True
+            db.contestant.save(user)
         
     except:
         subprocess.call("cd $GITSERVER_ROOT/testcoordinator")
