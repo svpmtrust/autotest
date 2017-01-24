@@ -15,7 +15,7 @@ def mainloop(client):
     
         db=client.autotest
         user_coll=db.contestant.find(
-            {'contestname':contest_name}, {'username':1,'_id':0,'password':1,'email':1})
+            {'contestname':contest_name, 'git_repo_created':False}, {'username':1,'_id':0,'password':1,'email':1})
         for user in user_coll: 
             un=user['username']
             p=user['password']
