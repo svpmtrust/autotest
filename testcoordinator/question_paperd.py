@@ -58,6 +58,8 @@ def mainloop(db):
             print "pushed {} directory to origin".format(un)
             user['git_repo_created'] = True
             db.contestant.save(user)
+            # repodeleting = 'cd /home/autotest/participants' + 'rm -rf un'
+            # subprocess.call(repodeleting, shell=True, executable='/bin/bash')
         
     except:
         subprocess.call("cd $GITSERVER_ROOT/testcoordinator")
