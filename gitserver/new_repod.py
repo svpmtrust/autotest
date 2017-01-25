@@ -15,20 +15,19 @@ def mainloop(client):
     
         db=client.autotest
         user_coll=db.contestant.find(
-            {'contestname':contest_name, 'git_repo_created':None}, {'username':1,'_id':0,'password':1,'email':1})
+            {'contestname':contest_name}, {'username':1,'_id':0,'password':1,'email':1})
         for user in user_coll: 
             un=user['username']
             p=user['password']
             e=user['email'] 
-            # user1=un+".git"
-            # directory = '/opt/git'
-            # ls = os.listdir(directory)
-            # if user1 in ls :
-            #     continue
+            user1=un+".git"
+            directory = '/opt/git'
+            ls = os.listdir(directory)
+            if user1 in ls :
+                continue
             cmnd='sh newuser.sh '+un+' '+p+' '+e
             subprocess.Popen(cmnd , shell=True, executable='/bin/bash')
-            user['git_repo_created']=False
-            db.contestant.save(user)
+
     except:
         #subprocess.call("cd $GITSERVER_ROOT/gitserver")
         #subprocess.call("python new_repod.py >> /var/log/gitserver.log 2>&1")
