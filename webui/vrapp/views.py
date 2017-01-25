@@ -298,7 +298,7 @@ def contestanthome(request):
     coll = db1.contestant.find_one({"username": username})
     password = coll["password"]
     programs = db1.submissions.find({'user_name': username})
-    git_repo_created = coll["git_repo_created"]
+    git_repo_created = coll.get("git_repo_created",False)
     scores = db1.scores.aggregate([
         {"$match":
              {"$and": [{"contestname": contestname}]}},
