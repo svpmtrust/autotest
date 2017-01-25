@@ -174,8 +174,7 @@ def regisuccess(request):
             "approved_status": apstatus,
             "approved_by": [],
             "status": "active",
-            "questions": [],
-            "git_repo_created": False
+            "questions": []
             }
     dbr = db1.contestant.insert(user)
     if dbr:
