@@ -29,7 +29,7 @@ def mainloop(db):
     try:
         files = '{}/selected_questions/*'.format(root_dir)
         direct = conf.participant_dir
-        user_coll = db.contestant.find({'contestname': contest_name, 'git_repo_created': False}, {'username': 1, '_id': 0, 'password': 1, 'email': 1})
+        user_coll = db.contestant.find({'contestname': contest_name}, {'username': 1, '_id': 0, 'password': 1, 'email': 1})
 
         questions_for_contest = db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
         for i in questions_for_contest:
@@ -39,8 +39,13 @@ def mainloop(db):
             un = user['username']
             pswd = user['password']
             email = user['email']
+            if os.path.isdir(os.path.join(direct,un)):
+                print "omitted {} directory".format(un)
+                continue
+            questions_for_contest = db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
             user = db.contestant.find_one({"username":un})
             user['questions'] = x.keys()
+            user['git_repo_created'] = True
             db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
             subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
@@ -56,10 +61,6 @@ def mainloop(db):
             print "pushing to origin"
             subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)    
             print "pushed {} directory to origin".format(un)
-            user['git_repo_created'] = True
-            db.contestant.save(user)
-            # repodeleting = 'cd /home/autotest/participants' + 'rm -rf un'
-            # subprocess.call(repodeleting, shell=True, executable='/bin/bash')
         
     except:
         subprocess.call("cd $GITSERVER_ROOT/testcoordinator")
