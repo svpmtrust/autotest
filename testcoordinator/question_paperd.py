@@ -45,7 +45,6 @@ def mainloop(db):
             questions_for_contest = db.contest.find({'contestname': contest_name},{'_id':0,'questions':1})
             user = db.contestant.find_one({"username":un})
             user['questions'] = x.keys()
-            user['git_repo_created'] = True
             db.contestant.save(user)
             subprocess.call('git config --global user.name "{}"'.format(un),shell=True,executable='/bin/bash')
             subprocess.call('git config --global user.email {}'.format(email),shell=True,executable='/bin/bash')
@@ -61,6 +60,9 @@ def mainloop(db):
             print "pushing to origin"
             subprocess.call("git push origin master", shell=True, executable='/bin/bash',cwd=os.path.join(direct,un),stdout=subprocess.PIPE,stderr=subprocess.PIPE)    
             print "pushed {} directory to origin".format(un)
+            user['git_repo_created'] = True
+            db.contestant.save(user)
+
         
     except:
         subprocess.call("cd $GITSERVER_ROOT/testcoordinator")
