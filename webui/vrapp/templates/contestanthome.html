@@ -33,30 +33,45 @@ Rank: <span v-text="score.rank"></span>
 {% block content %}
 	<div class="container" id="container">
 	<div class="alert alert-success">
-    {% if git_address %}
+    {% if git_address and git_repo_created %}
 	<b>Clone your Repository using:</b><br/>
    <u> http://{{username}}:{{password}}@{{git_address}}/git/{{username}}.git</u>
+        {% else %}
+        <b>Setting up question paper..Please Wait..</b>
+
     {% endif %}
+
 	</div>
 	<div id="contest">
        <div class="row" id="homePage">
           <div class="col-sm-6">
-			 <h2>Your Programs</h2>
+			 <h2>Programs status</h2>
                     <table class="table table-hover table-bordered">
-                            <tr class="info">
-                                <th>Program Name</th>
-                                <th>Status</th>
-                                <th>Score</th>
+                            <tr class="info" >
+                                <th class="text-center">Program Name</th>
+                                <th class="text-center">First correct submission</th>
+                                <th class="text-center">Total submissions</th>
+                                <th class="text-center">Successful submissions</th>
+                              <!--  <th>Score</th>
                              <!--   <th>Time Of Submission</th>	-->
                             </tr>
-                        {% for u in programs %}
-                            <tr>
-                                <td><a href=#{{u.program}}>{{u.program}}</a></td>
-                                <td>{{u.program_result}}</td>  
-                                <td>{{u.score}}</td>
-                            <!--    <td>{{time}}</td>	-->
+                        {% for p in prog%}
+                            <tr class="text-center">
+
+                                <td>{{p.program}}</td>
+                                <td>{{p.First_submitted}}</td>
+                                <td>{{p.Total_sub}}</td>
+                                <td>{{p.Successful_sub}}</td>
                             </tr>
-                         {% endfor %} 
+                            {% endfor %}
+                        <!--{% for u in programs %}-->
+                            <!--<tr>-->
+                                <!--<td><a href=#{{u.program}}>{{u.program}}</a></td>-->
+                                <!--<td>{{u.program_result}}</td>  -->
+                                <!--<td>{{u.score}}</td>-->
+                            <!--&lt;!&ndash;    <td>{{time}}</td>	&ndash;&gt;-->
+                            <!--</tr>-->
+                         <!--{% endfor %} -->
                       </table>
 		   </div>
          <div class="col-sm-6" >
@@ -64,11 +79,11 @@ Rank: <span v-text="score.rank"></span>
                <div id="leaderboard">
                         <table class="table table-hover table-bordered">
                             <tr class="danger">
-                                <th>Username</th>
-                                <th>Score</th>
+                                <th class="text-center">Team Name</th>
+                                <th class="text-center">Score</th>
                             </tr>
                          {% for s in scores %} 
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{s.username}}</td>
                                 <td>{{s.total}}</td>  
                             </tr>
