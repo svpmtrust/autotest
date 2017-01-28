@@ -48,12 +48,21 @@ INSTRUCTIONS
 
 LIST OF PROGRAMS
 ================
--------             ------   ----------
-Program             Score    Difficulty
--------             ------   ----------
-1.Echo  .  .  .  .  .  0     None (Curtesy Solution Provided Already)
-2.Hyphenize   .  .  .  8     Easy
-3.Banner      .  .  . 10     Easy
+Program             Difficulty   Score
+-------             ----------   ------
+1.Echo                None          0      (Curtesy Solution Provided Already)
+2.Anagrams	          Easy	        5
+3.Histogram	          Easy	        5
+4.Hyphenize	          Easy	        5
+5.ColorFill	          Easy	        5
+6.Jigsaw	          Easy	        5
+7.SudokuSolver	      Medium	    10
+8.Banner	          Medium	    10
+10.Maze	              Medium	    15
+11.Pattern	          Medium	    20
+12.Puzzle3	          Medium	    30
+13.Jigsaw	          Hard	        60
+14.Puzzle4	          Hard	        80
 
 
 =========
