@@ -4,11 +4,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.cache import never_cache
 import json
 import os
+import subprocess
 import hashlib
 import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
 import boto
 import boto.cloudformation
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -19,7 +21,10 @@ def login_required(func):
 
         else:
             return render(request, 'errorpage.html', {'emessage': "Sorry Session Expired :("})
+
     return inner
+
+
 
 # --------------SuperUser------------#
 
@@ -147,7 +152,7 @@ def checkUserName(request):
     else:
         return HttpResponse("InValid")
 
-
+@csrf_exempt
 def regisuccess(request):
     cn = request.POST.get('contestname')
     un = request.POST.get('username')
@@ -173,18 +178,21 @@ def regisuccess(request):
             }
     dbr = db1.contestant.insert(user)
     if dbr:
-        to = email
-        gmail_user = 'techcontest2015@gmail.com'
-        gmail_pwd = 'aviso2015'
-        smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
-        smtpserver.ehlo()
-        smtpserver.starttls()
-        smtpserver.ehlo
-        smtpserver.login(gmail_user, gmail_pwd)
-        header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
-        msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' + un + '\n Password : ' + pswd + '\n \n'
-        smtpserver.sendmail(gmail_user, to, msg)
-        smtpserver.close()
+        try:
+            to = email
+            gmail_user = 'techcontest2015@gmail.com'
+            gmail_pwd = 'Aviso2017'
+            smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+            smtpserver.ehlo()
+            smtpserver.starttls()
+            smtpserver.ehlo
+            smtpserver.login(gmail_user, gmail_pwd)
+            header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Registration Successfull \n'
+            msg = header + '\n Thank you for Your Registration to ' + cn + '\n ' + ' UserName : ' + un + '\n Password : ' + pswd + '\n \n'
+            smtpserver.sendmail(gmail_user, to, msg)
+            smtpserver.close()
+        except Exception as e:
+            print "Error while sending mail"
         return HttpResponseRedirect('loginform')
     else:
         '''return HttpResponse("ERROR: Sorry Please Register Again")'''
@@ -223,7 +231,7 @@ def logout(request):
     print "cname in logout is ", cname
     return render(request, 'loginform.html', {'cname': cname})
 
-
+@csrf_exempt
 def loginvalidate(request):
     usertype = request.POST.get('usertype')
     contestname = request.POST.get('contestname1')
@@ -278,6 +286,7 @@ def loginvalidate(request):
     del request.session['username']
     return render(request, 'loginform.html', {'cname': cname, 'error': failurereason})
 
+
 # ------------Contestant Home------------#
 @never_cache
 @login_required
@@ -289,6 +298,7 @@ def contestanthome(request):
     coll = db1.contestant.find_one({"username": username})
     password = coll["password"]
     programs = db1.submissions.find({'user_name': username})
+    git_repo_created = coll["git_repo_created"]
     scores = db1.scores.aggregate([
         {"$match":
              {"$and": [{"contestname": contestname}]}},
@@ -313,6 +323,46 @@ def contestanthome(request):
     # nor_submissions=db1.submissions.find([{"$match"{"username":username},"$group":{"_id":"$programname","no_of_sub":{"$sum":1}}).count()
     conteststatus = contest_data['status']
     git_address = contest_data.get('git_ip', None)
+    submissions = db1.submissions.aggregate([{
+        "$match": {
+        }},
+        {"$group": {"_id": "$program",
+                    'no-of-submissions': {'$sum': 1},
+
+                    'successfull-submissions': {"$sum":
+                        {
+                            "$cond":
+                                [{"$eq": ["$program_result", "SUCCESSFUL"]}
+                                    , 1, 0
+                                 ]
+                        }
+
+                    },
+                    'scores' : {"$max":"$score"}
+
+                    }}]
+    )
+    print submissions
+    pro = list()
+    for submission in submissions['result']:
+        result = dict()
+        program = submission["_id"]
+        result['program'] = submission['_id']
+        result['Total_sub'] = submission['no-of-submissions']
+        result['Successful_sub'] = submission['successfull-submissions']
+        #
+        result['Program_score'] = submission['scores']
+        firstsubmitted = db1.scores.find_one({'program': program, 'contestname': contestname},
+                                             {'user_name': 1, '_id': 0})
+        if firstsubmitted is None:
+            result['First_submitted'] = "N/A"
+        else:
+            result['First_submitted'] = firstsubmitted['user_name']
+        # result['Program_score'] = programscore['score']
+        # print programscore
+        print "first submitted is ", firstsubmitted
+
+        pro.append(result)
 
     return un_cache_response(render(
         request, 'contestanthome.html',
@@ -325,7 +375,9 @@ def contestanthome(request):
             'scores': list(userscores),
             'git_address': git_address,
             'totalscore': totalscore,
-            'rank': rank
+            'rank': rank,
+            'git_repo_created': git_repo_created,
+            'prog':pro,
         }
     ))
 
@@ -360,6 +412,7 @@ def testadminhome(request):
     ])
     # for i in scores:
     #    scores = i['result']
+
     scores = scores["result"]
     userscores = []
     for i, u in enumerate(scores):
@@ -368,12 +421,55 @@ def testadminhome(request):
         sub = db1.submissions.find({'user_name': user_name}).count()
         programs = db1.scores.find({'user_name': user_name}).count()
         userscores.append({'username': user_name, 'total': total, 'submissions': sub, 'programs': programs})
+
+    submission = db1.submissions.aggregate([{
+        "$match": {
+        }},
+        {"$group": {"_id": "$program",
+                    'no-of-submissions': {'$sum': 1},
+
+                    'successfull-submissions': {"$sum":
+                        {
+                            "$cond":
+                                [{"$eq": ["$program_result", "SUCCESSFUL"]}
+                                    , 1, 0
+                                 ]
+                        }
+
+                    },
+                    'scores': {"$max": "$score"}
+
+                    }}]
+    )
+    print submission
+    pra = list()
+    for submission in submission['result']:
+        program = submission["_id"]
+        result = dict()
+
+        result['program'] = submission['_id']
+        result['Total_sub'] = submission['no-of-submissions']
+        result['Successful_sub'] = submission['successfull-submissions']
+        # programscore = db1.submissions.find_one({'program': program}, {'score': 1, '_id': 0})
+        firstsubmitted = db1.scores.find_one({'program': program, 'contestname':contestname}, {'user_name': 1, '_id': 0})
+        if firstsubmitted is None:
+            result['First_submitted']="N/A"
+        else:
+            result['First_submitted'] = firstsubmitted['user_name']
+        result['Program_score'] = submission['scores']
+        # print programscore['score']
+        print type(firstsubmitted)
+        print "first submitted is ",firstsubmitted
+        # result['score'] = submission['score']
+        pra.append(result)
+
     return un_cache_response(render(request, 'testadminhome.html',
                                     {'cname': contestname,
                                      'username': username,
                                      'scores': list(userscores),
                                      'cstatus': conteststatus,
-                                     'git_address': git_address
+                                     'git_address': git_address,
+                                     'programsubbmissions': pra,
                                      })
                              )
 
@@ -428,7 +524,9 @@ def puppetrun(request):
         else:
             os.system("cd ..")
             os.system("ls")
+            vagrantstarted(request)
             os.system("vagrant up")
+            vagrantstarted1(request)
             db1.contest.update({'contestname': cn},
                                {"$set": {
                                    'status': "Started",
@@ -440,13 +538,23 @@ def puppetrun(request):
         return HttpResponse(str("Contest Already Started"))
 
 
+def vagrantstarted(request):
+    return render(request, 'testadminhome.html', {'msg': "vagrant is starting"})
+
+
+def vagrantstarted1(request):
+    return render(request, 'testadminhome.html', {'msg1': "vagrant started"})
+
+
 def puppetstop(request):
     cn = request.session['contestname']
     cll = db1.contest.find_one({'contestname': cn}, {'status': 1, '_id': 0})
     st = cll["status"]
     if (st == "Started"):
-        db1.contest.update({'contestname': cn}, {"$set": {'status': "Finished"}})
+        # db1.contest.update({'contestname': cn}, {"$set": {'status': "Finished"}})
+
         os.system("vagrant stop")
+
         return HttpResponse(str("Contest Stopped"))
 
 
@@ -467,7 +575,8 @@ def testcreatorhome(request):
         dt = db1.contest.find_one({'contestname': contestname})
         date = dt["date"]
         return un_cache_response(render(request, 'testcreatorhome.html',
-                      {'cname': contestname, 'username': username, 'date': date, 'problems': problems})
+                                        {'cname': contestname, 'username': username, 'date': date,
+                                         'problems': problems})
                                  )
     else:
         return loginform(request)
@@ -517,8 +626,10 @@ def participantapproverhome(request):
     else:
         contestants = db1.contestant.find({'contestname': contestname, "approved_by": {"$in": [sname]}})
     return un_cache_response(render(request, 'participantapproverhome.html',
-                  {'contestants': contestants, 'cname': contestname, 'username': username, 'pa1': pa[0], 'pa2': pa[1]})
+                                    {'contestants': contestants, 'cname': contestname, 'username': username,
+                                     'pa1': pa[0], 'pa2': pa[1]})
                              )
+
 
 @never_cache
 @login_required
@@ -543,5 +654,3 @@ def approve(request):
 def un_cache_response(response):
     response["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return response
-
-
