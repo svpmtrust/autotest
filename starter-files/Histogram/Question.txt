@@ -1,6 +1,6 @@
 
 
-Histogram                   Score:8
+Histogram                   Score:5
 ---------                  --------
 
 Maximum execution time for this program :4 sec

@@ -1,6 +1,6 @@
 
 
-Pattern                    Score: 25
+Pattern                    Score: 20
 -------                   ----------
 
 Maximum execution time for this program : 4 sec

@@ -1,4 +1,4 @@
-Hyphenize                   Score: 8
+Hyphenize                   Score: 5
 ---------                   --------
 
 Max Execution Time: 3 Secs
@@ -19,8 +19,6 @@ A sequence of ABCDEDCBA should be recognized as A-E-A properly as well.
 
 3 Makes a sequence, not 2
 
-(NOTE:  IF PARTIAL SCORING IS ALLOWED IN THE TEST, RECOGNIZING AT LEAST
-ONE DIRECTION WILL GIVE YOU PARTIAL SCORE)
 
 -----------------------------------------
 Sample Input                Sample Output

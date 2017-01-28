@@ -1,3 +1,5 @@
+ColorFill          Score: 5
+---------          ---------
 Problem
 
 There is a hall of size 1600 * 1600.There are many coloured tiles.The height of each tile is 200.The width of the tiles are not same.The aim is to find the minimum number of colours needed so that two adjacent tiles should not share the same colour.
