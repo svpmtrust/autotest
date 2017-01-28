@@ -1,5 +1,5 @@
 SudokuSolver                                 Score: 10
-------------
+------------                                ------------
 
 Max Execution time: 20 Seconds
 

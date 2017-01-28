@@ -1,5 +1,5 @@
 Banner                                     Score: 10
-------
+------                                     ----------
 
 Objective of this program is to create a text file
 that can be used to print large banners on continuous sheet.
@@ -8,8 +8,8 @@ This is mostly used in the era of dot matrix printers.
 You are given a font file where the height of each character
 is exactly 8 pixels (a.k.a. Ascii Chars)
 
-Width of the charecter can be variable and must be deducted from
-the file. 
+Width of the character can be variable and must be known from
+the font file.
 
 Given text is to be printed in a vertical orientation using this
 font file. 

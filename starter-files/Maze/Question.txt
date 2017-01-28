@@ -60,4 +60,3 @@ RUURRURR
 
 If an input breaks any of the assumptions, or if there is no way out,
 you should print "Invalid Maze configuration"
-

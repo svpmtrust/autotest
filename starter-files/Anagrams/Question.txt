@@ -1,5 +1,5 @@
 
-Anagrams          Score: 15
+Anagrams          Score: 5
 --------          ---------
 
 Maximum execution time for this program : 6 sec
@@ -14,7 +14,7 @@ or above in the given file. Given file may contain many anagram words
 and all the words should be listed in the output starting with anagrams
 that have most words in the file.
 
-Notes on the output format: 
+Notes on the output format:
   => No spaces after comma
   => Output is case sensitive
   => Words in each line should be in sorted order.
@@ -29,6 +29,6 @@ sh run.sh sample1.txt
 
 Expected Output
 ---------------
-post,stop,pots
-Read,dear
-Rome,more
+post,pots,stop
+dear,Read
+more,Rome
