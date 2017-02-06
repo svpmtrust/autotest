@@ -494,7 +494,9 @@ def puppetrun(request):
                         ("KeyName", "hiring-keys"),
                         ("DBHost", DB_HOST),
                         ("DBName", DB_NAME),
-                        ("ContestName", cn)
+                        ("ContestName", cn),
+                        ("AWS_KEY", os.environ['AWS_KEY']),
+                        ("AWS_SECRET", os.environ['AWS_SECRET'])
                     ]
                 )
             # Get the IP Address from the outputs
