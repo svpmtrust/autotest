@@ -51,11 +51,11 @@
         },
         "AWS_KEY":{
             "Description":"Credentials",
-            "Type":"String",
+            "Type":"String"
         },
         "AWS_SECRET":{
             "Description":"Credentials",
-            "Type":"String",
+            "Type":"String"
         }
     },
     "Mappings":{
@@ -261,11 +261,25 @@
                                 "cd ~ubuntu\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
                                 "sudo apt-get install awscli\n",
-                                "export AWS_DEFAULT_REGION="ap-southeast-1"\n",
+                                "export AWS_DEFAULT_REGION=",
+                                "ap-southeast-1",
+                                "\n",
                                 "mkdir ~/.aws\n",
-                                "echo "[default]">~/.aws/config\n",
-                                "echo "aws_secret_access_key={"Ref":"AWS_KEY"}">>~/.aws/config\n",
-                                "echo "aws_access_key_id={"Ref":"AWS_SECRET"}">>~/.aws/config\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWS_KEY"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWS_SECRET"
+                                },
+                                ">>~/.aws/config\n",
                                 "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",
                                 "tar -xvf files.tgz\n",
                                 "sudo mv programs/ autotest/\n",
@@ -355,11 +369,25 @@
                                 "cd /home/autotest\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
                                 "sudo apt-get install awscli\n",
-                                "export AWS_DEFAULT_REGION="ap-southeast-1"\n",
+                                "export AWS_DEFAULT_REGION=",
+                                "ap-southeast-1",
+                                "\n",
                                 "mkdir ~/.aws\n",
-                                "echo "[default]">~/.aws/config\n",
-                                "echo "aws_secret_access_key={"Ref":"AWS_KEY"}">>~/.aws/config\n",
-                                "echo "aws_access_key_id={"Ref":"AWS_SECRET"}">>~/.aws/config\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWS_KEY"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWS_SECRET"
+                                },
+                                ">>~/.aws/config\n",
                                 "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",
                                 "tar -xvf files.tgz\n",
                                 "sudo mv programs/ /home/autotest/autotest\n",
