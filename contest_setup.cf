@@ -269,13 +269,13 @@
                                 "[default]",
                                 ">~/.aws/config\n",
                                 "echo ",
-                                "aws_secret_access_key=",
+                                "aws_access_key_id=",
                                 {
                                     "Ref":"AWSkey"
                                  },
                                  ">>~/.aws/config\n",
                                 "echo ",
-                                "aws_access_key_id=",
+                                "aws_secret_access_key=",
                                 {
                                     "Ref":"AWSsecret"
                                 },
@@ -377,13 +377,13 @@
                                 "[default]",
                                 ">~/.aws/config\n",
                                 "echo ",
-                                "aws_secret_access_key=",
+                                "aws_access_key_id=",
                                 {
                                     "Ref":"AWS_KEY"
                                  },
                                  ">>~/.aws/config\n",
                                 "echo ",
-                                "aws_access_key_id=",
+                                "aws_secret_access_key=",
                                 {
                                     "Ref":"AWS_SECRET"
                                 },
