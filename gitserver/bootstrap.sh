@@ -35,5 +35,7 @@ sudo service newrepo start
 
 echo Restart Apache2
 echo ---------------
+echo ServerName localhost > /etc/apache2/sites-enabled/servername.conf
+sudo a2enmod rewrite
 sudo service apache2 restart
 
