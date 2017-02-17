@@ -182,7 +182,7 @@
                                 "#!/bin/bash -ex\n",
                                 "sudo apt-get update\n",
                                 "sudo apt-get install -y git\n",
-                                "cd ~ubuntu\n",
+                                "cd /home/ubuntu\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
                                 "cd autotest\n",
                                 "bash gitserver/bootstrap.sh `pwd` ",
