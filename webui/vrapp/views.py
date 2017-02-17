@@ -7,7 +7,7 @@ import os
 import subprocess
 import hashlib
 import time
-from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME
+from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME, AWS_KEY, AWS_SECRET
 import boto
 import boto.cloudformation
 from django.views.decorators.csrf import csrf_exempt
@@ -23,7 +23,6 @@ def login_required(func):
             return render(request, 'errorpage.html', {'emessage': "Sorry Session Expired :("})
 
     return inner
-
 
 
 # --------------SuperUser------------#
@@ -152,6 +151,7 @@ def checkUserName(request):
     else:
         return HttpResponse("InValid")
 
+
 @csrf_exempt
 def regisuccess(request):
     cn = request.POST.get('contestname')
@@ -174,7 +174,8 @@ def regisuccess(request):
             "approved_status": apstatus,
             "approved_by": [],
             "status": "active",
-            "questions": []
+            "questions": [],
+            "git_repo_created": False
             }
     dbr = db1.contestant.insert(user)
     if dbr:
@@ -230,6 +231,7 @@ def logout(request):
     cname = db1.contest.find({}, {'contestname': 1, '_id': 0})
     print "cname in logout is ", cname
     return render(request, 'loginform.html', {'cname': cname})
+
 
 @csrf_exempt
 def loginvalidate(request):
@@ -298,7 +300,7 @@ def contestanthome(request):
     coll = db1.contestant.find_one({"username": username})
     password = coll["password"]
     programs = db1.submissions.find({'user_name': username})
-    git_repo_created = coll["git_repo_created"]
+    git_repo_created = coll.get("git_repo_created")
     scores = db1.scores.aggregate([
         {"$match":
              {"$and": [{"contestname": contestname}]}},
@@ -338,7 +340,7 @@ def contestanthome(request):
                         }
 
                     },
-                    'scores' : {"$max":"$score"}
+                    'scores': {"$max": "$score"}
 
                     }}]
     )
@@ -377,7 +379,7 @@ def contestanthome(request):
             'totalscore': totalscore,
             'rank': rank,
             'git_repo_created': git_repo_created,
-            'prog':pro,
+            'prog': pro,
         }
     ))
 
@@ -451,15 +453,16 @@ def testadminhome(request):
         result['Total_sub'] = submission['no-of-submissions']
         result['Successful_sub'] = submission['successfull-submissions']
         # programscore = db1.submissions.find_one({'program': program}, {'score': 1, '_id': 0})
-        firstsubmitted = db1.scores.find_one({'program': program, 'contestname':contestname}, {'user_name': 1, '_id': 0})
+        firstsubmitted = db1.scores.find_one({'program': program, 'contestname': contestname},
+                                             {'user_name': 1, '_id': 0})
         if firstsubmitted is None:
-            result['First_submitted']="N/A"
+            result['First_submitted'] = "N/A"
         else:
             result['First_submitted'] = firstsubmitted['user_name']
         result['Program_score'] = submission['scores']
         # print programscore['score']
         print type(firstsubmitted)
-        print "first submitted is ",firstsubmitted
+        print "first submitted is ", firstsubmitted
         # result['score'] = submission['score']
         pra.append(result)
 
@@ -476,6 +479,7 @@ def testadminhome(request):
 
 def puppetrun(request):
     cn = request.session['contestname']
+    print cn
     cll = db1.contest.find_one({'contestname': cn}, {'status': 1, '_id': 0})
     st = cll["status"]
     if (st == "Not Started"):
@@ -494,7 +498,9 @@ def puppetrun(request):
                         ("KeyName", "hiring-keys"),
                         ("DBHost", DB_HOST),
                         ("DBName", DB_NAME),
-                        ("ContestName", cn)
+                        ("ContestName", cn),
+                        ("AWSkey", AWS_KEY),
+                        ("AWSsecret", AWS_SECRET)
                     ]
                 )
             # Get the IP Address from the outputs

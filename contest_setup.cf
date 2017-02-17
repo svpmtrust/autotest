@@ -48,6 +48,14 @@
             "Description":"Name of the contest",
             "Type":"String",
             "AllowedPattern":"\\w+"
+        },
+        "AWSkey":{
+            "Description":"Credentials",
+            "Type":"String"
+        },
+        "AWSsecret":{
+            "Description":"Credentials",
+            "Type":"String"
         }
     },
     "Mappings":{
@@ -174,7 +182,7 @@
                                 "#!/bin/bash -ex\n",
                                 "sudo apt-get update\n",
                                 "sudo apt-get install -y git\n",
-                                "cd ~ubuntu\n",
+                                "cd /home/ubuntu\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
                                 "cd autotest\n",
                                 "bash gitserver/bootstrap.sh `pwd` ",
@@ -251,7 +259,31 @@
                                 "sudo apt-get update\n",
                                 "sudo apt-get install -y git\n",
                                 "cd ~ubuntu\n",
-                                "git clone https://github.com/svpmtrust/autotest.git\n",
+                                "git clone https://github.com/padmasreepotta/autotest.git\n",
+                                "sudo apt-get install -y awscli\n",
+                                "export AWS_DEFAULT_REGION=",
+                                "ap-southeast-1",
+                                "\n",
+                                "mkdir ~/.aws\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWSkey"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWSsecret"
+                                },
+                                ">>~/.aws/config\n",
+                                "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",
+                                "tar -xvf files.tgz\n",
+                                "sudo mv test/programs/ autotest/\n",
+                                "sudo mv test/starter-files/ autotest/\n",
                                 "cd autotest\n",
                                 "bash testcoordinator/provision.sh `pwd` ",
                                 {
@@ -335,7 +367,31 @@
                                 "sudo apt-get install -y git\n",
                                 "adduser --disabled-password --gecos '' autotest\n",
                                 "cd /home/autotest\n",
-                                "git clone https://github.com/svpmtrust/autotest.git\n",
+                                "git clone https://github.com/padmasreepotta/autotest.git\n",
+                                "sudo apt-get install -y awscli\n",
+                                "export AWS_DEFAULT_REGION=",
+                                "ap-southeast-1",
+                                "\n",
+                                "mkdir ~/.aws\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWS_KEY"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWS_SECRET"
+                                },
+                                ">>~/.aws/config\n",
+                                "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",
+                                "tar -xvf files.tgz\n",
+                                "sudo mv test/programs/ /home/autotest/autotest\n",
+                                "sudo mv test/starter-files/ /home/autotest/autotest\n",
                                 "chown -R autotest:autotest /home/autotest\n",
                                 "cd autotest\n",
                                 "touch /var/log/testing-queue.log\n",

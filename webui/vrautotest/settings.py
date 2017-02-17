@@ -21,6 +21,8 @@ if os.path.isfile("/opt/env.py"):
 DB_HOST = os.environ.get('DB_HOST', 'localhost:27017')
 client = MongoClient(DB_HOST)
 DB_NAME = os.environ.get('DB_NAME', 'autotest')
+AWS_KEY = os.environ.get('AWS_KEY',None)
+AWS_SECRET = os.environ.get('AWS_SECRET', None)
 db1 = client[DB_NAME]
 if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
