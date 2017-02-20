@@ -67,23 +67,28 @@ def deleteContest(request):
     result = execute_remote_command(instance_obj, cmd2)
     print result
     if contests:
-        admin_email_list=[]
-        admin_info = contests["testadmin"]
-        for x,admin_details in admin_info.items():
-            admin_email_list.append(admin_details.get('emaill'))
-        to=admin_email_list
-        print to
-        # to = "padmasree.potta@aviso.com"
-        gmail_user = 'techcontest2015@gmail.com'
-        gmail_pwd = 'Aviso2017'
-        smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
-        smtpserver.ehlo()
-        smtpserver.starttls()
-        smtpserver.login(gmail_user, gmail_pwd)
-        header = 'To:' + ",".join(to) + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Contest ended \n'
-        msg = header + '\n\n Machines are going to terminate in 1 hour, Please ensure that participant submissions are uploaded to s3.\n\nThank you'
-        smtpserver.sendmail(gmail_user, to, msg)
-        smtpserver.close()
+        try:
+            admin_email_list=[]
+            admin_info = contests["testadmin"]
+            for x,admin_details in admin_info.items():
+                admin_email_list.append(admin_details.get('emaill'))
+            to=admin_email_list
+            print to
+            # to = "padmasree.potta@aviso.com"
+            gmail_user = 'techcontest2015@gmail.com'
+            gmail_pwd = 'Aviso2017'
+            smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+            smtpserver.ehlo()
+            smtpserver.starttls()
+            smtpserver.login(gmail_user, gmail_pwd)
+            header = 'To:' + ",".join(to) + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Contest ended \n'
+            msg = header + '\n\n Machines are going to terminate in 1 hour, Please ensure that participant submissions are uploaded to s3.\n\nThank you'
+            smtpserver.sendmail(gmail_user, to, msg)
+            smtpserver.close()
+        except Exception as e:
+            print "Error while sending mail"
+    cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+    cf.delete_stack(cname)
     db1.contest.remove({"contestname": cname})
     return HttpResponseRedirect('/superuser')
 
