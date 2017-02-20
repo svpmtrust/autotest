@@ -56,7 +56,7 @@ def deleteContest(request):
     contests = db1.contest.find_one({"contestname": cname}, {'testadmin': 1, '_id': 0})
     print contests
     cmd1 = "tar -czvf data.tar.gz /opt/git/"
-    cmd2 = "aws s3 cp data.tar.gz s3://contestsdata/submissions.tar.gz"
+    cmd2 = "aws s3 cp data.tar.gz s3://contestsdata/{}-submissions.tar.gz".format(cname)
     instance_name = "GitServer - "+cname
     ec2_conn = boto.ec2.connect_to_region("ap-southeast-1",aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET)
     instance_obj = ec2_conn.get_all_instances(filters={"tag:Name": instance_name})
