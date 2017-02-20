@@ -184,6 +184,27 @@
                                 "sudo apt-get install -y git\n",
                                 "cd /home/ubuntu\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
+                                "sudo apt-get install -y awscli\n",
+                                "export AWS_DEFAULT_REGION=",
+                                "ap-southeast-1",
+                                "\n",
+                                "mkdir ~/.aws\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWSkey"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWSsecret"
+                                },
+                                ">>~/.aws/config\n",
+
                                 "cd autotest\n",
                                 "bash gitserver/bootstrap.sh `pwd` ",
                                 {
