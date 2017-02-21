@@ -13,7 +13,6 @@ import boto.cloudformation
 import boto.ec2
 from django.views.decorators.csrf import csrf_exempt
 
-
 # Create your views here.
 def login_required(func):
     def inner(request):
@@ -542,6 +541,7 @@ def puppetrun(request):
             # Launch the AWS Cloud Formation Stack
             stack_name = cn.replace('_', '-')
             cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
                 stack_id = cf.create_stack(
                     stack_name=stack_name, template_body=fp.read(),

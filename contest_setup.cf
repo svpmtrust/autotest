@@ -204,6 +204,10 @@
                                     "Ref":"AWSsecret"
                                 },
                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "region=",
+                                "ap-southeast-1",
+                                ">>~/.aws/config\n",
 
                                 "cd autotest\n",
                                 "bash gitserver/bootstrap.sh `pwd` ",
@@ -400,13 +404,13 @@
                                 "echo ",
                                 "aws_access_key_id=",
                                 {
-                                    "Ref":"AWS_KEY"
+                                    "Ref":"AWSkey"
                                  },
                                  ">>~/.aws/config\n",
                                 "echo ",
                                 "aws_secret_access_key=",
                                 {
-                                    "Ref":"AWS_SECRET"
+                                    "Ref":"AWSsecret"
                                 },
                                 ">>~/.aws/config\n",
                                 "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",
