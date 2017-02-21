@@ -52,6 +52,7 @@ def execute_remote_command(instance, command):
 
 def deleteContest(request):
     cname = request.POST.get('cname')
+    cname = "New"
     contests = db1.contest.find_one({"contestname": cname}, {'testadmin': 1, '_id': 0})
     print contests
     cmd1 = "tar -czvf data.tar.gz /opt/git/"
