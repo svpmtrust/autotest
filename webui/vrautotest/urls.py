@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 
 urlpatterns = patterns('',
     # Examples:
@@ -47,5 +46,4 @@ urlpatterns = patterns('',
 
     url(r'^participantapproverhome', 'vrapp.views.participantapproverhome', name='participantapproverhome'),
     url(r'^approve', 'vrapp.views.approve', name='approve'),
-    url(r'^admin/', include(admin.site.urls)),    
 )
