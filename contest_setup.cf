@@ -184,6 +184,28 @@
                                 "sudo apt-get install -y git\n",
                                 "cd /home/ubuntu\n",
                                 "git clone https://github.com/svpmtrust/autotest.git\n",
+                                "sudo apt-get install -y awscli\n",
+                                "mkdir ~/.aws\n",
+                                "echo ",
+                                "[default]",
+                                ">~/.aws/config\n",
+                                "echo ",
+                                "aws_access_key_id=",
+                                {
+                                    "Ref":"AWSkey"
+                                 },
+                                 ">>~/.aws/config\n",
+                                "echo ",
+                                "aws_secret_access_key=",
+                                {
+                                    "Ref":"AWSsecret"
+                                },
+                                ">>~/.aws/config\n",
+                                "echo ",
+                                "region=",
+                                "ap-southeast-1",
+                                ">>~/.aws/config\n",
+
                                 "cd autotest\n",
                                 "bash gitserver/bootstrap.sh `pwd` ",
                                 {
@@ -379,13 +401,13 @@
                                 "echo ",
                                 "aws_access_key_id=",
                                 {
-                                    "Ref":"AWS_KEY"
+                                    "Ref":"AWSkey"
                                  },
                                  ">>~/.aws/config\n",
                                 "echo ",
                                 "aws_secret_access_key=",
                                 {
-                                    "Ref":"AWS_SECRET"
+                                    "Ref":"AWSsecret"
                                 },
                                 ">>~/.aws/config\n",
                                 "aws s3 cp s3://contestsdata/files.tgz files.tgz\n",

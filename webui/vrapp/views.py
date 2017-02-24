@@ -10,8 +10,8 @@ import time
 from vrautotest.settings import db1, on_aws, BASE_DIR, DB_HOST, DB_NAME, AWS_KEY, AWS_SECRET
 import boto
 import boto.cloudformation
+import boto.ec2
 from django.views.decorators.csrf import csrf_exempt
-
 
 # Create your views here.
 def login_required(func):
@@ -32,11 +32,63 @@ def superuser(request):
     return render(request, 'superuser.html', {'contests': contests})
 
 
+def execute_remote_command(instance, command):
+    cmd = [
+        "/usr/bin/ssh",
+        "-o",
+        "StrictHostKeyChecking=no",
+        "-o",
+        "UserKnownHostsFile=/dev/null",
+        "-o",
+        "LogLevel=quiet",
+        "-i",
+        '/home/ubuntu/hiringkeys.pem',
+        "ubuntu@" + str(instance.private_ip_address),
+        command]
+    print instance.private_ip_address
+    output = subprocess.check_output(cmd)
+    return output
+
+
 def deleteContest(request):
     cname = request.POST.get('cname')
-    print(cname)
-    # contests = db1.contest.find()
-    # print contests
+    cname = "New"
+    contests = db1.contest.find_one({"contestname": cname}, {'testadmin': 1, '_id': 0})
+    print contests
+    cmd1 = "tar -czvf data.tar.gz /opt/git/"
+    cmd2 = "aws s3 cp data.tar.gz s3://contestsdata/{}-submissions.tar.gz".format(cname)
+    instance_name = "GitServer - "+cname
+    ec2_conn = boto.ec2.connect_to_region("ap-southeast-1",aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET)
+    instance_obj = ec2_conn.get_all_instances(filters={"tag:Name": instance_name})
+    y = instance_obj[0]
+    instance_obj = y.instances[0]
+    result = execute_remote_command(instance_obj, cmd1)
+    print result
+    result = execute_remote_command(instance_obj, cmd2)
+    print result
+    if contests:
+        try:
+            admin_email_list=[]
+            admin_info = contests["testadmin"]
+            for x,admin_details in admin_info.items():
+                admin_email_list.append(admin_details.get('emaill'))
+            to=admin_email_list
+            print to
+            # to = "padmasree.potta@aviso.com"
+            gmail_user = 'techcontest2015@gmail.com'
+            gmail_pwd = 'Aviso2017'
+            smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+            smtpserver.ehlo()
+            smtpserver.starttls()
+            smtpserver.login(gmail_user, gmail_pwd)
+            header = 'To:' + ",".join(to) + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Contest ended \n'
+            msg = header + '\n\n Machines are going to terminate in 1 hour, Please ensure that participant submissions are uploaded to s3.\n\nThank you'
+            smtpserver.sendmail(gmail_user, to, msg)
+            smtpserver.close()
+        except Exception as e:
+            print "Error while sending mail"
+    cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+    cf.delete_stack(cname)
     db1.contest.remove({"contestname": cname})
     return HttpResponseRedirect('/superuser')
 
@@ -490,6 +542,7 @@ def puppetrun(request):
             # Launch the AWS Cloud Formation Stack
             stack_name = cn.replace('_', '-')
             cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+
             with file(os.path.join(BASE_DIR, "..", "contest_setup.cf")) as fp:
                 stack_id = cf.create_stack(
                     stack_name=stack_name, template_body=fp.read(),
