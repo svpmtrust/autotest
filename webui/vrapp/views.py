@@ -52,7 +52,6 @@ def execute_remote_command(instance, command):
 
 def deleteContest(request):
     cname = request.POST.get('cname')
-    cname = "New"
     contests = db1.contest.find_one({"contestname": cname}, {'testadmin': 1, '_id': 0})
     print contests
     cmd1 = "tar -czvf data.tar.gz /opt/git/"
@@ -92,6 +91,23 @@ def deleteContest(request):
     db1.contest.remove({"contestname": cname})
     return HttpResponseRedirect('/superuser')
 
+@csrf_exempt
+def addquestion(request):
+    temp = 1
+    qname = request.POST.get('qname')
+    qtype = request.POST.get('qtype')
+    qlevel = request.POST.get('qlevel')
+    qmarks = request.POST.get('qmarks')
+    if qname:
+        db1.problemsrepository.insert(
+            {
+                "description": qname,
+                "qtype": qtype,
+                "difficultylevel": qlevel,
+                "score": qmarks
+            }
+    )
+    return render(request, 'testcreatorhome.html', {'temp':temp})
 
 def addContest(request):
     cname = request.POST.get('contestname')
