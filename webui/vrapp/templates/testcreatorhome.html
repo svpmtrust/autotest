@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
 {% block content %}
-
 <div class="container" id="main-container">
     <div class="page" id="homePage">
         <b class="alert alert-success">
@@ -19,7 +17,7 @@
                     </div>
                 </form>
             </div>
-            <form method="post" action="addquestion">
+<form method="post" action="addquestion">
                 <div>
                     <div class="col-sm-2">
                         <button type="submit" class="btn btn-success navbar-btn active " onClick="addquestion">
@@ -53,66 +51,58 @@
             </form>
             <br>
             <br>
-            <form id="questionForm">
-
-
-                <table class="table table-hover table-bordered checkList">
-                    <tr class="info">
-                        <th>Question Name</th>
-                        <th>Description</th>
-                        <th>Question Type</th>
-                        <th>Difficulty Level</th>
-                        <th>Marks</th>
-                        <th>Partial Scoring</th>
-                        <th>Select</th>
-                    </tr>
-                    {% for p in problems %}
-                    <tr>
-                        <td>{{p.description}}</td>
-                        <td>{{p.description}}</td>
-                        <td>{{p.qtype}}</td>
-                        <td>{{p.difficultylevel}}</td>
-                        <td>{{p.score}}</td>
-                        <td>
-                            <input type="checkbox" id="ps" name="ps" value={{p.description}}/>
-                        </td>
-                        <td align="center" class="input-group input-group-addon">
-                            <input type="checkbox" id="cq" name="cq" value={{p.description}}
-                                   difficulty-level={{p.difficultylevel}}/>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-
-                <div id="output" style="color:purple">
-                    <div class="col-sm-3">
-                        <label>Questions Per Contestant :: </label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label>Easy</label>
-                        <span id="easy"></span>
-                        <input type="name" id="easy1" size="2"/>
-                    </div>
-                    <div class="col-sm-3">
-                        <label>Medium</label>
-                        <span id="medium"></span>
-                        <input type="name" id="medium1" size="2"/>
-                    </div>
-                    <div class="col-sm-3">
-                        <label>Hard</label>
-                        <span id="hard"></span>
-                        <input type="name" id="hard1" size="2"/>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                <input type="submit" class="btn btn-primary" value="Create" id="btntest"/>&nbsp;&nbsp;
-                <input type="reset" class="btn btn-primary" value="Reset"/>
-                    </div>
-                <br>
-
-            </form>
-
-
+<form id="questionForm">
+<table class="table table-hover table-bordered checkList">
+<tr class="info">
+<th>Question Name</th>
+<th>Description</th>
+<th>Question Type</th>
+<th>Difficulty Level</th>
+<th>Marks</th>
+<th>Partial Scoring</th>
+<th>Select</th>
+</tr>
+{% for p in problems %}
+<tr>
+<td>{{p.description}}</td>
+<td>{{p.description}}</td>
+<td>{{p.qtype}}</td>
+<td>{{p.difficultylevel}}</td>
+<td>{{p.score}}</td>
+<td>
+<input type="checkbox" id="ps" name="ps" value={{p.description}} />
+</td>
+<td align="center" class="input-group input-group-addon">
+<input type="checkbox" id="cq" name="cq" value={{p.description}} difficulty-level={{p.difficultylevel}} />
+</td>
+</tr>
+{% endfor %}
+</table>
+    <div id="output" style="color:purple">
+        <div class="col-sm-3">
+            <label>Questions Per Contestant :: </label>
+        </div>
+        <div class="col-sm-3">
+            <label>Easy</label>
+            <span id="easy"></span>
+            <input type="name" id="easy1" size="2"/>
+        </div>
+        <div class="col-sm-3">
+            <label>Medium</label>
+            <span id="medium"></span>
+            <input type="name" id="medium1" size="2"/>
+        </div>
+        <div class="col-sm-3">
+            <label>Hard</label>
+            <span id="hard"></span>
+            <input type="name" id="hard1" size="2"/>
+        </div>
+        <div class="col-sm-2">
+            <input type="submit" class="btn btn-primary" value="Create" id="btntest"/>&nbsp;&nbsp;
+            <input type="reset" class="btn btn-primary" value="Reset"/>
+        </div>
+    </div>
+</form>
         </div>
     </div>
 </div>
