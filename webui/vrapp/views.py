@@ -108,7 +108,6 @@ def addquestion(request):
                 "description": qname,
                 "qtype": "program",
                 "difficultylevel": qlevel,
-                "score": qmarks
             }
     )
     return render(request, 'testcreatorhome.html', {'temp':temp})

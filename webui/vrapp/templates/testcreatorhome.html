@@ -39,9 +39,6 @@
                     </select>
                     </div>
                     <div class="col-sm-2">
-                        <input type="text" class="form-control" name="qmarks" placeholder="Marks">
-                    </div>
-                    <div class="col-sm-2">
                         <input type="submit" class="btn btn-primary" value="Save"/>
                     </div>
                     <br>
@@ -57,20 +54,16 @@
 <table class="table table-hover table-bordered checkList">
 <tr class="info">
 <th>Question Name</th>
-<!--<th>Description</th>-->
 <th>Question Type</th>
 <th>Difficulty Level</th>
-<th>Marks</th>
 <th>Partial Scoring</th>
 <th>Select</th>
 </tr>
 {% for p in problems %}
 <tr>
-<!--<td>{{p.description}}</td>-->
 <td>{{p.description}}</td>
 <td>{{p.qtype}}</td>
 <td>{{p.difficultylevel}}</td>
-<td>{{p.score}}</td>
 <td>
 <input type="checkbox" id="ps" name="ps" value={{p.description}} />
 </td>
