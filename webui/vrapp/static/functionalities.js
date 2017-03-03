@@ -192,3 +192,18 @@ function add()
 					}
 			     });
 			});
+$(function(){
+$("#addquestion").click(function(){
+    questionname = $("#qname").val() ;
+    questionlevel = $("#qlevel").val();
+    $.post("/addquestion", {'qname':questionname, 'difficultylevel':questionlevel}, function(data){alert(data)});
+    $("#table1").append('<tr><td>'+questionname+'</td><td>program</td><td>'+questionlevel+'</td><td><input type="checkbox" id="ps"/></td><td align="center" class="input-group input-group-addon"><input type="checkbox" id="ps"/></td><td align="center" class="input-group input-group-btn"><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></button></td></tr>')
+});
+});
+$(function(){
+$('#table1').on('click', '#deletebutton', function(){
+    $(this).closest ('tr').remove ();
+    alert("row deleted")
+});
+
+});

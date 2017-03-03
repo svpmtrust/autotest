@@ -97,11 +97,8 @@ def deleteContest(request):
 
 @csrf_exempt
 def addquestion(request):
-    temp = 1
     qname = request.POST.get('qname')
-    # qtype = request.POST.get('qtype')
     qlevel = request.POST.get('difficultylevel')
-    qmarks = request.POST.get('qmarks')
     if qname:
         db1.problemsrepository.insert(
             {
@@ -110,7 +107,7 @@ def addquestion(request):
                 "difficultylevel": qlevel,
             }
     )
-    return render(request, 'testcreatorhome.html', {'temp':temp})
+    return HttpResponse('Question added successfully')
 
 def addContest(request):
     cname = request.POST.get('contestname')

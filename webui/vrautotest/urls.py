@@ -41,7 +41,7 @@ urlpatterns = patterns('',
 
     url(r'^testcreatorhome$', 'vrapp.views.testcreatorhome', name='testcreatorhome'),
     url(r'^createquestionpaper', 'vrapp.views.createquestionpaper', name='createquestionpaper'),
-    url(r'^addquestion','vrapp.views.addquestion', name='addquestion'),
+    url(r'^addquestion$','vrapp.views.addquestion', name='addquestion'),
 
 	#------------ParticipantApprover Home------------#
 
