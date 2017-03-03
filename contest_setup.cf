@@ -183,7 +183,7 @@
                                 "sudo apt-get update\n",
                                 "sudo apt-get install -y git\n",
                                 "cd /home/ubuntu\n",
-                                "git clone https://github.com/svpmtrust/autotest.git\n",
+                                "git clone https://github.com/padmasreepotta/autotest.git\n",
                                 "sudo apt-get install -y awscli\n",
                                 "mkdir ~/.aws\n",
                                 "echo ",
