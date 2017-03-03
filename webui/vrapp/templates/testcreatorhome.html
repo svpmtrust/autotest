@@ -31,6 +31,7 @@
 <table id="table1" class="table table-hover table-bordered checkList">
 <tr class="info">
 <th>Question Name</th>
+<th>Description</th>
 <th>Question Type</th>
 <th>Difficulty Level</th>
 <th>Partial Scoring</th>
@@ -39,6 +40,7 @@
 </tr>
 {% for p in problems %}
 <tr>
+<td>{{p.description}}</td>
 <td>{{p.description}}</td>
 <td>{{p.qtype}}</td>
 <td>{{p.difficultylevel}}</td>

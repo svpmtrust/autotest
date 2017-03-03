@@ -19,9 +19,6 @@ sudo cp -r $1/* /etc/puppet
 
 echo Running puppet
 echo --------------
-sudo apt-get install python-software-properties -y
-sudo add-apt-repository ppa:ondrej/apache2 -y
-sudo apt-get update
 cd /etc/puppet
 sudo puppet apply -v gitserver/gitserver.pp
 
