@@ -52,46 +52,62 @@ def execute_remote_command(instance, command):
 
 def deleteContest(request):
     cname = request.POST.get('cname')
-    cname = "New"
     contests = db1.contest.find_one({"contestname": cname}, {'testadmin': 1, '_id': 0})
     print contests
-    cmd1 = "tar -czvf data.tar.gz /opt/git/"
-    cmd2 = "aws s3 cp data.tar.gz s3://contestsdata/{}-submissions.tar.gz".format(cname)
-    instance_name = "GitServer - "+cname
-    ec2_conn = boto.ec2.connect_to_region("ap-southeast-1",aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET)
-    instance_obj = ec2_conn.get_all_instances(filters={"tag:Name": instance_name})
-    y = instance_obj[0]
-    instance_obj = y.instances[0]
-    result = execute_remote_command(instance_obj, cmd1)
-    print result
-    result = execute_remote_command(instance_obj, cmd2)
-    print result
-    if contests:
-        try:
-            admin_email_list=[]
-            admin_info = contests["testadmin"]
-            for x,admin_details in admin_info.items():
-                admin_email_list.append(admin_details.get('emaill'))
-            to=admin_email_list
-            print to
-            # to = "padmasree.potta@aviso.com"
-            gmail_user = 'techcontest2015@gmail.com'
-            gmail_pwd = 'Aviso2017'
-            smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
-            smtpserver.ehlo()
-            smtpserver.starttls()
-            smtpserver.login(gmail_user, gmail_pwd)
-            header = 'To:' + ",".join(to) + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Contest ended \n'
-            msg = header + '\n\n Machines are going to terminate in 1 hour, Please ensure that participant submissions are uploaded to s3.\n\nThank you'
-            smtpserver.sendmail(gmail_user, to, msg)
-            smtpserver.close()
-        except Exception as e:
-            print "Error while sending mail"
-    cf = boto.cloudformation.connect_to_region("ap-southeast-1")
-    cf.delete_stack(cname)
-    db1.contest.remove({"contestname": cname})
+    try:
+        cmd1 = "tar -czvf data.tar.gz /opt/git/"
+        cmd2 = "aws s3 cp data.tar.gz s3://contestsdata/{}-submissions.tar.gz".format(cname)
+        instance_name = "GitServer - "+cname
+        ec2_conn = boto.ec2.connect_to_region("ap-southeast-1",aws_access_key_id=AWS_KEY,aws_secret_access_key=AWS_SECRET)
+        instance_obj = ec2_conn.get_all_instances(filters={"tag:Name": instance_name})
+        y = instance_obj[0]
+        instance_obj = y.instances[0]
+        result = execute_remote_command(instance_obj, cmd1)
+        print result
+        result = execute_remote_command(instance_obj, cmd2)
+        print result
+        if contests:
+            try:
+                admin_email_list=[]
+                admin_info = contests["testadmin"]
+                for x,admin_details in admin_info.items():
+                    admin_email_list.append(admin_details.get('emaill'))
+                to=admin_email_list
+                print to
+                # to = "padmasree.potta@aviso.com"
+                gmail_user = 'techcontest2015@gmail.com'
+                gmail_pwd = 'Aviso2017'
+                smtpserver = smtplib.SMTP("smtp.gmail.com", 587)
+                smtpserver.ehlo()
+                smtpserver.starttls()
+                smtpserver.login(gmail_user, gmail_pwd)
+                header = 'To:' + ",".join(to) + '\n' + 'From: ' + gmail_user + '\n' + 'Subject:Contest ended \n'
+                msg = header + '\n\n Machines are going to terminate in 1 hour, Please ensure that participant submissions are uploaded to s3.\n\nThank you'
+                smtpserver.sendmail(gmail_user, to, msg)
+                smtpserver.close()
+            except Exception as e:
+                print "Error while sending mail"
+        cf = boto.cloudformation.connect_to_region("ap-southeast-1")
+        cf.delete_stack(cname)
+        db1.contest.remove({"contestname": cname})
+    except:
+        db1.contest.remove({"contestname": cname})
+        print "problem in gitserver login or failed to upload submissions to s3"
     return HttpResponseRedirect('/superuser')
 
+@csrf_exempt
+def addquestion(request):
+    qname = request.POST.get('qname')
+    qlevel = request.POST.get('difficultylevel')
+    if qname:
+        db1.problemsrepository.insert(
+            {
+                "description": qname,
+                "qtype": "program",
+                "difficultylevel": qlevel,
+            }
+    )
+    return HttpResponse('Question added successfully')
 
 def addContest(request):
     cname = request.POST.get('contestname')
