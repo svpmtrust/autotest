@@ -197,7 +197,7 @@ $("#addquestion").click(function(){
     questionname = $("#qname").val() ;
     questionlevel = $("#qlevel").val();
     $.post("/addquestion", {'qname':questionname, 'difficultylevel':questionlevel}, function(data){alert(data)});
-    $("#table1").append('<tr><td>'+questionname+'</td><td>'+questionname+'</td><td>program</td><td>'+questionlevel+'</td><td><input type="checkbox" id="cq" name="cq" value='+questionname+'/></td><td align="center" class="input-group input-group-addon"><input type="checkbox" id="ps" name="ps" value='+questionname+' difficulty-level='+questionlevel+'/></td></tr>')
+//    $("#table1").append('<tr><td>'+questionname+'</td><td>'+questionname+'</td><td>program</td><td>'+questionlevel+'</td><td><input type="checkbox" id="cq" name="cq" value='+questionname+'/></td><td align="center" class="input-group input-group-addon"><input type="checkbox" id="ps" name="ps" value='+questionname+' difficulty-level='+questionlevel+'/></td></tr>')
 });
 });
 //$(function(){
