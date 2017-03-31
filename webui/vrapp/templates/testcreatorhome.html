@@ -36,7 +36,7 @@
 <th>Difficulty Level</th>
 <th>Partial Scoring</th>
 <th>Select</th>
-<th>Delete</th>
+<!--<th>Delete</th>-->
 </tr>
 {% for p in problems %}
 <tr>
@@ -50,11 +50,11 @@
 <td align="center" class="input-group input-group-addon" >
 <input type="checkbox" id="cq" name="cq" value={{p.description}} difficulty-level={{p.difficultylevel}} />
 </td>
-<td align="center" class="input-group input-group-btn">
-    <button type="button" class="btn btn-default btn-sm" id="deletebutton">
-          <span class="glyphicon glyphicon-trash"></span>
-        </button>
-</td>
+<!--<td align="center" class="input-group input-group-btn">-->
+    <!--<button type="button" class="btn btn-default btn-sm" id="deletebutton">-->
+          <!--<span class="glyphicon glyphicon-trash"></span>-->
+        <!--</button>-->
+<!--</td>-->
 </tr>
 {% endfor %}
 </table>

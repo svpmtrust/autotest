@@ -1,0 +1,321 @@
+
+{
+  "Description": "Template to start the test setup that includes webui and db",
+  "Parameters": {
+    "InstanceType": {
+      "Description": "What type of instance to be used.  As the load increases, better disk IO will be needed",
+      "Type": "String",
+      "AllowedValues": [
+        "m3.medium",
+        "m3.large",
+        "m3.xlarge",
+        "m3.2xlarge",
+        "c3.2xlarge",
+        "c3.xlarge"
+      ],
+      "Default": "m3.large",
+      "ConstraintDescription": "must be a valid EC2 instance type."
+       },
+
+//   This file is for creating a stack for launching webui and DB instances.
+    "KeyName": {
+      "Description": "What key allows SSH access",
+      "Type": "String"
+    },
+    "SSHLocation": {
+      "Description": "Which IP addresses are allowed to ssh.  Note: Default is very unsecure",
+      "Type": "String",
+      "Default": "0.0.0.0/0",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "Enter a valid IP in x.x.x.x/x CIDR form ."
+    },
+    "Zone": {
+      "Description": "Which AWS zone to use",
+      "Type": "String",
+      "ConstraintDescription": "Must be a valid zone.",
+      "AllowedValues": [
+        "ap-southeast-1b"
+      ],
+      "Default": "ap-southeast-1b"
+    },
+    "ContestName": {
+      "Description": "Name of the contest",
+      "Type": "String",
+      "AllowedPattern": "\\w+"
+    },
+    "AWSkey": {
+      "Description": "Credentials",
+      "Type": "String"
+    },
+    "AWSsecret": {
+      "Description": "Credentials",
+      "Type": "String"
+    },
+    "Gitbranch": {
+      "Description": "select your own github branch",
+      "Type": "String"
+    }
+  },
+  "Mappings": {
+    "InstArchMap": {
+      "m3.xlarge": {
+        "Arch": "64"
+      },
+      "m3.large": {
+        "Arch": "64"
+      },
+      "m3.2xlarge": {
+        "Arch": "64"
+      },
+      "m3.medium": {
+        "Arch": "64"
+      },
+      "m3.small": {
+        "Arch": "64"
+      },
+      "c3.xlarge": {
+        "Arch": "64"
+      },
+      "c3.2xlarge": {
+        "Arch": "64"
+      }
+    },
+    "RegionAMIMap": {
+      "ap-southeast-1": {
+        "64": "ami-ca381398",
+        "HVM": "ami-ca381398"
+      }
+    }
+  },
+  "Resources": {
+    "GitAccess": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH access to select IPs and web access to all"
+      }
+    },
+    "SSHAccess": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH access to select IPs and web access to all",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "-1",
+            "CidrIp": {
+              "Ref": "SSHLocation"
+            }
+          }
+        ]
+      }
+    },
+    "DB": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": {
+          "Ref": "Zone"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "DB - ",
+                  {
+                    "Ref": "ContestName"
+                  }
+                ]
+              ]
+            }
+          }
+        ],
+        "Monitoring": true,
+        "ImageId": {
+          "Fn::FindInMap": [
+            "RegionAMIMap",
+            {
+              "Ref": "AWS::Region"
+            },
+            {
+              "Fn::FindInMap": [
+                "InstArchMap",
+                {
+                  "Ref": "InstanceType"
+                },
+                "Arch"
+              ]
+            }
+          ]
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -ex\n",
+                "apt-get update\n",
+                "apt-get install -y mongodb\n",
+                "sed -ie 's/127.0.0.1/0.0.0.0/g' /etc/mongodb.conf\n",
+                "service mongodb restart\n",
+                "apt-get install -y rabbitmq-server\n"
+              ]
+            ]
+          }
+        },
+        "SecurityGroups": [
+          {
+            "Ref": "SSHAccess"
+          }
+        ]
+      }
+    },
+    "Webui": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": {
+          "Ref": "Zone"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "Webui - ",
+                  {
+                    "Ref": "ContestName"
+                  }
+                ]
+              ]
+            }
+          }
+        ],
+        "Monitoring": true,
+        "ImageId": {
+          "Fn::FindInMap": [
+            "RegionAMIMap",
+            {
+              "Ref": "AWS::Region"
+            },
+            {
+              "Fn::FindInMap": [
+                "InstArchMap",
+                {
+                  "Ref": "InstanceType"
+                },
+                "Arch"
+              ]
+            }
+          ]
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -ex\n",
+                "apt-get update\n",
+                "apt-get install -y git\n",
+                "cd /home/ubuntu\n",
+                "git clone https://github.com/",
+                {
+                  "Ref": "Gitbranch"
+                },
+                "/autotest.git\n",
+                "apt update\n",
+                "apt-get install -y python-virtualenv\n",
+                "virtualenv venv\n",
+                "source venv/bin/activate\n",
+                "cd autotest/webui\n",
+                "pip install -r requirements.txt\n",
+                "apt-get install -y awscli\n",
+                "echo 'os.environ[\"AWS_KEY\"]=",
+                "\"",
+                {
+                  "Ref": "AWSkey"
+                },
+                "\"'",
+                ">>/opt/env.py\n",
+                "echo 'os.environ[\"AWS_SECRET\"]=",
+                "\"",
+                {
+                  "Ref": "AWSsecret"
+                },
+                "\"'",
+                ">>/opt/env.py\n",
+                "echo 'os.environ[\"DB_HOST\"]=",
+                "\"",
+                {
+                  "Fn::GetAtt": [
+                    "DB",
+                    "PublicIp"
+                  ]
+                },
+                "\"'",
+                ">>/opt/env.py\n",
+                "mkdir ~/.aws\n",
+                "echo ",
+                "[default]",
+                ">~/.aws/config\n",
+                "echo ",
+                "aws_access_key_id=",
+                {
+                  "Ref": "AWSkey"
+                },
+                ">>~/.aws/config\n",
+                "echo ",
+                "aws_secret_access_key=",
+                {
+                  "Ref": "AWSsecret"
+                },
+                ">>~/.aws/config\n",
+                "echo ",
+                "region=",
+                "ap-southeast-1",
+                ">>~/.aws/config\n",
+                "aws s3 cp s3://contestsdata/hiringkeys.pem /home/ubuntu/hiringkeys.pem\n",
+                "cp /home/ubuntu/hiringkeys.pem .\n",
+                "chown ubuntu:ubuntu /home/ubuntu/autotest/webui/hiringkeys.pem\n",
+                "chmod 400 hiringkeys.pem\n",
+                "chmod 400 /home/ubuntu/hiringkeys.pem\n",
+                "python manage.py syncdb\n",
+                "python manage.py migrate\n",
+                "python manage.py runserver 0.0.0.0:80\n"
+              ]
+            ]
+          }
+        },
+        "SecurityGroups": [
+          {
+            "Ref": "SSHAccess"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "WebuiAddress": {
+      "Description": "Location of webui to use",
+      "Value": {
+        "Fn::GetAtt": [
+          "Webui",
+          "PublicIp"
+        ]
+      }
+    }
+  }
+}
