@@ -17,7 +17,6 @@
       "ConstraintDescription": "must be a valid EC2 instance type."
        },
 
-//   This file is for creating a stack for launching webui and DB instances.
     "KeyName": {
       "Description": "What key allows SSH access",
       "Type": "String"
