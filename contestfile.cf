@@ -17,10 +17,10 @@
       "ConstraintDescription": "must be a valid EC2 instance type."
        },
 
-//   This file is for creating a stack for launching webui and DB instances.
     "KeyName": {
       "Description": "What key allows SSH access",
-      "Type": "String"
+      "Type": "String",
+      "Default":"hiring-keys"
     },
     "SSHLocation": {
       "Description": "Which IP addresses are allowed to ssh.  Note: Default is very unsecure",
@@ -45,15 +45,18 @@
     },
     "AWSkey": {
       "Description": "Credentials",
-      "Type": "String"
+      "Type": "String",
+      "Default":"AKIAII57K45XA45IJ7SQ"
     },
     "AWSsecret": {
       "Description": "Credentials",
-      "Type": "String"
+      "Type": "String",
+      "Default":"Xz4NVoH+F5kBHlW3jApW+patxsp3BSwuVMez6Xu6"	
     },
     "Gitbranch": {
       "Description": "select your own github branch",
-      "Type": "String"
+      "Type": "String",
+      "Default":"svpmtrust"
     }
   },
   "Mappings": {
