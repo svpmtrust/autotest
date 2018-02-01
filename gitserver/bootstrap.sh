@@ -6,7 +6,7 @@ sudo apt-get install python python-pip -y
  
 echo Installing pymongo
 echo ----------------
-sudo pip install pymongo
+sudo pip install pymongo==2.8
 
 echo Installing puppet
 echo -----------------
