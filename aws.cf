@@ -171,7 +171,7 @@
 			  "#!/bin/bash -ex\n",
               "sudo apt-get update\n",
               "sudo apt-get install -y git puppet mongodb python-pip\n",
-              "sudo pip install pymongo\n",
+              "sudo pip install pymongo==2.8\n",
               
               "cd /opt\n",
 			  "git clone http://github.com/svpmtrust/autotest.git autotest\n",

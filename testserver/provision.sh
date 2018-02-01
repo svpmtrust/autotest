@@ -7,11 +7,11 @@ sudo apt-get install python python-pip -y
 
 echo Installing Celery..
 echo -----------------
-sudo pip install celery
+sudo pip install celery==3.1.17
 
 echo Installing Pymongo..
 echo ------------------
-sudo pip install pymongo
+sudo pip install pymongo==2.8
 
 echo creating Participants,programs directories
 echo -------------------------------------------------
