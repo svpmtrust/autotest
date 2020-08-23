@@ -26,7 +26,7 @@ AWS_SECRET = os.environ.get('AWS_SECRET', None)
 db1 = client[DB_NAME]
 if 'DB_USER' in os.environ:
     db1.authenticate(os.environ.get('DB_USER'), os.environ.get('DB_PASSWORD'))
-on_aws = True #"ON_AWS" in os.environ
+on_aws = os.environ.get('ON_AWS','False')=='True' #"ON_AWS" in os.environ
 
 if on_aws:
     if not botoconfig.has_section('Credentials'):
